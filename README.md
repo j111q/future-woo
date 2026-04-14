@@ -32,7 +32,8 @@ and unifying the admin bar navigation.
 
 ## Screenshots
 
-Add screenshots here to show the prototype in action.
+<img width="1091" height="797" alt="image" src="https://github.com/user-attachments/assets/dd04a478-da97-452a-8cce-41aaf6fd281b" />
+
 
 ## Requirements
 

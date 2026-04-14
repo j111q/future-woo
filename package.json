@@ -1,0 +1,21 @@
+{
+  "name": "custom-dashboard-widgets",
+  "version": "1.0.0",
+  "description": "Custom WooCommerce dashboard widgets with CIAB-style modern settings prototype",
+  "private": true,
+  "scripts": {
+    "build": "wp-scripts build src/settings/index.js --output-path=assets/js/settings --output-filename=settings-general.js",
+    "start": "wp-scripts start src/settings/index.js --output-path=assets/js/settings --output-filename=settings-general.js",
+    "lint:js": "wp-scripts lint-js src/"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "*",
+    "@wordpress/components": "*",
+    "@wordpress/element": "*",
+    "@wordpress/hooks": "*",
+    "@wordpress/i18n": "*"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "*"
+  }
+}

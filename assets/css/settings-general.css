@@ -1,0 +1,192 @@
+/* ==========================================================================
+   CDW General Settings — CIAB Design
+   ========================================================================== */
+
+/* ── Root wrapper ─────────────────────────────────────────────────────────── */
+
+.cdw-settings-root {
+	width: 100%;
+}
+
+/* ── Header — matches .war-page-header in custom-header.css ───────────────── */
+
+.cdw-settings-header {
+	background: #fcfcfc;
+	border-bottom: 1px solid #f0f0f0;
+	padding: 16px 40px;
+	position: sticky;
+	top: 32px; /* below WP admin bar */
+	z-index: 100;
+	margin: -10px -20px 0 -10px; /* counteract .wrap padding */
+	font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+/* Row 1: breadcrumb (left) + save button (right), 32px tall */
+.cdw-settings-header-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 32px;
+}
+
+.cdw-settings-title {
+	font-size: 15px !important;
+	font-weight: 600;
+	color: #1e1e1e;
+	margin: 0;
+	padding: 0;
+	line-height: 20px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.cdw-settings-title a {
+	color: #1e1e1e;
+	text-decoration: underline;
+	font-weight: 600;
+}
+
+.cdw-settings-title a:hover {
+	color: #1e1e1e;
+}
+
+.cdw-settings-breadcrumb-sep {
+	color: #1e1e1e;
+}
+
+/* Row 2: subtitle — matches .war-page-header__subtitle */
+.cdw-settings-subtitle {
+	font-size: 13px;
+	font-weight: 400;
+	color: #757575;
+	margin: 0;
+	padding: 8px 0 0 0;
+	line-height: 20px;
+}
+
+/* ── Body: flex column, items centred ─────────────────────────────────────── */
+
+.cdw-settings-body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px 16px 48px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* ── Sections column — 660px wide, 24px gap between cards ────────────────── */
+
+.cdw-settings-sections {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 660px;
+}
+
+/* ── Cards ────────────────────────────────────────────────────────────────── */
+/* Matches Figma: white bg, 1px #e0e0e0 border, 8px radius, 24px padding    */
+
+.wc-order-view-card {
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 20px 24px 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 660px;
+	box-sizing: border-box;
+}
+
+/* Card title — 15px semibold, no border, not a button */
+.wc-order-view-card__title {
+	font-size: 15px;
+	font-weight: 600;
+	color: #1e1e1e;
+	margin: 0;
+	line-height: 20px;
+}
+
+/* Card body — the fields section */
+.cdw-settings-card-body {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* Card section description */
+.cdw-settings-card-description {
+	font-size: 13px;
+	color: #757575;
+	margin: 0;
+	line-height: 1.5;
+}
+
+/* ── Field labels — uppercase per CIAB design ─────────────────────────────── */
+
+.cdw-settings-card-body .components-base-control__label,
+.cdw-settings-card-body .components-base-control fieldset legend {
+	text-transform: uppercase;
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.4px;
+	color: #1e1e1e;
+}
+
+/* ── 2-column field rows (e.g. City/State, Date/Time) ─────────────────────── */
+
+.cdw-settings-field-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+}
+
+/* ── Notices ──────────────────────────────────────────────────────────────── */
+
+.cdw-settings-notice {
+	margin-bottom: 16px;
+	width: 660px;
+}
+
+/* ── Loading ──────────────────────────────────────────────────────────────── */
+
+.cdw-settings-loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+/* ── Checkbox group ───────────────────────────────────────────────────────── */
+
+.cdw-checkbox-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.cdw-checkbox-group__child {
+	padding-left: 24px;
+}
+
+/* ── Suppress WC admin "Settings" heading — our header shows "General" ─────── */
+
+.woocommerce-layout__header {
+	display: none !important;
+}
+
+#wpbody {
+	margin-top: 0 !important;
+}
+
+/* ── Hide WC settings tab navigation and form — React renders everything ──── */
+
+#mainform {
+	display: none !important;
+}
+
+/* ── Hide PHP WC save button ─────────────────────────────────────────────── */
+
+.woocommerce-save-button { display: none !important; }

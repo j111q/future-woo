@@ -1,0 +1,161 @@
+/* Hide default WooCommerce empty state immediately to prevent flicker */
+.woocommerce-BlankState {
+	display: none !important;
+}
+
+/* Orders Empty State — CIAB-style */
+
+.war-orders-empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 80px 24px 48px;
+	text-align: center;
+}
+
+.war-orders-empty-state__icon {
+	margin-bottom: 24px;
+	color: #c3c4c7;
+}
+
+.war-orders-empty-state__icon svg {
+	width: 64px;
+	height: 64px;
+}
+
+.war-orders-empty-state__title {
+	font-size: 20px;
+	font-weight: 400;
+	color: #1d2327;
+	margin: 0 0 8px;
+	line-height: 1.4;
+}
+
+.war-orders-empty-state__description {
+	font-size: 14px;
+	color: #757575;
+	margin: 0;
+	max-width: 400px;
+	line-height: 1.6;
+}
+
+/* Tools for your store — collapsible card */
+
+.war-tools-card {
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	overflow: hidden;
+	margin: 32px auto 0;
+	max-width: 680px;
+	width: 100%;
+}
+
+.war-tools-card__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 16px 24px;
+	cursor: pointer;
+	user-select: none;
+	transition: background 0.1s;
+}
+
+.war-tools-card__header:hover {
+	background: #f9f9f9;
+}
+
+.war-tools-card__title {
+	font-size: 14px;
+	font-weight: 600;
+	color: #1d2327;
+	margin: 0;
+}
+
+.war-tools-card__toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: none;
+	background: none;
+	cursor: pointer;
+	color: #1e1e1e;
+	padding: 0;
+	border-radius: 4px;
+	transition: background 0.1s;
+}
+
+.war-tools-card__toggle:hover {
+	background: #f0f0f1;
+}
+
+.war-tools-card__toggle svg {
+	width: 24px;
+	height: 24px;
+	fill: currentColor;
+}
+
+.war-tools-card__body {
+	border-top: 1px solid #e0e0e0;
+}
+
+.war-tools-card__body.war-tools-card__body--collapsed {
+	display: none;
+}
+
+/* Tool row */
+
+.war-tool-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 16px 24px;
+	border-bottom: 1px solid #f0f0f1;
+	transition: opacity 0.2s, max-height 0.3s;
+}
+
+.war-tool-row:last-child {
+	border-bottom: none;
+}
+
+.war-tool-row__icon {
+	width: 40px;
+	height: 40px;
+	flex-shrink: 0;
+	border-radius: 8px;
+}
+
+.war-tool-row__content {
+	flex: 1;
+	min-width: 0;
+}
+
+.war-tool-row__title {
+	font-size: 13px;
+	font-weight: 600;
+	color: #1d2327;
+	margin-bottom: 2px;
+	line-height: 1.4;
+}
+
+.war-tool-row__description {
+	font-size: 13px;
+	color: #757575;
+	line-height: 1.5;
+}
+
+.war-tool-row__actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-shrink: 0;
+}
+
+/* Use WordPress's real components-button styles */
+.war-tool-row__actions .components-button {
+	white-space: nowrap;
+}

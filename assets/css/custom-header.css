@@ -1,0 +1,299 @@
+/* ==========================================================================
+   Custom Header — replaces WooCommerce page header chrome
+   Specs from Figma: CIAB Order Management
+   ========================================================================== */
+
+/* Hide Screen Options and Help tabs */
+#screen-meta,
+#screen-meta-links {
+	display: none !important;
+}
+
+/* Hide the WooCommerce header bar (Activity / Finish setup) */
+.woocommerce-layout__header,
+.woocommerce-layout__header-wrapper {
+	display: none !important;
+	height: 0 !important;
+	min-height: 0 !important;
+	max-height: 0 !important;
+	overflow: hidden !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* Fix sticky: overflow on ancestors creates a non-scrolling containing block
+   that traps position:sticky. Reset so sticky works against the viewport. */
+#wpbody-content,
+#wpcontent {
+	overflow: visible !important;
+}
+
+/* Remove ALL top margin/padding WooCommerce adds for its hidden header */
+.woocommerce-layout__primary,
+.woocommerce-layout,
+.woocommerce-layout__main,
+#wpbody-content > .wrap,
+#wpbody-content > .woocommerce-layout,
+#wpbody-content,
+#wpbody {
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+
+/* Kill the spacer div that WooCommerce injects to reserve header height */
+.woocommerce-layout__header-wrapper + *,
+div[class*="header-placeholder"],
+.woocommerce-layout > div:first-child:empty {
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+
+/* Remove any margin on the .wrap container inside wc-admin pages */
+.woocommerce-layout .wrap,
+.wrap.woocommerce {
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+
+/* Hide the default "Orders" heading that WP renders */
+.wrap > h1.wp-heading-inline,
+.wrap > .page-title-action,
+.wrap > hr.wp-header-end {
+	display: none !important;
+}
+
+/* Hide the React app's own header since the PHP header handles it */
+.wc-order-view__header {
+	display: none !important;
+}
+
+/* ==========================================================================
+   Page Header Bar
+   Figma: bg #fcfcfc, border #f0f0f0, px 16px, py 12px
+   ========================================================================== */
+
+.war-page-header {
+	position: sticky;
+	top: 32px; /* below WP admin bar — viewport scrolls */
+	z-index: 100;
+	background: var(--war-page-bg, #fcfcfc);
+	border-bottom: 1px solid #f0f0f0;
+	padding: 16px 40px 16px 24px;
+	margin: 0; /* no negative margins needed — JS moves header inside #wpbody-content */
+	font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+/* Top row: breadcrumb + actions */
+.war-page-header__top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 32px;
+}
+
+.war-page-header__left {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	min-width: 0;
+}
+
+/* Breadcrumb
+   Figma: SF Pro Semibold, 15px, line-height 20px, color #1e1e1e, gap 8px */
+.war-page-header__breadcrumb {
+	font-size: 15px;
+	font-weight: 600;
+	color: #1e1e1e;
+	margin: 0;
+	padding: 0 8px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	line-height: 20px;
+}
+
+.war-page-header__breadcrumb a {
+	color: #1e1e1e;
+	text-decoration: underline;
+	font-weight: 600;
+}
+
+.war-page-header__breadcrumb a:hover {
+	color: #1e1e1e;
+	text-decoration: underline;
+}
+
+.war-page-header__breadcrumb-sep {
+	color: #1e1e1e;
+}
+
+/* Badge
+   Figma: Badge tone=Low emphasis=Strong */
+.war-page-header__badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 22px;
+	white-space: nowrap;
+}
+
+.war-page-header__badge--paid {
+	background: #d4edda;
+	color: #155724;
+}
+
+.war-page-header__badge--unpaid {
+	background: #f0f0f0;
+	color: #1e1e1e;
+}
+
+.war-page-header__badge--processing {
+	background: #d4edda;
+	color: #155724;
+}
+
+.war-page-header__badge--completed {
+	background: #d4edda;
+	color: #155724;
+}
+
+.war-page-header__badge--cancelled {
+	background: #f8d7da;
+	color: #721c24;
+}
+
+.war-page-header__badge--refunded {
+	background: #f8d7da;
+	color: #721c24;
+}
+
+.war-page-header__badge--fulfilled {
+	background: #d4edda;
+	color: #155724;
+}
+
+.war-page-header__badge--unfulfilled {
+	background: #fff3cd;
+	color: #856404;
+}
+
+/* Order list status badges — match header badge colors */
+mark.order-status {
+	border-radius: 4px !important;
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	line-height: 22px !important;
+	padding: 0 8px !important;
+}
+
+mark.order-status.status-processing {
+	background: #d4edda !important;
+	color: #155724 !important;
+}
+
+mark.order-status.status-completed {
+	background: #d4edda !important;
+	color: #155724 !important;
+}
+
+mark.order-status.status-pending {
+	background: #f0f0f0 !important;
+	color: #1e1e1e !important;
+}
+
+mark.order-status.status-on-hold {
+	background: #fff3cd !important;
+	color: #856404 !important;
+}
+
+mark.order-status.status-cancelled {
+	background: #f8d7da !important;
+	color: #721c24 !important;
+}
+
+mark.order-status.status-refunded {
+	background: #f8d7da !important;
+	color: #721c24 !important;
+}
+
+mark.order-status.status-failed {
+	background: #f8d7da !important;
+	color: #721c24 !important;
+}
+
+/* Subtitle
+   Figma: SF Pro Regular, 13px, line-height 20px, color #757575, pl 8px, pt 8px */
+.war-page-header__subtitle {
+	font-size: 13px;
+	font-weight: 400;
+	color: #757575;
+	margin: 0;
+	padding: 8px 0 0 8px;
+	line-height: 20px;
+}
+
+/* Header with tabs: remove bottom padding so tabs sit flush */
+.war-page-header:has(.war-page-header__tabs) {
+	padding-bottom: 0;
+}
+
+/* When tabs are present, tighten subtitle spacing */
+.war-page-header:has(.war-page-header__tabs) .war-page-header__subtitle {
+	padding: 4px 8px 8px;
+}
+
+/* Tabs */
+.war-page-header__tabs {
+	display: flex;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.war-page-header__tab {
+	font-size: 13px;
+	font-weight: 500;
+	color: #757575;
+	text-decoration: none;
+	padding: 10px 12px;
+	border-bottom: 2px solid transparent;
+	transition: color 0.15s, border-color 0.15s;
+}
+
+.war-page-header__tab:hover {
+	color: #1e1e1e;
+}
+
+.war-page-header__tab--active {
+	color: #1e1e1e;
+	font-weight: 600;
+	border-bottom-color: #3858e9;
+}
+
+/* Three-dot menu button */
+.war-page-header__actions {
+	flex-shrink: 0;
+}
+
+.war-page-header__menu-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: none;
+	background: none;
+	border-radius: 4px;
+	cursor: pointer;
+	color: #1e1e1e;
+	font-size: 18px;
+	line-height: 1;
+	transition: background 0.1s;
+}
+
+.war-page-header__menu-btn:hover {
+	background: #f0f0f0;
+}

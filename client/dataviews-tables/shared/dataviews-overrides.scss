@@ -1,0 +1,112 @@
+/* CIAB-style overrides for @wordpress/dataviews — matches Figma */
+
+.war-orders-dataview {
+
+	/* Force full width */
+	& > div {
+		width: 100% !important;
+	}
+
+	/* Hide DataViews built-in toolbars — we render our own in the header */
+	.dataviews-filters__view-actions,
+	.dataviews__view-actions {
+		display: none !important;
+	}
+
+	/*
+	 * NOTE: DataViews renders the <table> with class "dataviews-view-table"
+	 * directly (the table IS the .dataviews-view-table, not a child of it).
+	 */
+
+	/* Table — clean, no card border, fixed layout for column alignment */
+	table.dataviews-view-table {
+		border: none;
+		border-radius: 0;
+		box-shadow: none;
+		background: transparent;
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	/* Column widths — Order, Customer, Date, Payment, Fulfillment, Items, Total */
+	table.dataviews-view-table thead th:nth-child(1) { width: 8%; }   /* Order */
+	table.dataviews-view-table thead th:nth-child(2) { width: 18%; }  /* Customer */
+	table.dataviews-view-table thead th:nth-child(3) { width: 16%; }  /* Date */
+	table.dataviews-view-table thead th:nth-child(4) { width: 14%; }  /* Payment */
+	table.dataviews-view-table thead th:nth-child(5) { width: 16%; }  /* Fulfillment */
+	table.dataviews-view-table thead th:nth-child(6) { width: 10%; }  /* Items */
+	table.dataviews-view-table thead th:nth-child(7) { width: 12%; }  /* Total */
+
+	/* All columns left-aligned — headers and cells */
+	table.dataviews-view-table thead th,
+	table.dataviews-view-table td {
+		text-align: left;
+	}
+
+	/* Table header — Figma: uppercase, 11px, gray, border */
+	table.dataviews-view-table thead th {
+		background: transparent;
+		color: #757575;
+		font-size: 11px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		border-bottom: 1px solid #e0e0e0;
+		padding: 12px 16px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* Table rows — Figma: #f0f0f0 separator, hover #fafafa */
+	table.dataviews-view-table tbody tr {
+		border-bottom: 1px solid #f0f0f0;
+		cursor: pointer;
+		transition: background 0.1s;
+
+		&:hover {
+			background: #fafafa;
+		}
+	}
+
+	/* Table cells — Figma: 13px, #1e1e1e, 14px vertical padding */
+	table.dataviews-view-table td {
+		color: #1e1e1e;
+		font-size: 13px;
+		line-height: 20px;
+		padding: 14px 16px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* Pagination — Figma: bottom bar with item count, uppercase */
+	.dataviews-pagination {
+		margin-top: 0;
+		padding: 12px 16px;
+		border-top: 1px solid #f0f0f0;
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: #757575;
+	}
+
+	/* Empty state */
+	.dataviews-no-results {
+		padding: 48px 24px;
+		text-align: center;
+		color: #757575;
+		font-size: 14px;
+	}
+
+	/* Remove DataViews default wp-components theme color on sortable headers */
+	table.dataviews-view-table thead th button {
+		color: #757575 !important;
+		font-size: 11px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	table.dataviews-view-table thead th button:hover {
+		color: #1e1e1e !important;
+	}
+}

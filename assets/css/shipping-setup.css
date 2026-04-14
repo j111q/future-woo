@@ -1,0 +1,480 @@
+/**
+ * WooCommerce Shipping Setup — Styles
+ *
+ * Based on CIAB Figma component specifications:
+ *   - Header: KEksRNBY6IbSoV2zyWEzgB node 150:9096
+ *   - Card:   KEksRNBY6IbSoV2zyWEzgB node 1877:53319
+ *   - Zones DataView: Wq8Iz43dqZxomgQKOJ8mbE node 1:12383
+ *   - Zone edit: Wq8Iz43dqZxomgQKOJ8mbE node 60:30547
+ *   - Method edit: Wq8Iz43dqZxomgQKOJ8mbE node 1:11241
+ *
+ * Typography: SF Pro / system, sizes via CIAB tokens (--l=15px, --m=13px, --s=12px, --xs=11px)
+ * Colors: #1e1e1e (gray-900), #757575 (gray-700), #636363, #f0f0f0 (gray-100), #e0e0e0 (gray-200)
+ * Theme: #3858e9 (blue), #cdf5d3/#002b00 (success badge)
+ * Spacing: 8px grid unit (16px, 24px, 32px, 48px)
+ * Card: 1px #e0e0e0 border, 8px radius
+ * Content: 660px constrained
+ */
+
+/* ── Reset — hide WooCommerce's default chrome on shipping pages ── */
+.wss-shipping-setup > h1,
+.wss-shipping-setup > .wss-page-subtitle { display: none; }
+.wss-shipping-setup { max-width: none; padding: 0; }
+
+/* Hide WC's default Settings chrome on our shipping pages.
+   Targets the exact elements from html-admin-settings.php:
+   - "Settings" h1 (screen reader text above the form)
+   - nav.nav-tab-wrapper.woo-nav-tab-wrapper (General|Products|Shipping|... tabs)
+   - WC section links (<ul class="subsubsub"> — "Shipping zones | Operations")
+   - "Save changes" button at bottom
+   - Marketplace link at bottom
+   Scoped: only when body.wss-shipping-active (our shipping pages only). */
+body.wss-shipping-active .wrap.woocommerce > form > .nav-tab-wrapper,
+body.wss-shipping-active .wrap.woocommerce > form > nav.woo-nav-tab-wrapper,
+body.wss-shipping-active .wrap.woocommerce > form > h1.screen-reader-text,
+body.wss-shipping-active .wrap.woocommerce > form > p.submit,
+body.wss-shipping-active .wrap.woocommerce > form > p.wc-settings-marketplace-link,
+body.wss-shipping-active .wrap.woocommerce > form > ul.subsubsub,
+body.wss-shipping-active .wrap.woocommerce ul.subsubsub,
+body.wss-shipping-active .subsubsub { display: none !important; }
+
+/* Hide the GENERIC war-page-header on shipping pages — our shipping-specific
+   war-page-header--shipping replaces it with breadcrumb + tabs.
+   Use multiple selectors to ensure it gets hidden regardless of body class timing. */
+body.wss-shipping-active .war-page-header:not(.war-page-header--shipping):not(#wss-page-header) { display: none !important; }
+
+/* Hide ALL default WC shipping content when our React app is active */
+#wss-shipping-setup-root ~ *,
+.wc-shipping-zones-wrapper,
+.wc-shipping-zone-settings,
+#wss-shipping-setup-root ~ .woocommerce-shipping-zone-method-settings,
+#wss-shipping-setup-root ~ table.wc-shipping-zones,
+#wss-shipping-setup-root ~ p,
+#wss-shipping-setup-root ~ h2,
+#wss-shipping-setup-root ~ hr,
+#wss-shipping-setup-root ~ .wc_addons_wrap,
+#wss-shipping-setup-root ~ .woocommerce-recommended-shipping-extensions,
+.woocommerce-shipping-zone-method-settings { display: none !important; }
+
+/* ── Layout ─────────────────────────────────────────────────────── */
+.wc-shipping { max-width: 100%; padding: 0; background: var(--war-page-bg, #fcfcfc); min-height: 100vh; }
+.wc-shipping__constrained { max-width: 756px; margin: 0 auto; /* 660px cards + 48px padding each side */ }
+
+/* Ensure consistent background on shipping pages (uses central --war-page-bg variable) */
+body.wss-shipping-active,
+body.wss-shipping-active html,
+body.wss-shipping-active #wpwrap,
+body.wss-shipping-active #wpcontent,
+body.wss-shipping-active #wpbody,
+body.wss-shipping-active #wpbody-content,
+body.wss-shipping-active .wrap,
+body.wss-shipping-active .wrap.woocommerce,
+body.wss-shipping-active .woocommerce-layout,
+body.wss-shipping-active .woocommerce-layout__primary,
+body.wss-shipping-active #wss-shipping-setup-root,
+body.wss-shipping-active .wc-shipping,
+body.wss-shipping-active .wc-shipping__content { background-color: var(--war-page-bg, #fcfcfc) !important; }
+
+/* Remove WP admin default padding/margin that causes gray edges */
+body.wss-shipping-active .wrap,
+body.wss-shipping-active .wrap.woocommerce {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+body.wss-shipping-active #wpbody-content {
+	padding-bottom: 0 !important;
+}
+body.wss-shipping-active #mainform,
+body.wss-shipping-active form,
+body.wss-shipping-active .wrap > form,
+body.wss-shipping-active .wrap.woocommerce > form {
+	padding: 0 !important;
+	margin: 0 !important;
+	background: var(--war-page-bg, #fcfcfc) !important;
+}
+
+/* ── Shipping page header — extends war-page-header with Zones | Operations tabs ──
+ *
+ *  Matches CIAB admin-toolkit Page component with tabs variant:
+ *    - Figma: KEksRNBY6IbSoV2zyWEzgB node 205:9170 "Main page with tabs"
+ *    - When has-tabs: padding-block-end 0, border on header bottom
+ *    - Tabs sit flush at header bottom, left-aligned with breadcrumb
+ *    - Tab text: 13px, weight 500, color #757575 inactive / #1e1e1e active
+ *    - Active tab: 2px bottom border in theme blue (#3858e9)
+ *  See: ciab-admin/packages/admin-toolkit/src/components/page/style.scss
+ */
+/* Tab styles are now in custom-header.css as part of the header component */
+
+/* Override header margins since .wrap padding is removed */
+body.wss-shipping-active .war-page-header {
+	margin: 0 !important;
+}
+
+/* Subtitle — Figma: 13px, gray, below title */
+.war-page-header--shipping .war-page-header__subtitle {
+	font-size: 13px;
+	font-weight: 400;
+	color: #757575;
+	margin: 0;
+	padding: 4px 8px 8px;
+	line-height: 20px;
+}
+.war-page-header--shipping .war-page-header__subtitle:empty {
+	display: none;
+}
+
+/* Tab styles are in custom-header.css — header component */
+
+/* ── Header actions area — right side of breadcrumb row ── */
+#wss-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* Header CTA uses standard components-button is-primary is-compact */
+
+/* ── Inner header is no longer used ──
+ *  Zone/method detail pages now update the PHP breadcrumb dynamically
+ *  (Settings / Shipping / Zone Name / Method). No separate inner header.
+ *  These styles are kept minimal in case any legacy markup remains.
+ */
+.wc-shipping__header { display: none; }
+
+/* ── Content area below header ──────────────────────────────────── */
+.wc-shipping__content {
+	padding: 48px 0;
+}
+
+/* ── Actions bar — right-aligned, spacing below ─────────────────── */
+.wc-shipping__actions-bar {
+	display: flex; justify-content: flex-end; gap: 8px;
+	padding: 16px 0 16px;
+}
+
+/* ── Hide WC footer rating ──────────────────────────────────────── */
+#wpfooter { display: none !important; }
+
+/* ── Three-dot menu — CIAB DataViews action menu pattern ────────── */
+.wc-shipping-dataviews-list__menu-wrapper {
+	position: relative;
+}
+.wc-shipping-dataviews-list__menu-trigger {
+	background: none; border: none; cursor: pointer;
+	font-size: 20px; color: #757575; padding: 4px 8px;
+	border-radius: 4px; line-height: 1;
+}
+.wc-shipping-dataviews-list__menu-trigger:hover { background: #f0f0f0; }
+.wc-shipping-dataviews-list__menu-popover {
+	display: none;
+	position: absolute; right: 0; top: 100%; z-index: 10;
+	background: #fff; border: 1px solid #e0e0e0; border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	min-width: 160px; padding: 4px 0;
+}
+
+/* Widen the WP DropdownMenu popover for zone actions */
+.wc-shipping-dataviews-list__actions .components-dropdown-menu__popover .components-popover__content {
+	min-width: 160px !important;
+}
+.wc-shipping-dataviews-list__actions .components-menu-item__button {
+	min-width: 160px;
+}
+.wc-shipping-dataviews-list__menu-wrapper.is-open .wc-shipping-dataviews-list__menu-popover {
+	display: block;
+}
+.wc-shipping-dataviews-list__menu-item {
+	display: block; width: 100%; text-align: left;
+	background: none; border: none; cursor: pointer;
+	padding: 8px 16px; font-size: 13px; color: #1e1e1e;
+}
+.wc-shipping-dataviews-list__menu-item:hover { background: #f6f7f7; }
+.wc-shipping-dataviews-list__menu-item--destructive { color: #cc1818; }
+.wc-shipping-dataviews-list__menu-item--destructive:hover { background: #fef2f2; }
+
+/* ── Cards — Figma: 1px #e0e0e0, 8px radius ────────────────────── */
+.wc-shipping__cards {
+	display: flex; flex-direction: column; gap: 24px;
+	padding: 48px;
+}
+
+.wc-shipping-card {
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+}
+.wc-shipping-card__header {
+	display: flex; justify-content: space-between; align-items: center;
+	padding: 24px 24px 12px;
+	cursor: pointer; user-select: none;
+}
+.wc-shipping-card__header-left {
+	display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;
+}
+.wc-shipping-card__header-right {
+	display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.wc-shipping-card__title {
+	font-size: 15px; font-weight: 600; margin: 0; color: #1e1e1e;
+	line-height: 20px;
+}
+.wc-shipping-card__summary { font-size: 13px; color: #757575; }
+.wc-shipping-card__toggle {
+	color: #757575; font-size: 20px; line-height: 1; width: 24px; text-align: center;
+}
+.wc-shipping-card__body {
+	padding: 0 24px 24px;
+}
+
+/* ── DataViews list — Figma: zones table ────────────────────────── */
+.wc-shipping-dataviews-list {
+	background: #fff; overflow: hidden;
+}
+
+/* Standalone DataViews (zones list) gets border */
+.wc-shipping > .wc-shipping-dataviews-list,
+.wc-shipping__content > .wc-shipping-dataviews-list {
+	border: 1px solid #e0e0e0; border-radius: 8px;
+	margin: 24px 24px 0;
+}
+
+/* DataViews header row — Figma: uppercase column headers */
+.wc-shipping-dataviews-list__header {
+	display: grid;
+	grid-template-columns: 55% 1fr 80px;
+	gap: 16px;
+	padding: 10px 24px;
+	font-size: 11px; font-weight: 500; color: #757575;
+	text-transform: uppercase; letter-spacing: 0.5px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+/* DataViews data rows */
+.wc-shipping-dataviews-list__row {
+	display: grid;
+	grid-template-columns: 55% 1fr 80px;
+	gap: 16px;
+	align-items: center;
+	padding: 16px 24px;
+	border-bottom: 1px solid #f0f0f0;
+	cursor: pointer;
+}
+.wc-shipping-dataviews-list__row:last-child { border-bottom: none; }
+.wc-shipping-dataviews-list__row:hover { background: #f9f9f9; }
+
+.wc-shipping-dataviews-list__info { min-width: 0; }
+.wc-shipping-dataviews-list__name {
+	font-size: 13px; font-weight: 600; color: #1e1e1e; text-decoration: none;
+}
+.wc-shipping-dataviews-list__name:hover { color: #3858e9; }
+.wc-shipping-dataviews-list__name-text {
+	font-size: 13px; font-weight: 600; color: #1e1e1e;
+}
+/* Name + badge inline row — matches Figma dataview pattern */
+.wc-shipping-dataviews-list__name-row {
+	display: flex; align-items: center; gap: 8px;
+}
+.wc-shipping-dataviews-list__detail {
+	font-size: 13px; color: #757575; margin-top: 4px;
+	overflow: hidden; text-overflow: ellipsis;
+}
+.wc-shipping-dataviews-list__right {
+	font-size: 13px; color: #757575;
+}
+.wc-shipping-dataviews-list__meta {
+	font-size: 13px; color: #757575;
+}
+.wc-shipping-dataviews-list__actions {
+	display: flex; justify-content: flex-end; gap: 4px; align-items: center;
+}
+.wc-shipping-dataviews-list__actions .components-button {
+	min-height: 0; font-size: 13px; padding: 2px;
+}
+
+/* Nested list inside card — no outer border, uses card padding */
+.wc-shipping-dataviews-list--nested {
+	border: none; box-shadow: none; border-radius: 0;
+	margin: 0 -24px;
+}
+.wc-shipping-dataviews-list--nested .wc-shipping-dataviews-list__row {
+	padding: 12px 24px;
+	grid-template-columns: 1fr auto auto;
+	align-items: center;
+}
+.wc-shipping-dataviews-list--nested .wc-shipping-dataviews-list__row:first-child {
+	border-top: 1px solid #f0f0f0;
+}
+
+/* ── Badges — Figma: green success, rounded pill ────────────────── */
+.wc-shipping-badge {
+	display: inline-flex; align-items: center;
+	padding: 2px 10px;
+	border-radius: 8px;
+	font-size: 13px; font-weight: 400; line-height: 20px;
+	white-space: nowrap;
+}
+.wc-shipping-badge--success { background: #cdf5d3; color: #002b00; }
+.wc-shipping-badge--neutral { background: #f0f0f0; color: #1e1e1e; }
+.wc-shipping-badge--info { background: #dbeafe; color: #1e40af; }
+
+/* ── Form labels — Figma: uppercase 11px ─────────────────────────── */
+.wc-shipping__form-label {
+	font-size: 11px; font-weight: 600; color: #1e1e1e;
+	text-transform: uppercase; letter-spacing: 0.5px;
+	margin-bottom: 8px; display: block;
+}
+
+/* ── Price input with $ prefix — Figma: $ 2.50 ──────────────────── */
+.wc-shipping__price-input {
+	display: flex; align-items: center;
+	border: 1px solid #949494; border-radius: 2px;
+	background: #fff; overflow: hidden;
+}
+.wc-shipping__price-prefix {
+	padding: 8px 0 8px 12px; color: #757575; font-size: 13px;
+	flex-shrink: 0; user-select: none;
+}
+.wc-shipping__price-field {
+	border: none !important; outline: none !important; box-shadow: none !important;
+	padding: 8px 12px 8px 4px; font-size: 13px; width: 100%;
+	background: transparent; -moz-appearance: textfield;
+}
+.wc-shipping__price-field::-webkit-inner-spin-button,
+.wc-shipping__price-field::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── Checkbox label ─────────────────────────────────────────────── */
+.wc-shipping__checkbox-label {
+	display: flex; align-items: center; gap: 8px;
+	font-size: 13px; color: #1e1e1e; cursor: pointer;
+}
+.wc-shipping__checkbox-label input[type="checkbox"] {
+	width: 16px; height: 16px; margin: 0;
+}
+
+/* ── Preview — Figma: dashed border box ──────────────────────────── */
+.wc-shipping__preview {
+	border: 1px dashed #c3c4c7; border-radius: 4px;
+	padding: 12px 16px;
+}
+.wc-shipping__preview-option {
+	display: flex; justify-content: space-between; align-items: center;
+	font-size: 13px;
+}
+.wc-shipping__preview-radio {
+	width: 16px; height: 16px; border: 2px solid #1e1e1e;
+	border-radius: 50%; margin-right: 12px; flex-shrink: 0;
+}
+
+/* ── Option picker modal — Figma: card-based delivery option selector ──
+ *  Figma: w0iwBg4GU7X4CzoUtM5kiL node 2118:414215
+ *  Modal: wider width, 32px horizontal padding, 24px vertical
+ *  3 cards side by side, 20px gap, 4px radius, 32px 16px padding
+ *  Icon: 40px circle, rgba(240,240,240,0.8) bg
+ *  Title: 15px semibold, Desc: 13px regular, 8px gap
+ */
+.wc-shipping__option-modal .components-modal__content {
+	padding: 0 32px 24px !important;
+}
+.wc-shipping__option-modal .components-modal__header {
+	padding: 24px 32px 8px !important;
+}
+.wc-shipping__option-modal {
+	max-width: 660px !important;
+	width: 660px !important;
+}
+.wc-shipping__option-cards {
+	display: grid;
+	grid-template-columns: repeat( 3, 1fr );
+	gap: 20px;
+}
+.wc-shipping__option-card {
+	display: flex; flex-direction: column; align-items: center;
+	text-align: center; gap: 16px;
+	padding: 32px 16px;
+	border: 1px solid rgba(224, 224, 224, 0.8); border-radius: 4px;
+	background: #fff; cursor: pointer;
+	transition: border-color 0.15s, box-shadow 0.15s;
+}
+.wc-shipping__option-card:hover {
+	border-color: #1e1e1e;
+	box-shadow: 0 0 0 1px #1e1e1e;
+}
+.wc-shipping__option-card-icon {
+	width: 40px; height: 40px;
+	display: flex; align-items: center; justify-content: center;
+	background: rgba(240, 240, 240, 0.8); border-radius: 25px;
+}
+.wc-shipping__option-card-icon .dashicons {
+	font-size: 24px; width: 24px; height: 24px; color: #1e1e1e;
+}
+.wc-shipping__option-card-title {
+	font-size: 15px; font-weight: 600; color: #1e1e1e; line-height: 20px;
+}
+.wc-shipping__option-card-desc {
+	font-size: 13px; color: #757575; line-height: 20px;
+}
+
+/* ── Info grid (zone detail) ────────────────────────────────────── */
+.wc-shipping__info-grid { display: flex; flex-direction: column; gap: 4px; }
+.wc-shipping__info-row { display: flex; gap: 12px; font-size: 13px; padding: 2px 0; }
+.wc-shipping__info-label { width: 100px; flex-shrink: 0; font-weight: 500; color: #757575; }
+
+/* ── Country picker ─────────────────────────────────────────────── */
+.wc-shipping-country-picker__selected {
+	display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;
+}
+.wc-shipping-country-picker__tag {
+	display: inline-flex; align-items: center; gap: 4px;
+	background: #dbeafe; color: #1e40af; padding: 2px 8px;
+	border-radius: 10px; font-size: 12px; line-height: 18px;
+}
+.wc-shipping-country-picker__tag-remove {
+	background: none; border: none; color: #1e40af; cursor: pointer;
+	font-size: 14px; padding: 0; line-height: 1;
+}
+.wc-shipping-country-picker__list {
+	max-height: 200px; overflow-y: auto; border: 1px solid #e0e0e0;
+	border-radius: 4px; padding: 4px;
+}
+.wc-shipping-country-picker__item {
+	display: block; padding: 4px 8px; font-size: 13px; cursor: pointer; border-radius: 2px;
+}
+.wc-shipping-country-picker__item:hover { background: #f6f7f7; }
+.wc-shipping-country-picker__item input { margin-right: 6px; }
+
+/* ── Link button — Figma: theme color #3858e9 ───────────────────── */
+.wc-shipping__link-button {
+	color: #3858e9; font-size: 13px; text-decoration: none;
+	display: inline-flex; align-items: center; gap: 4px;
+}
+.wc-shipping__link-button:hover { text-decoration: underline; }
+
+.wc-shipping__link-arrow {
+	display: inline-flex; align-items: center; gap: 4px;
+	font-size: 12px; color: #3858e9; text-decoration: none;
+}
+.wc-shipping__link-arrow:hover { text-decoration: underline; }
+
+/* ── Description / empty ────────────────────────────────────────── */
+.wc-shipping__description {
+	font-size: 13px; color: #757575; margin: 0 0 8px; line-height: 20px;
+}
+.wc-shipping__empty { font-size: 13px; color: #757575; margin: 8px 0; }
+
+/* ── Add method form ────────────────────────────────────────────── */
+.wc-shipping__add-method-form {
+	margin-top: 16px; padding: 16px; background: #f6f7f7;
+	border: 1px solid #dcdcde; border-radius: 4px;
+}
+
+/* ── Loading ────────────────────────────────────────────────────── */
+.wc-shipping__loading { display: flex; justify-content: center; padding: 48px 0; }
+
+/* ── Save button — Figma: #3858e9 ───────────────────────────────── */
+.wc-shipping__save-btn {
+	background: #3858e9 !important; color: #fff !important;
+	border: none !important; border-radius: 2px !important;
+	padding: 4px 8px !important; font-size: 13px !important;
+	min-height: 32px !important;
+}
+.wc-shipping__save-btn:hover { background: #2c48d0 !important; }

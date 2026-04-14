@@ -1,0 +1,45 @@
+/* Hide default WordPress empty table immediately to prevent flicker */
+.no-items {
+	display: none !important;
+}
+
+/* Products Empty State — CIAB-style */
+
+.war-products-empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 80px 24px 48px;
+	text-align: center;
+}
+
+.war-products-empty-state__icon {
+	margin-bottom: 24px;
+}
+
+.war-products-empty-state__icon svg {
+	width: 64px;
+	height: 64px;
+}
+
+.war-products-empty-state__title {
+	font-size: 20px;
+	font-weight: 400;
+	color: #1d2327;
+	margin: 0 0 8px;
+	line-height: 1.4;
+}
+
+.war-products-empty-state__description {
+	font-size: 14px;
+	color: #757575;
+	margin: 0 0 24px;
+	max-width: 420px;
+	line-height: 1.6;
+}
+
+.war-products-empty-state__actions {
+	display: flex;
+	gap: 12px;
+}

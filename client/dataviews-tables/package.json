@@ -1,0 +1,28 @@
+{
+  "name": "wc-dataviews-tables",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^7.0.0",
+    "@wordpress/components": "^28.0.0",
+    "@wordpress/dataviews": "^4.0.0",
+    "@wordpress/element": "^6.0.0",
+    "@wordpress/i18n": "^5.0.0",
+    "@wordpress/icons": "^10.0.0"
+  },
+  "devDependencies": {
+    "@wordpress/dependency-extraction-webpack-plugin": "^6.0.0",
+    "css-loader": "^7.0.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "sass": "^1.77.0",
+    "sass-loader": "^14.2.0",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.4.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.0"
+  }
+}

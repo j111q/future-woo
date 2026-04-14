@@ -1,0 +1,151 @@
+/* ==========================================================================
+   Tax Options — Card layout for the Tax options section
+   Only active when body.war-tax-options is present.
+   ========================================================================== */
+
+/* Centre the form content */
+body.war-tax-options .wrap.woocommerce > form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px 16px 48px;
+}
+
+/* Hide the "Tax options" heading — the header tab already says it */
+body.war-tax-options .wrap.woocommerce > form > h2 {
+	display: none !important;
+}
+
+/* Hide the section-end <p> if any */
+body.war-tax-options .wrap.woocommerce > form > p:empty {
+	display: none;
+}
+
+/* Card wrapper around the form-table */
+body.war-tax-options .form-table {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 20px 24px 24px;
+	width: 660px;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+body.war-tax-options .form-table tbody {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* Each row is a stacked field */
+body.war-tax-options .form-table tr {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+/* Labels — uppercase CIAB style */
+body.war-tax-options .form-table th {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 0;
+	width: auto;
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+	color: #1e1e1e;
+	line-height: 1.4;
+}
+
+body.war-tax-options .form-table th label {
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+	color: #1e1e1e;
+}
+
+/* Field cell */
+body.war-tax-options .form-table td {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 0;
+}
+
+/* Inputs and selects — full width */
+body.war-tax-options .form-table td select,
+body.war-tax-options .form-table td input[type="text"],
+body.war-tax-options .form-table td textarea {
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+/* Select2 containers */
+body.war-tax-options .form-table td .select2-container {
+	width: 100% !important;
+}
+
+/* Radio buttons */
+body.war-tax-options .form-table td fieldset {
+	margin: 0;
+	padding: 0;
+}
+
+body.war-tax-options .form-table td fieldset ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+body.war-tax-options .form-table td fieldset li {
+	margin: 4px 0;
+}
+
+body.war-tax-options .form-table td fieldset label {
+	font-size: 13px;
+	font-weight: 400;
+	color: #1e1e1e;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+/* Checkbox label text */
+body.war-tax-options .form-table td > label {
+	font-size: 13px;
+	font-weight: 400;
+	color: #1e1e1e;
+}
+
+/* Helper text (injected by JS from tooltips) */
+.war-tax-helper-text {
+	font-size: 13px;
+	font-weight: 400;
+	color: #757575;
+	line-height: 1.5;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+/* Hide the "?" tooltip icons */
+body.war-tax-options .woocommerce-help-tip {
+	display: none !important;
+}
+
+/* Hide the desc text that WooCommerce puts after checkboxes (we show it as helper) */
+body.war-tax-options .form-table td .description {
+	display: none;
+}
+
+/* Hide React slotfill mount points */
+body.war-tax-options #wc_tax_settings_slotfill,
+body.war-tax-options .form-table tr:has(#wc_tax_settings_slotfill) {
+	display: none !important;
+}

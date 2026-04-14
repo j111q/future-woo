@@ -1,0 +1,82 @@
+/* Orders list — PHP header handles title, React renders tabs + table */
+
+.war-orders-page {
+	font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Segoe UI", Roboto,
+		Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	overflow: hidden; /* prevent right-edge cutoff */
+}
+
+/* ===== Tabs bar — sits below PHP header ===== */
+.war-orders-tabs-bar {
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #f0f0f0;
+	padding: 0 16px;
+}
+
+.war-orders-tabs {
+	display: flex;
+	gap: 12px;
+	flex: 1;
+}
+
+/* Tab — Figma: 13px, py 10px, active = 2px #414141 bottom border */
+.war-orders-tab {
+	background: none;
+	border: none;
+	border-bottom: 2px solid transparent;
+	padding: 10px 0;
+	font-size: 13px;
+	font-weight: 400;
+	color: #1e1e1e;
+	cursor: pointer;
+	white-space: nowrap;
+	line-height: 20px;
+	margin-bottom: -1px;
+	transition: border-color 0.15s;
+
+	&:hover {
+		border-bottom-color: #b0b0b0;
+	}
+
+	&--active {
+		border-bottom-color: #414141;
+	}
+}
+
+/* Icons — Figma: 32px containers, 24px icons */
+.war-orders-icons {
+	display: flex;
+	align-items: center;
+	gap: 0;
+}
+
+.war-orders-icon-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	background: none;
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+	color: #1e1e1e;
+	padding: 4px;
+	transition: background 0.1s;
+
+	&:hover {
+		background: #f0f0f0;
+	}
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
+}
+
+/* ===== DataViews table area ===== */
+.war-orders-dataview {
+	padding: 0;
+	overflow: hidden; /* prevent table from exceeding container width */
+}

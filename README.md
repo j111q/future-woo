@@ -31,13 +31,9 @@
 
 ## Installation
 
-The fast path, especially if you're not an engineer: invoke the **`setup-future-woo`** skill in Claude Code — it handles the WordPress + WooCommerce install, activates the plugin, primes demo data, and lands you on the Store Dashboard.
+See **[`INSTALL.md`](INSTALL.md)** for the step-by-step walkthrough. Two supported paths: **Studio** (macOS, polished GUI) and **wp-now** (any OS, fast and ephemeral). Both take ~10 minutes.
 
-Manual install:
-
-1. Download the latest zip from the [Releases page](../../releases) (or `git clone` this repo and zip it).
-2. In your WordPress admin, go to **Plugins → Add New → Upload Plugin** and upload the zip.
-3. Activate the plugin.
+`INSTALL.md` is tool-agnostic — you can read it yourself, or hand it to any AI tool (Claude Code, Codex, Cursor, ChatGPT) and ask it to walk you through.
 
 ## Usage
 

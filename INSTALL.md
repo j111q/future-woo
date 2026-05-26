@@ -59,8 +59,8 @@ In Terminal:
 cd ~/Studio/<site-name>/wp-content/plugins/
 
 # Clone the repo
-git clone https://github.com/j111q/woo-admin-revamp.git
-cd woo-admin-revamp
+git clone https://github.com/j111q/future-woo.git
+cd future-woo
 
 # Install deps and build
 npm install
@@ -72,7 +72,7 @@ If you can't find the site path, Studio site settings → "Show in Finder" → l
 ### Step 5 — Activate Future Woo
 
 1. Back in WP admin: **Plugins → Installed Plugins**.
-2. Find "WooCommerce Admin Revamp" (the package name — we'll rename eventually). Activate.
+2. Find "Future Woo". Activate.
 3. You're now looking at the redesigned dashboard.
 
 ### Step 6 — Pick a demo state
@@ -90,8 +90,8 @@ wp-now runs WordPress in a temporary Node-based environment. It's fast (~10 seco
 ### Step 1 — Clone and build
 
 ```bash
-git clone https://github.com/j111q/woo-admin-revamp.git
-cd woo-admin-revamp
+git clone https://github.com/j111q/future-woo.git
+cd future-woo
 npm install
 npm run build
 ```
@@ -116,7 +116,7 @@ Same as Studio Step 3 above.
 
 ### Step 5 — Confirm Future Woo is active
 
-`Plugins → Installed Plugins` — "WooCommerce Admin Revamp" should already be active (wp-now auto-activated it when you started from the repo dir).
+`Plugins → Installed Plugins` — "Future Woo" should already be active (wp-now auto-activated it when you started from the repo dir).
 
 ### Step 6 — Pick a demo state
 
@@ -146,11 +146,11 @@ Once the demo state is primed:
 
 ## Uninstall
 
-In WP admin: **Plugins → Installed Plugins** → deactivate "WooCommerce Admin Revamp" → Delete. The plugin cleans up its options on uninstall, but **demo products and orders it created remain** — delete those manually in **Products** and **Orders** if you want a clean slate.
+In WP admin: **Plugins → Installed Plugins** → deactivate "Future Woo" → Delete. The plugin cleans up its options on uninstall, but **demo products and orders it created remain** — delete those manually in **Products** and **Orders** if you want a clean slate.
 
 For wp-now: just stop the `npx @wp-now/wp-now start` process; the WP site is ephemeral.
 
 ## Going further
 
 - **Add a new designed screen?** Read [`docs/design-principles.md`](docs/design-principles.md) first, then [`SKILL.md`](SKILL.md) at the repo root briefs Claude Code on the architecture and how to contribute.
-- **Found an issue?** Open one on [j111q/woo-admin-revamp](https://github.com/j111q/woo-admin-revamp/issues) (this fork) or upstream at [poligilad-auto/woo-admin-revamp](https://github.com/poligilad-auto/woo-admin-revamp/issues).
+- **Found an issue?** Open one on [j111q/future-woo](https://github.com/j111q/future-woo/issues) (this fork) or upstream at [poligilad-auto/woo-admin-revamp](https://github.com/poligilad-auto/woo-admin-revamp/issues).

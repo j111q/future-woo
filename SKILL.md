@@ -1,11 +1,13 @@
 ---
 name: future-woo
-description: Use this skill when adding a new designed screen, modernizing an existing one, or polishing the Future Woo WordPress plugin. The plugin is a designer's vision of where WooCommerce admin could go — install it on any WP store and see a redesigned dashboard, order view, settings, and admin bar. Read `docs/design-principles.md` first for the durable rules, then `docs/migration-map.md` for the WC Settings field-type mapping. Triggers: "add a new screen to Future Woo", "redesign the products page", "modernize the marketing tab", "tweak the dashboard widgets", "what's the right way to add X to woo-admin-revamp".
+description: Use this skill when adding a new designed screen, modernizing an existing one, or polishing the Future Woo WordPress plugin. The plugin is a designer's vision of where WooCommerce admin could go — install it on any WP store and see a redesigned dashboard, order view, settings, and admin bar. Read `docs/design-principles.md` first for the durable rules, then `docs/migration-map.md` for the WC Settings field-type mapping. Triggers: "add a new screen to Future Woo", "redesign the products page", "modernize the marketing tab", "tweak the dashboard widgets", "what's the right way to add X to future-woo".
 ---
 
 # Future Woo — contribution skill
 
-You're being asked to add to or modify the Future Woo plugin (this repo, `woo-admin-revamp`). This is a designer-led prototype, not a production plugin. It demonstrates the future of WooCommerce admin holistically — anyone can install it on a basic WordPress + WooCommerce store and see a coherent redesigned experience.
+You're being asked to add to or modify the Future Woo plugin (this repo, `future-woo`). This is a designer-led prototype, not a production plugin. It demonstrates the future of WooCommerce admin holistically — anyone can install it on a basic WordPress + WooCommerce store and see a coherent redesigned experience.
+
+> Note: the plugin's main PHP file is still `woo-admin-revamp.php`, and internal symbols use the `WAR_` / `war_` prefix, for historical reasons (the repo was renamed from `woo-admin-revamp`). Don't rename them — it'd be a big refactor with translation and install-slug fallout.
 
 ## Read first
 

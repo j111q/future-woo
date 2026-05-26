@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: WooCommerce Admin Revamp
- * Description: Modernizes the WooCommerce admin experience — custom dashboard widgets, drilldown navigation, redesigned order page, and state switcher for prototyping.
+ * Plugin Name: Future Woo
+ * Description: A designer's vision of where WooCommerce admin could go — redesigned dashboard, modern settings, reimagined order view, unified admin bar, and a state switcher for demoing three store states. Prototype only.
  * Version: 2.1.0
  * Requires Plugins: woocommerce
  * Text Domain: woo-admin-revamp

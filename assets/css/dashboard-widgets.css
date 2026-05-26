@@ -72,8 +72,8 @@
 
 .cdw-note-ctas a.button.cdw-note-action-btn,
 .cdw-note-action-btn.button {
-	color: #2271b1 !important;
-	border-color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9) !important;
+	border-color: var(--wp-admin-theme-color, #3858e9);
 	background: #fff;
 	box-shadow: none;
 	height: 30px;
@@ -83,8 +83,8 @@
 
 .cdw-note-ctas a.button.cdw-note-action-btn:hover,
 .cdw-note-action-btn.button:hover {
-	color: #135e96 !important;
-	border-color: #135e96;
+	color: var(--wp-admin-theme-color-darker-10, #2145e6) !important;
+	border-color: var(--wp-admin-theme-color-darker-10, #2145e6);
 	background: #f0f6fc;
 }
 
@@ -126,7 +126,7 @@
 	display: inline-block;
 	margin-top: 4px;
 	font-size: 12px;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	text-decoration: underline;
 	cursor: pointer;
 	background: none;
@@ -135,7 +135,7 @@
 }
 
 .cdw-read-more:hover {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-10, #2145e6);
 }
 
 .cdw-note-actions {
@@ -150,14 +150,14 @@
 .cdw-show-more {
 	display: block;
 	font-size: 12px;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	text-decoration: underline;
 	cursor: pointer;
 	padding: 4px 0;
 }
 
 .cdw-show-more:hover {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-10, #2145e6);
 }
 
 /* Store Setup progress text (replaces badge) */
@@ -361,13 +361,13 @@
 
 .cdw-setup-item-toggle:hover,
 .cdw-setup-item-toggle:focus-visible {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	outline: none;
 }
 
 .cdw-setup-item-toggle:hover .cdw-setup-item-title,
 .cdw-setup-item-toggle:focus-visible .cdw-setup-item-title {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 }
 
 /* Status icon */
@@ -583,7 +583,7 @@
 
 .cdw-stats-tab--active {
 	color: #1e1e1e;
-	border-bottom-color: #2271b1;
+	border-bottom-color: var(--wp-admin-theme-color, #3858e9);
 }
 
 /* Metrics grid */
@@ -666,7 +666,7 @@
 
 .cdw-stats-footer a {
 	font-size: 13px;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	text-decoration: none;
 	height: 30px;
 	display: inline-flex;
@@ -674,7 +674,7 @@
 }
 
 .cdw-stats-footer a:hover {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-10, #2145e6);
 	text-decoration: underline;
 }
 
@@ -832,13 +832,13 @@
 .cdw-store-status-count {
 	font-size: 15px;
 	font-weight: 600;
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 	text-decoration: none;
 	line-height: 1.3;
 }
 
 .cdw-store-status-count:hover {
-	color: #135e96;
+	color: var(--wp-admin-theme-color-darker-10, #2145e6);
 	text-decoration: underline;
 }
 
@@ -889,11 +889,11 @@
 }
 
 .cdw-store-management-link:hover {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 }
 
 .cdw-store-management-link:hover .cdw-store-management-icon {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 }
 
 .cdw-store-management-icon {
@@ -911,7 +911,7 @@
 }
 
 .cdw-store-management-link:hover .cdw-store-management-external {
-	color: #2271b1;
+	color: var(--wp-admin-theme-color, #3858e9);
 }
 
 /* --------------------------------------------------------------------------
@@ -1010,7 +1010,7 @@
 }
 
 .cdw-state-option--active .cdw-state-option-dot {
-	background: #2271b1;
+	background: var(--wp-admin-theme-color, #3858e9);
 }
 
 .cdw-state-option--active {
@@ -1069,7 +1069,7 @@
 }
 
 .cdw-toggle-input:checked + .cdw-toggle-track {
-	background: #2271b1;
+	background: var(--wp-admin-theme-color, #3858e9);
 }
 
 .cdw-toggle-input:checked + .cdw-toggle-track::after {
@@ -1187,7 +1187,7 @@
 }
 
 .cdw-btn-primary {
-	background: var(--wp-admin-theme-color, #007cba);
+	background: var(--wp-admin-theme-color, #3858e9);
 	color: #fff;
 }
 
@@ -1198,8 +1198,8 @@
 
 .cdw-btn-secondary {
 	background: transparent;
-	color: var(--wp-admin-theme-color, #007cba);
-	box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color, #007cba);
+	color: var(--wp-admin-theme-color, #3858e9);
+	box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color, #3858e9);
 }
 
 .cdw-btn-secondary:hover {
@@ -1209,7 +1209,7 @@
 
 .cdw-btn-tertiary {
 	background: transparent;
-	color: var(--wp-admin-theme-color, #007cba);
+	color: var(--wp-admin-theme-color, #3858e9);
 	height: auto;
 	padding: 0;
 }

@@ -54,7 +54,11 @@ class Bootstrap {
 			return;
 		}
 
-		new Menu_Reconciler();
+		// Menu_Reconciler uses setter-injection for its splicer dep
+		// (upstream wires this via WC's DI container).
+		$reconciler = new Menu_Reconciler();
+		$reconciler->init( new Native_Rail_Splicer() );
+
 		new Assets();
 		new Section_Memory();
 		new Order_Badge();

@@ -1,17 +1,22 @@
 <?php
 /**
- * Navigation v2 bootstrap.
+ * Navigation v2 bootstrap — Future Woo adaptation.
  *
- * Registers the feature flag and, when enabled, wires up the reconciler,
- * assets, and telemetry.
+ * Upstream (WC PR #64712) wires the feature behind a `navigation_v2` flag in
+ * WooCommerce's FeaturesController. In Future Woo the feature is always-on
+ * (the whole point of the prototype is to show this nav), so we drop:
+ *  - the `woocommerce_register_feature_definitions` hook + register_feature()
+ *  - the FeaturesController check inside boot_when_enabled()
+ *  - the wc_get_container() DI calls (Future Woo doesn't share WC's container)
+ *  - the Telemetry instantiation (no Tracks in the prototype)
+ *
+ * The `init` priority 20 hook is preserved — Menu_Reconciler needs its
+ * admin_menu hook registered before WordPress fires admin_menu.
  */
 
 declare( strict_types = 1 );
 
 namespace FutureWoo\Vendor\NestedNav;
-
-use Automattic\WooCommerce\Enums\FeaturePluginCompatibility;
-use Automattic\WooCommerce\Internal\Features\FeaturesController;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -23,7 +28,7 @@ class Bootstrap {
 	public const FEATURE_ID = 'navigation_v2';
 
 	/**
-	 * Wire the feature registration.
+	 * Wire the boot hook.
 	 *
 	 * `boot_when_enabled` runs on `init` (not `admin_init`) because WordPress
 	 * fires `admin_menu` *before* `admin_init` in the admin request lifecycle.
@@ -32,40 +37,16 @@ class Bootstrap {
 	 * would never run.
 	 */
 	public function __construct() {
-		add_action( 'woocommerce_register_feature_definitions', array( $this, 'register_feature' ) );
 		add_action( 'init', array( $this, 'boot_when_enabled' ), 20 );
 	}
 
 	/**
-	 * Register the feature in the FeaturesController.
+	 * Instantiate the reconciler, assets, section memory, and order badge.
+	 * Each registers its own hooks. We use direct `new` instead of the WC DI
+	 * container — these classes have no constructor dependencies that need
+	 * injection.
 	 *
-	 * @param FeaturesController $controller Controller instance.
-	 */
-	public function register_feature( FeaturesController $controller ): void {
-		$controller->add_feature_definition(
-			self::FEATURE_ID,
-			__( 'Nested admin navigation', 'woocommerce' ),
-			array(
-				'description'                  => __(
-					'Move all WooCommerce menu items under a single top-level item.',
-					'woocommerce'
-				),
-				'is_experimental'              => true,
-				'enabled_by_default'           => false,
-				'disable_ui'                   => false,
-				'default_plugin_compatibility' => FeaturePluginCompatibility::COMPATIBLE,
-			)
-		);
-	}
-
-	/**
-	 * When the flag is enabled, instantiate the reconciler, assets, and
-	 * telemetry. Each of those classes registers its own hooks.
-	 *
-	 * Called on `init` priority 20 so Menu_Reconciler's admin_menu hook lands
-	 * before WordPress fires admin_menu (see constructor note).
-	 *
-	 * Spec §8: multisite network admin always uses the native rail — we bail
+	 * Spec §8: multisite network admin always uses the native rail — bail
 	 * before any hook registration in that context.
 	 */
 	public function boot_when_enabled(): void {
@@ -73,16 +54,9 @@ class Bootstrap {
 			return;
 		}
 
-		$controller = wc_get_container()->get( FeaturesController::class );
-		if ( ! $controller->feature_is_enabled( self::FEATURE_ID ) ) {
-			return;
-		}
-
-		$container = wc_get_container();
-		$container->get( Menu_Reconciler::class );
-		$container->get( Assets::class );
-		$container->get( Telemetry::class );
-		$container->get( Section_Memory::class );
-		$container->get( Order_Badge::class );
+		new Menu_Reconciler();
+		new Assets();
+		new Section_Memory();
+		new Order_Badge();
 	}
 }

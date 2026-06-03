@@ -150,18 +150,25 @@ JS;
 			return;
 		}
 
-		$version = defined( 'WC_VERSION' ) ? WC_VERSION : '1.0.0';
+		// Future Woo adaptation: serve assets from Future Woo's plugin dir
+		// rather than WC's. WAR_URL is defined in woo-admin-revamp.php.
+		// Asset filenames also adapted: the upstream PR ships under
+		// `assets/css/admin-navigation-v2.css` + `assets/js/admin/admin-navigation-v2.js`;
+		// in this plugin they live at `assets/css/nested-nav.css` +
+		// `assets/js/nested-nav.js`.
+		$version = defined( 'WAR_VERSION' ) ? WAR_VERSION : '1.0.0';
+		$base    = defined( 'WAR_URL' ) ? WAR_URL : plugin_dir_url( dirname( __DIR__, 2 ) . '/woo-admin-revamp.php' );
 
 		wp_enqueue_style(
 			self::STYLE_HANDLE,
-			WC()->plugin_url() . '/assets/css/admin-navigation-v2.css',
+			$base . 'assets/css/nested-nav.css',
 			array( 'admin-menu' ),
 			$version
 		);
 
 		wp_enqueue_script(
 			self::SCRIPT_HANDLE,
-			WC()->plugin_url() . '/assets/js/admin/admin-navigation-v2.js',
+			$base . 'assets/js/nested-nav.js',
 			// `common` declared as a dep so WP's hoverIntent binding on
 			// `li.wp-has-submenu` runs before our DOM-ready handler — our
 			// injectNativeCascade() unbinds those hover handlers on the

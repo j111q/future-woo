@@ -8,7 +8,7 @@
 
 declare( strict_types = 1 );
 
-namespace Automattic\WooCommerce\Internal\Admin\Navigation;
+namespace FutureWoo\Vendor\NestedNav;
 
 use Automattic\WooCommerce\Enums\FeaturePluginCompatibility;
 use Automattic\WooCommerce\Internal\Features\FeaturesController;

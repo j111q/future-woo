@@ -10,7 +10,7 @@
 
 declare( strict_types = 1 );
 
-namespace Automattic\WooCommerce\Internal\Admin\Navigation;
+namespace FutureWoo\Vendor\NestedNav;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -5,3 +5,6 @@ node_modules/
 .env.*
 .vscode/
 .idea/
+
+# AI verification artifacts (chrome-devtools screenshots, etc.) — not part of the deliverable.
+.screenshots/

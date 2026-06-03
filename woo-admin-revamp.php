@@ -147,6 +147,15 @@ require_once WAR_PATH . 'includes/class-stats-widget.php';
 require_once WAR_PATH . 'includes/class-store-status-widget.php';
 require_once WAR_PATH . 'includes/class-store-management-widget.php';
 
+// --- Vendored: nested admin navigation (from WC PR #64712) ---
+// See includes/vendor/nested-nav/README.md for provenance + adaptations.
+// Manual require loop because the plugin has no PSR-4 autoloader.
+foreach ( glob( WAR_PATH . 'includes/vendor/nested-nav/*.php' ) as $war_nested_nav_file ) {
+	require_once $war_nested_nav_file;
+}
+unset( $war_nested_nav_file );
+new \FutureWoo\Vendor\NestedNav\Bootstrap();
+
 // --- Hook registration ---
 
 // AJAX handlers and state switcher always load (so you can toggle the plugin back on).

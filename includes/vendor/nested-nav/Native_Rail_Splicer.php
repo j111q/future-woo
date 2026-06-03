@@ -519,10 +519,17 @@ class Native_Rail_Splicer {
 			// in the DOM; preserving it keeps them working once nav-v2 has
 			// rebuilt the rail.
 			$hookname     = 'toplevel_page_' . self::css_slug( $slug );
+			// Future Woo adaptation: respect `url` override from the
+			// woocommerce_admin_menu_tree filter. Upstream uses $slug here, which
+			// WP renders as `admin.php?page=<slug>`. With an override (e.g.
+			// 'admin.php?page=war-store-dashboard' for the Home item), use that
+			// URL directly so WP renders the right href. This is required for
+			// Future Woo to wire its own surfaces into Beau's rail.
+			$url          = isset( $node['url'] ) ? (string) $node['url'] : $slug;
 			$menu[ $key ] = array(
 				$title,
 				$cap,
-				$slug,
+				$url,
 				$title,
 				'menu-top wc-nav-v2-item ' . $hookname,
 				$hookname,

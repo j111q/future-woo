@@ -6,12 +6,13 @@ These files are vendored from [woocommerce/woocommerce#64712](https://github.com
 
 ## Future Woo adaptations applied
 
-Three edits separate these vendored files from Beau's upstream:
+Five edits separate these vendored files from Beau's upstream:
 
 1. **Namespace** renamed `Automattic\WooCommerce\Internal\Admin\Navigation` → `FutureWoo\Vendor\NestedNav` to avoid collision once upstream merges.
-2. **`Bootstrap.php`** — feature-flag check removed (Future Woo = always-on), `wc_get_container()` calls replaced with direct `new` instantiation (no DI container outside WC), feature definition registration removed (no UI toggle).
+2. **`Bootstrap.php`** — feature-flag check removed (Future Woo = always-on), `wc_get_container()` calls replaced with direct `new` instantiation (no DI container outside WC), feature definition registration removed (no UI toggle). Also: Menu_Reconciler's setter-injected dependency is wired manually (`$reconciler->init( new Native_Rail_Splicer() )`).
 3. **`Assets.php`** — `WC()->plugin_url()` replaced with `WAR_URL` so the JS/CSS resolve to Future Woo's plugin directory.
 4. **`Telemetry.php`** — deleted entirely. The prototype doesn't need Tracks.
+5. **`Native_Rail_Splicer.php::insert_woo_roots`** — respect the `url` override on tree nodes when writing `$menu[$key][2]`. Upstream uses the slug directly (yielding `admin.php?page=<slug>`), which means the `woocommerce_admin_menu_tree` filter's `url` override is consulted for some code paths but NOT for top-level rail item hrefs. The fix is a 1-line `$url = $node['url'] ?? $slug;` swap. Required so Future Woo can wire its own surfaces (the Store Dashboard at `war-store-dashboard`, etc.) into Beau's rail via the documented filter. Worth raising upstream as a small consistency fix.
 
 ## Companion assets
 

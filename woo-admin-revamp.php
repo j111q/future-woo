@@ -156,6 +156,10 @@ foreach ( glob( WAR_PATH . 'includes/vendor/nested-nav/*.php' ) as $war_nested_n
 unset( $war_nested_nav_file );
 new \FutureWoo\Vendor\NestedNav\Bootstrap();
 
+// --- Future Woo's customization of the vendored nav tree ---
+require_once WAR_PATH . 'includes/class-nav-tree-customizer.php';
+WAR_Nav_Tree_Customizer::init();
+
 // --- Hook registration ---
 
 // AJAX handlers and state switcher always load (so you can toggle the plugin back on).
@@ -193,17 +197,12 @@ add_action( 'admin_init', function() {
 	if ( WAR_Admin_Experience_API::is_store_menu_enabled() ) {
 		WAR_Admin_Bar_Menu::init();
 	}
-	// Only register our widgets on WP dashboard if "default to store" is off.
-	// When on, widgets live on the Store Dashboard page instead.
-	if ( ! WAR_Admin_Experience_API::is_default_to_store() ) {
-		add_action( 'wp_dashboard_setup', 'cdw_register_widgets' );
-	}
-	// Always remove WooCommerce's default dashboard widgets (ours replace them).
-	add_action( 'wp_dashboard_setup', function() {
-		remove_meta_box( 'woocommerce_dashboard_status', 'dashboard', 'normal' );
-		remove_meta_box( 'wc_admin_dashboard_setup', 'dashboard', 'normal' );
-		remove_meta_box( 'woocommerce_dashboard_recent_reviews', 'dashboard', 'normal' );
-	}, 99 );
+	// Note: previously, when "default to store" was OFF, Future Woo's
+	// Store widgets were injected into the WP Dashboard. Removed — the WP
+	// Dashboard should stay clean WP. The Store widgets are still rendered
+	// on the war-store-dashboard page (see class-store-dashboard.php), now
+	// reachable via the WooCommerce rail's "Home" item.
+	// cdw_register_widgets() function below also removed for the same reason.
 
 	add_filter( 'get_user_option_screen_layout_dashboard', 'cdw_force_four_columns' );
 	add_filter( 'get_user_option_meta-box-order_dashboard', 'cdw_force_widget_position' );
@@ -409,24 +408,6 @@ function cdw_force_widget_position( $order ) {
 
 	return $order;
 }
-
-// --- Dashboard widgets ---
-
-function cdw_register_widgets() {
-	remove_meta_box( 'woocommerce_dashboard_status', 'dashboard', 'normal' );
-	remove_meta_box( 'wc_admin_dashboard_setup', 'dashboard', 'normal' );
-
-	// CDW_State_Switcher FAB is now handled by WAR_Unified_State_Switcher.
-	// Body class for redesign is registered globally (see top of file).
-
-	CDW_Woo_Inbox_Widget::register();
-	CDW_Whats_Next_Widget::register();
-	CDW_Woo_Setup_Widget::register();
-	CDW_Stats_Widget::register();
-	CDW_Store_Status_Widget::register();
-	CDW_Store_Management_Widget::register();
-}
-
 
 // --- WooCommerce page access fixes ---
 

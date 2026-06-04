@@ -585,7 +585,7 @@ class WAR_Custom_Header {
 					'wc-reports'          => __( 'Reports', 'woo-admin-revamp' ),
 					'wc-status'           => __( 'Status', 'woo-admin-revamp' ),
 					'wc-addons'           => __( 'Extensions', 'woo-admin-revamp' ),
-					'war-store-dashboard' => __( 'Dashboard', 'woo-admin-revamp' ),
+					'war-store-dashboard' => __( 'Home', 'woo-admin-revamp' ),
 				);
 
 				if ( ! $title && isset( $other_titles[ $page ] ) ) {

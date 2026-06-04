@@ -38,6 +38,14 @@
 	padding-left: 0 !important;
 }
 
+/* Match core Woo's near-white page background instead of WP's default grey.
+   Same source as the gutter fix: core Woo sets this via its body classes,
+   which `war-*` pages don't get. Reuse the header's token so the page and
+   the header bar stay the same colour. No-op on core Woo pages. */
+body {
+	background-color: var( --war-page-bg, #fcfcfc ) !important;
+}
+
 /* Remove ALL top margin/padding WooCommerce adds for its hidden header */
 .woocommerce-layout__primary,
 .woocommerce-layout,

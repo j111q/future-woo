@@ -44,6 +44,47 @@ You're being asked to add to or modify the Future Woo plugin (this repo, `future
 5. **Wire it into the State Switcher** if the screen has demo data. The pattern: read `get_option('war_global_state')`, render different content per state. Optionally add per-screen toggles in your class if the screen has its own iteration variants.
 6. **Update the README's "What it demonstrates" list** so anyone scanning the repo knows the surface exists.
 
+## Vendoring upstream WC design work
+
+When you're integrating an in-flight design project from `woocommerce/woocommerce` (or any other Woo plugin) into Future Woo — e.g. an open PR you want to preview, a branch with a new UI experiment — follow these four rules. Each one is here because skipping it caused a real bug during the WC PR #64712 ("nested admin nav") integration.
+
+### 1. Grep for pre-existing implementations first
+
+Before you copy a single file, search the plugin for existing implementations of the same pattern. Open `includes/` and `assets/` and grep for the most obvious terms — for a nav project, that's `nav`, `rail`, `drilldown`, `menu_order`, `parent_file`, `admin_menu`. For a settings project: `settings`, `tabs`, `fields`. For a dashboard project: `wp_dashboard_setup`, `wp_add_dashboard_widget`.
+
+If you find an existing mechanism that does roughly what you're vendoring: surface it explicitly. **Don't layer.** Two parallel implementations of the same thing on the same page produces invisible bugs (one wins visually, the other is silently loaded and does invisible work). Either retire the existing one in the same commit, or pick a different integration approach.
+
+Precedent: WC PR #64712 vendoring shipped on top of an undocumented `cdw_*` Woo-rail drilldown already in the plugin. The two coexisted invisibly until a toggle-off test exposed it. ~375 lines of dead code stayed live for hours.
+
+### 2. Test in isolation before claiming success
+
+After wiring up the vendored code, **disable it temporarily** and reload the page. If the page looks the same, the vendored code is doing nothing visible — your "success" is something else doing the work.
+
+Concretely: comment out the bootstrap call (`new \FutureWoo\Vendor\X\Bootstrap();`), reload, screenshot. Then uncomment, reload, screenshot. Diff the screenshots. If they're identical, debug before celebrating.
+
+This is non-negotiable for any vendored integration. The lure of "the CSS/JS file is loading, so it must be working" is strong and wrong.
+
+### 3. DI-injected dependencies don't survive naïve `new`
+
+WC's container instantiates classes and injects dependencies via setter methods. When you replace `wc_get_container()->get(Foo::class)` with plain `new Foo()`, you skip the setter injection. The class may load without error and only crash later when an injected property is dereferenced.
+
+Audit signal: any class with a `final public function init( SomeDep $dep )` (or similar) is using setter injection. Replicate the wiring manually in Bootstrap:
+
+```php
+$foo = new Foo();
+$foo->init( new SomeDep() );
+```
+
+Precedent: `Menu_Reconciler->init( Native_Rail_Splicer $splicer )` in PR #64712. Skipping the setter caused a fatal on plugin activation that only fired when the `admin_menu` action ran — three layers removed from the initial bootstrap.
+
+### 4. Tree-data overrides aren't always honored at every render point
+
+Some upstream extension points are advertised as supporting overrides (a `url` field on a tree node, a `capability` filter, etc.) but the implementation only respects the override in *some* code paths, not all. When extending an upstream system: probe the actual rendered output with `evaluate_script` (or browser DevTools) to confirm your override survived all the way to the DOM.
+
+If a documented override doesn't work at one render point, a 1-line vendored-code edit is acceptable. Document it in `includes/vendor/<name>/README.md` as a numbered adaptation, and consider raising it upstream as a small consistency fix.
+
+Precedent: Beau's `woocommerce_admin_menu_tree` filter respected `url` overrides for child entries and current-page highlighting, but `insert_woo_roots()` ignored it for top-level rail items. Adaptation #5 in `includes/vendor/nested-nav/README.md` is the 1-line fix.
+
 ## How to redesign an existing surface
 
 1. Find the surface in the table above. Read the PHP class + any associated React entry.
@@ -74,6 +115,8 @@ After CSS changes in `assets/css/`: also just reload.
 - **Hand-drawn SVG icons.** Don't. Won't match the system. If `@wordpress/icons` doesn't have it, flag it and propose adding upstream.
 - **Adding new `*` versions to package.json deps.** Don't. We pin to caret ranges so the build is reproducible. Match an existing pinned version pattern.
 - **Touching production-code patterns.** This is a prototype — the rules here are looser than what would ship in production Woo. If you find yourself thinking "this would never pass code review in `woocommerce/woocommerce`," that's expected. The reverse is *not* true: anything you copy from here into production needs the rules in `docs/design-principles.md` § "This is a prototype" applied.
+- **Vendoring upstream without auditing first.** See the four-rule section above. The shortest version: (1) grep for pre-existing implementations, (2) toggle-test before celebrating, (3) replicate DI setter chains, (4) probe the rendered DOM to confirm overrides survived.
+- **Skipping the verify step.** "I shipped it, didn't get a 500" is not verification. Open the page, screenshot it, and compare to what you expected. For React or DOM-injection work, also check `evaluate_script` output for the markers your code should produce.
 
 ## When you finish
 

@@ -82,6 +82,24 @@ This plugin is a designer's vision of where Woo could go. It is **not** the righ
 3. **When hiding wp-admin chrome** (`#screen-meta-links`, the admin bar, the screen-options panel): in production, hide the specific standard *children* with the visually-hidden pattern; never hide the parent. Hosts and power-user installs inject sibling buttons there more than popular-plugin samples suggest. This plugin uses `display: none !important` in places — that's prototype-tolerable but **not** what you'd ship.
 4. **New self-contained JS:** prefer vanilla JS over jQuery (modifications inside existing jQuery functions can stay jQuery for consistency).
 
+## Defaults coupled to architecture
+
+When a plugin's default behavior depends on a sibling system, those defaults are *coupled* to that system. When the sibling system changes — or gets replaced by something new — the defaults often become wrong. They don't generate errors; they just silently produce the wrong UX.
+
+**Rule:** When you add a feature to Future Woo whose default depends on the presence (or absence) of another feature, document the coupling explicitly in a code comment, and revisit it whenever the sibling feature is added, removed, or replaced.
+
+Precedent: the plugin had a `war_default_to_store` option that defaulted to `'yes'`, meaning `/wp-admin/index.php` redirected to a separate Future Woo dashboard page. That default was reasonable when there was no other entry point to the Woo dashboard. After the vendored nested-nav from WC PR #64712 landed (giving the Woo dashboard its own top-level rail item), the default became wrong — clicking the WP "Dashboard" menu silently took you to the Woo dashboard, which violates the cleaner separation the nested nav exists to provide. The fix was a 1-line default flip (`'yes'` → `'no'`), but the bug was invisible until a designer noticed the wrong page loading.
+
+**Common couplings worth watching in this plugin:**
+
+- **Dashboard widgets** — Future Woo's Store widgets used to be conditionally injected into the WP Dashboard. Now they live only on `war-store-dashboard`. If you add a new widget, default it to the Store Dashboard, not WP Dashboard.
+- **Menu redirects** — any `load-<page>.php` hook that redirects somewhere else is coupled to whichever navigation mechanism is currently canonical. Document the coupling in the redirect function's docblock.
+- **"Default to X" toggles** — toggles that decide where a user lands by default need to be revisited when the navigation that exposes those landing points changes shape.
+
+When in doubt: prefer **separation** over **fusion**. WP stuff in WP, Woo stuff in Woo. The State Switcher and Beau's nested nav both make this explicit; defaults should match.
+
+---
+
 ## References
 
 - [WP 7.0 Field Guide](https://make.wordpress.org/core/2026/05/14/wordpress-7-0-field-guide/) — the release that made Modern the default admin scheme

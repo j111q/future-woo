@@ -16,9 +16,6 @@ class CDW_State_Switcher {
 	/** User-meta key that stores the active dev state override. */
 	const DEV_STATE_KEY = 'cdw_dev_state';
 
-	/** User-meta key that stores the redesign toggle. */
-	const DEV_REDESIGN_KEY = 'cdw_dev_redesign';
-
 	/** User-meta key that stores the modern-settings toggle. */
 	const DEV_MODERN_SETTINGS_KEY = 'cdw_dev_modern_settings';
 
@@ -28,14 +25,6 @@ class CDW_State_Switcher {
 		}
 
 		add_action( 'admin_footer',     array( __CLASS__, 'render_fab' ) );
-		add_filter( 'admin_body_class', array( __CLASS__, 'add_body_class' ) );
-	}
-
-	public static function add_body_class( string $classes ): string {
-		if ( self::get_redesign_active() ) {
-			$classes .= ' cdw-redesign';
-		}
-		return $classes;
 	}
 
 	// -------------------------------------------------------------------------
@@ -83,20 +72,6 @@ class CDW_State_Switcher {
 					<button id="cdw-restore-inbox-btn" type="button" class="button button-small" style="width:100%;">
 						<?php esc_html_e( 'Restore all inbox notices', 'custom-dashboard-widgets' ); ?>
 					</button>
-				</div>
-				<div style="border-top:1px solid #f0f0f1;padding:8px 14px;">
-					<label class="cdw-toggle-row" for="cdw-redesign-toggle-btn">
-						<span class="cdw-toggle-label"><?php esc_html_e( 'New design', 'custom-dashboard-widgets' ); ?></span>
-						<span class="cdw-toggle-switch">
-							<input
-								type="checkbox"
-								id="cdw-redesign-toggle-btn"
-								class="cdw-toggle-input"
-								<?php checked( self::get_redesign_active() ); ?>
-							>
-							<span class="cdw-toggle-track" aria-hidden="true"></span>
-						</span>
-					</label>
 				</div>
 				<div style="border-top:1px solid #f0f0f1;padding:8px 14px;">
 					<label class="cdw-toggle-row" for="cdw-modern-settings-toggle-btn">
@@ -180,24 +155,6 @@ class CDW_State_Switcher {
 		wp_send_json_success();
 	}
 
-	public static function ajax_toggle_redesign() {
-		check_ajax_referer( 'cdw_nonce', 'nonce' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error();
-		}
-
-		$user_id = get_current_user_id();
-
-		if ( self::get_redesign_active() ) {
-			delete_user_meta( $user_id, self::DEV_REDESIGN_KEY );
-		} else {
-			update_user_meta( $user_id, self::DEV_REDESIGN_KEY, '1' );
-		}
-
-		wp_send_json_success();
-	}
-
 	public static function ajax_toggle_modern_settings() {
 		check_ajax_referer( 'cdw_nonce', 'nonce' );
 
@@ -221,10 +178,6 @@ class CDW_State_Switcher {
 	public static function get_current_state(): string {
 		$state = get_user_meta( get_current_user_id(), self::DEV_STATE_KEY, true );
 		return is_string( $state ) ? $state : '';
-	}
-
-	public static function get_redesign_active(): bool {
-		return (bool) get_user_meta( get_current_user_id(), self::DEV_REDESIGN_KEY, true );
 	}
 
 	public static function get_modern_settings_active(): bool {

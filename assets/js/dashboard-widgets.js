@@ -509,24 +509,6 @@
 			} );
 		} );
 
-		$fab.on( 'change', '#cdw-redesign-toggle-btn', function ( e ) {
-			e.stopPropagation();
-			var $checkbox = $( this );
-			$checkbox.prop( 'disabled', true );
-
-			$.post( cdwData.ajaxUrl, {
-				action : 'cdw_toggle_redesign',
-				nonce  : cdwData.nonce,
-			} ).done( function ( res ) {
-				if ( res.success ) {
-					window.location.reload();
-				}
-			} ).fail( function () {
-				$checkbox.prop( 'checked', ! $checkbox.prop( 'checked' ) );
-				$checkbox.prop( 'disabled', false );
-			} );
-		} );
-
 	$fab.on( 'click', '.cdw-state-option', function () {
 			var state = $( this ).data( 'state' );
 
@@ -544,59 +526,6 @@
 			} ).fail( function () {
 				$fabBtn.prop( 'disabled', false );
 			} );
-		} );
-	}
-
-	// =========================================================================
-	// Redesign: Customize button
-	// =========================================================================
-
-	if ( $( 'body' ).hasClass( 'cdw-redesign' ) ) {
-		var $customizeBtn  = $( '<button type="button" class="cdw-btn cdw-btn-secondary cdw-customize-btn">Customize</button>' );
-		var $cancelBtn     = $( '<button type="button" class="cdw-btn cdw-btn-tertiary cdw-customize-cancel-btn">Cancel</button>' );
-		var $btnWrap       = $( '<div class="cdw-customize-btn-wrap"></div>' );
-		var savedOrder     = {};
-
-		$btnWrap.append( $cancelBtn ).append( $customizeBtn );
-		$( '.wrap h1' ).first().before( $btnWrap );
-
-		function enterCustomizeMode() {
-			// Snapshot current widget order per column.
-			savedOrder = {};
-			$( '.meta-box-sortables' ).each( function () {
-				var col = $( this ).attr( 'id' );
-				savedOrder[ col ] = $( this ).sortable( 'toArray' );
-			} );
-
-			$( 'body' ).addClass( 'cdw-customize-mode' );
-			$customizeBtn.removeClass( 'cdw-btn-secondary' ).addClass( 'cdw-btn-primary' ).text( 'Done' );
-			$cancelBtn.addClass( 'cdw-customize-cancel-btn--visible' );
-		}
-
-		function exitCustomizeMode() {
-			$( 'body' ).removeClass( 'cdw-customize-mode' );
-			$customizeBtn.removeClass( 'cdw-btn-primary' ).addClass( 'cdw-btn-secondary' ).text( 'Customize' );
-			$cancelBtn.removeClass( 'cdw-customize-cancel-btn--visible' );
-			savedOrder = {};
-		}
-
-		$customizeBtn.on( 'click', function () {
-			if ( $( 'body' ).hasClass( 'cdw-customize-mode' ) ) {
-				exitCustomizeMode();
-			} else {
-				enterCustomizeMode();
-			}
-		} );
-
-		$cancelBtn.on( 'click', function () {
-			// Restore saved widget order in the DOM.
-			$.each( savedOrder, function ( colId, order ) {
-				var $col = $( '#' + colId );
-				$.each( order, function ( i, id ) {
-					$col.append( $( '#' + id ) );
-				} );
-			} );
-			exitCustomizeMode();
 		} );
 	}
 

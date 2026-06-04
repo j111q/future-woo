@@ -446,7 +446,16 @@ class Native_Rail_Splicer {
 			}
 
 			if ( ! empty( $entries ) ) {
-				$submenu[ $slug ] = $entries;
+				// Future Woo adaptation #6: key the submenu by `$node['url'] ?? $slug`,
+				// mirroring insert_woo_roots() which writes that same value as the
+				// root's $menu slug ($entry[2]). WP core renders a root's flyout only
+				// when $submenu[<menu-item-slug>] exists — so a root carrying a `url`
+				// override (e.g. Marketing → /marketing) needs its children stored under
+				// the override, not the bare tree slug. Without this they're orphaned and
+				// the root renders as a childless leaf. No-op for non-override roots
+				// (url unset → falls back to $slug, unchanged from upstream).
+				$root_key             = isset( $node['url'] ) ? (string) $node['url'] : $slug;
+				$submenu[ $root_key ] = $entries;
 			}
 		}
 	}

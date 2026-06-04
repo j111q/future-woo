@@ -301,7 +301,7 @@ class Native_Rail_Splicer {
 			PHP_INT_MAX
 		);
 
-		$this->mark_root_current( $root );
+		$this->mark_root_current( $root, $tree );
 
 		// WP's _wp_menu_output() marks any top-level item whose $item[2]
 		// matches $plugin_page as `current`, independently of parent_file.
@@ -346,10 +346,17 @@ class Native_Rail_Splicer {
 	 *
 	 * @param string $root Active rail-root slug.
 	 */
-	private function mark_root_current( string $root ): void {
+	private function mark_root_current( string $root, array $tree = array() ): void {
 		global $menu;
+		// Future Woo adaptation #5 (companion): insert_woo_roots() now writes
+		// $entry[2] as `$node['url'] ?? $slug` (see the comment there). So the
+		// match here must use the same target — otherwise rail-root items with
+		// a `url` override never get the wp-has-current-submenu /
+		// wc-nav-v2-current-root highlight class. Pre-adaptation this was a
+		// plain $entry[2] === $root check.
+		$target = isset( $tree[ $root ]['url'] ) ? (string) $tree[ $root ]['url'] : $root;
 		foreach ( $menu as $key => $entry ) {
-			if ( ! isset( $entry[2] ) || $entry[2] !== $root ) {
+			if ( ! isset( $entry[2] ) || $entry[2] !== $target ) {
 				continue;
 			}
 			$existing = isset( $entry[4] ) ? (string) $entry[4] : '';

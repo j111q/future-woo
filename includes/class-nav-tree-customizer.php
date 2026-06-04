@@ -16,7 +16,7 @@
  *    the vendored tree-builder's auto-attach hoists nothing and Marketing shows
  *    as a childless leaf — orphaning Future Woo's vendored Campaigns page. We
  *    declare the Marketing children explicitly in the same tree filter so the
- *    rail drills down to Overview / Campaigns / Channels / Coupons.
+ *    rail drills down to Overview / Campaigns / Coupons.
  *
  * 2. Back link: the vendored splicer relabels WP's `index.php` entry to
  *    "Dashboard" and gives it a left-arrow icon, turning it into a back-to-WP
@@ -163,11 +163,7 @@ class WAR_Nav_Tree_Customizer {
 	 *
 	 * Each child is a synthetic node (`url` set) so it survives the builder's
 	 * registered-slug check regardless of how WC registered the underlying page.
-	 * Positions order them Overview → Campaigns → Channels → Coupons.
-	 *
-	 * Channels has no standalone wc-admin route (it's a section on the Marketing
-	 * Overview page), so for now it points at the overview. If a dedicated
-	 * channels view lands, repoint its `url`.
+	 * Positions order them Overview → Campaigns → Coupons.
 	 *
 	 * Idempotent: keyed by slug, and any pre-existing marketing child with a
 	 * matching title is dropped first, so this stays correct if WC ever does
@@ -196,16 +192,9 @@ class WAR_Nav_Tree_Customizer {
 				'position' => 2,
 				'url'      => 'admin.php?page=wc-admin&path=/marketing/campaigns',
 			),
-			// No standalone channels route yet — point at the overview, where the
-			// channels card lives. Repoint if a dedicated view ships.
-			'wc-admin&path=/marketing/channels'  => array(
-				'title'    => __( 'Channels', 'woo-admin-revamp' ),
-				'position' => 3,
-				'url'      => 'admin.php?page=wc-admin&path=/marketing',
-			),
 			'edit.php?post_type=shop_coupon'     => array(
 				'title'    => __( 'Coupons', 'woo-admin-revamp' ),
-				'position' => 4,
+				'position' => 3,
 				'url'      => 'edit.php?post_type=shop_coupon',
 			),
 		);

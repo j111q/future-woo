@@ -15,6 +15,7 @@
 - **Orders list** — DataViews-powered list view replacing the default WC orders table.
 - **Modern Settings pages** — General, Products, Account, Tax, Site Visibility, and Advanced rendered as React cards using `@wordpress/components` and `@wordpress/ui` instead of the legacy PHP forms. Some field types still fall back to legacy PHP — see [`docs/migration-map.md`](docs/migration-map.md) for the inventory.
 - **Shipping setup** — a custom zones + pickup + operations UI replacing the WC Settings → Shipping tab.
+- **Multichannel Campaigns** — a Marketing → Campaigns page that elevates WooCommerce's existing cross-channel campaign concept into a dedicated experience: a DataViews list with KPI rollup tiles and overlapping channel-chip stacks, a three-panel create flow, and a REST-loaded detail view with progress-to-goal, per-channel performance, and an activity feed. Single-channel campaigns surface here too, each with one channel chip. Vendored from the standalone `multichannel-campaigns` prototype.
 - **Store admin bar menu** — a top-bar dropdown with Orders, Products, Inbox (side drawer), Store Setup progress, and a live / coming-soon toggle.
 - **Global State Switcher** — a floating action button ("States") that toggles the entire admin between three demo states: *new store*, *store being set up*, *active store*. Switching creates / deletes demo products and orders and updates related settings so every screen reflects the chosen state consistently.
 

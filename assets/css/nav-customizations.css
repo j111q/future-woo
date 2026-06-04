@@ -41,3 +41,40 @@
 #adminmenu li.menu-top.war-rail-back > a:focus {
 	opacity: 1;
 }
+
+/* Rail submenu hover / select states.
+ *
+ * The dark rail overrides resting submenu colors but leaves WP core's "Modern"
+ * scheme in charge of :hover / .current, so hovering a submenu child bled the
+ * admin-blue through three ways: periwinkle text (#7b90ff), a 4px blue inset
+ * left bar (box-shadow), and — because each child sits inside its root <li> —
+ * a solid-blue wash over the whole current-root row. The effect is most obvious
+ * on the Marketing drilldown but applies to every section (Analytics, Settings,
+ * …) identically; WP core's selectors aren't section-specific. Normalize all of
+ * them to the rail's own palette so the states read consistently: white text, a
+ * subtle translucent hover fill, no left bar, no blue wash.
+ *
+ * !important is needed because WP core's color-scheme rules are long, highly
+ * specific selector chains; out-specifying them by hand would be brittle.
+ */
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus,
+#adminmenu .wp-submenu li.current > a,
+#adminmenu .wp-submenu li.current > a:hover,
+#adminmenu .wp-submenu li.current > a:focus {
+	color: #fff !important;
+	box-shadow: none !important;
+}
+
+#adminmenu .wp-submenu li > a:hover,
+#adminmenu .wp-submenu li > a:focus {
+	background-color: rgba( 255, 255, 255, 0.08 ) !important;
+	border-radius: 4px;
+}
+
+/* Hovering a submenu child (or the root link) shouldn't wash the active
+ * section's whole row solid blue — it already reads as active. Keep it stable. */
+#adminmenu li.menu-top.wc-nav-v2-current-root:hover,
+#adminmenu li.menu-top.wc-nav-v2-current-root.opensub {
+	background-color: transparent !important;
+}

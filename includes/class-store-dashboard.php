@@ -2,9 +2,9 @@
 /**
  * Store Dashboard — a WooCommerce-focused dashboard page.
  *
- * When "Open WooCommerce by default" is enabled, this page replaces the
- * WordPress dashboard as the landing page. It renders only store-related
- * widgets using the same layout system as core WP dashboard.
+ * This is Future Woo's "Home" (the rail's Home item points here). It renders
+ * only store-related widgets using the same layout system as the core WP
+ * dashboard.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,10 +15,6 @@ class WAR_Store_Dashboard {
 
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_page' ) );
-
-		if ( WAR_Admin_Experience_API::is_default_to_store() ) {
-			add_action( 'load-index.php', array( __CLASS__, 'maybe_redirect' ) );
-		}
 	}
 
 	public static function register_page() {
@@ -83,28 +79,6 @@ class WAR_Store_Dashboard {
 		) );
 	}
 
-	public static function maybe_redirect() {
-		global $pagenow;
-		if ( $pagenow !== 'index.php' ) {
-			return;
-		}
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_GET['wp-dashboard'] ) ) {
-			return;
-		}
-
-		if ( wp_doing_ajax() || defined( 'REST_REQUEST' ) ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			return;
-		}
-
-		wp_safe_redirect( admin_url( 'admin.php?page=war-store-dashboard' ) );
-		exit;
-	}
 
 	/**
 	 * Render the Store Dashboard with responsive columns.

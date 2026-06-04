@@ -131,12 +131,10 @@ add_action( 'admin_init', function() {
 	update_option( 'war_initial_cleanup_done', '1' );
 }, 0 );
 
-// Register empty states only when plugin is enabled (deferred to admin_init so user is loaded).
+// Register empty states (deferred to admin_init so the user is loaded).
 add_action( 'admin_init', function() {
-	if ( WAR_Unified_State_Switcher::is_plugin_enabled() ) {
-		WAR_Orders_Empty_State::register();
-		WAR_Products_Empty_State::register();
-	}
+	WAR_Orders_Empty_State::register();
+	WAR_Products_Empty_State::register();
 }, 0 );
 
 // Dashboard widgets.
@@ -162,12 +160,9 @@ WAR_Nav_Tree_Customizer::init();
 
 // --- Hook registration ---
 
-// AJAX handlers and state switcher always load (so you can toggle the plugin back on).
+// AJAX handlers and the demo state switcher.
 add_action( 'init', 'war_register_all_ajax' );
 add_action( 'admin_init', array( 'WAR_Unified_State_Switcher', 'register' ) );
-
-// Redesign body class must load on all admin pages (not just wp_dashboard_setup).
-add_filter( 'admin_body_class', array( 'CDW_State_Switcher', 'add_body_class' ) );
 
 // Store Dashboard must register early (admin_menu fires before admin_init).
 WAR_Store_Dashboard::init();
@@ -177,21 +172,14 @@ add_action( 'plugins_loaded', function() {
 	if ( ! class_exists( 'WooCommerce', false ) ) {
 		return;
 	}
-	// Can't check is_plugin_enabled() here (no user yet), so always init shipping.
-	// The body class and render hooks are harmless when the plugin is "disabled"
-	// because the CSS/JS won't be enqueued.
 	\WAR\Shipping_Setup_Admin::init();
 	\WAR\Shipping_Zones_API::init();
 	\WAR\Shipping_Pickup_API::init();
 	\WAR\Shipping_Operations_API::init();
 } );
 
-// All other hooks only run when the plugin is enabled.
+// Future Woo's admin surfaces.
 add_action( 'admin_init', function() {
-	if ( ! WAR_Unified_State_Switcher::is_plugin_enabled() ) {
-		return;
-	}
-
 	CDW_WC_Settings_Modern::init();
 	new WAR_Order_Page();
 	if ( WAR_Admin_Experience_API::is_store_menu_enabled() ) {
@@ -253,14 +241,8 @@ function war_register_all_ajax() {
 	// CDW: Orders state switcher.
 	add_action( 'wp_ajax_cdw_orders_set_state',      array( 'CDW_Orders_State_Switcher', 'ajax_set_state' ) );
 
-	// CDW: Redesign toggle.
-	add_action( 'wp_ajax_cdw_toggle_redesign',       array( 'CDW_State_Switcher', 'ajax_toggle_redesign' ) );
-
 	// Products state switcher.
 	add_action( 'wp_ajax_war_products_set_state',    array( 'WAR_Products_State_Switcher', 'ajax_set_state' ) );
-
-	// Plugin enable/disable toggle.
-	add_action( 'wp_ajax_war_toggle_plugin',         array( 'WAR_Unified_State_Switcher', 'ajax_toggle_plugin' ) );
 
 	// Admin experience toggles.
 	add_action( 'wp_ajax_war_toggle_admin_experience', array( 'WAR_Unified_State_Switcher', 'ajax_toggle_admin_experience' ) );

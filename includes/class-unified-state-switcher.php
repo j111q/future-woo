@@ -38,53 +38,8 @@ class WAR_Unified_State_Switcher {
 		) );
 	}
 
-	/**
-	 * Determine which state group applies to the current page.
-	 * Returns: 'dashboard', 'orders', 'order_page', or '' (no states).
-	 */
-	private static function get_current_context(): string {
-		$screen = get_current_screen();
-		if ( ! $screen ) {
-			return '';
-		}
-
-		// Dashboard (WP dashboard, WooCommerce Home, or Store Dashboard).
-		if (
-			$screen->id === 'dashboard'
-			|| $screen->id === 'woocommerce_page_wc-admin'
-			|| false !== strpos( $screen->id, 'war-store-dashboard' )
-		) {
-			return 'dashboard';
-		}
-
-		// Orders list page (not individual order edit).
-		if ( $screen->id === 'woocommerce_page_wc-orders' ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$action = isset( $_GET['action'] ) ? sanitize_key( $_GET['action'] ) : '';
-			if ( $action !== 'edit' ) {
-				return 'orders';
-			}
-			return '';
-		}
-
-		// Products list page.
-		if ( $screen->id === 'edit-product' || ( $screen->base === 'edit' && $screen->post_type === 'product' ) ) {
-			return 'products';
-		}
-
-		return '';
-	}
-
 	public static function render_fab() {
-		$context = self::get_current_context();
 		$global_state = WAR_Global_State_Manager::get_state();
-		$is_dashboard = ( $context === 'dashboard' );
-
-		$plugin_enabled = get_user_meta( get_current_user_id(), 'war_plugin_enabled', true );
-		if ( $plugin_enabled === '' ) {
-			$plugin_enabled = '1';
-		}
-		$is_enabled = ( $plugin_enabled === '1' );
 
 		// Global states with descriptions.
 		$global_states = array(
@@ -106,18 +61,6 @@ class WAR_Unified_State_Switcher {
 		?>
 		<div id="war-unified-fab" class="war-state-fab">
 			<div id="war-unified-menu" class="war-state-menu" hidden>
-				<!-- Plugin toggle -->
-				<div style="padding:12px 16px;border-bottom:1px solid #f0f0f1;">
-					<label class="war-toggle-row" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
-						<span style="font-size:13px;font-weight:600;color:#1d2327;"><?php esc_html_e( 'Admin revamp', 'woo-admin-revamp' ); ?></span>
-						<span class="war-toggle-switch">
-							<input type="checkbox" id="war-plugin-toggle" class="war-toggle-input"
-								<?php checked( $is_enabled ); ?>>
-							<span class="war-toggle-track" aria-hidden="true"></span>
-						</span>
-					</label>
-				</div>
-
 				<!-- Global store state -->
 				<p class="war-state-menu-label"><?php esc_html_e( 'Store state', 'woo-admin-revamp' ); ?></p>
 				<ul class="war-state-menu-list">
@@ -142,17 +85,6 @@ class WAR_Unified_State_Switcher {
 				<div style="border-top:1px solid #f0f0f1;padding:4px 0;">
 					<p class="war-state-menu-label"><?php esc_html_e( 'Admin experience', 'woo-admin-revamp' ); ?></p>
 					<div style="padding:4px 16px 8px;">
-						<label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:8px;" for="war-default-store-toggle">
-							<span>
-								<span style="font-size:13px;display:block;"><?php esc_html_e( 'Open WooCommerce by default', 'woo-admin-revamp' ); ?></span>
-								<span style="font-size:11px;color:#757575;display:block;"><?php esc_html_e( 'Open admin into a WooCommerce dashboard with store widgets.', 'woo-admin-revamp' ); ?></span>
-							</span>
-							<span class="war-toggle-switch">
-								<input type="checkbox" id="war-default-store-toggle" class="war-toggle-input"
-									<?php checked( WAR_Admin_Experience_API::is_default_to_store() ); ?>>
-								<span class="war-toggle-track" aria-hidden="true"></span>
-							</span>
-						</label>
 						<label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" for="war-store-menu-toggle">
 							<span>
 								<span style="font-size:13px;display:block;"><?php esc_html_e( 'Show Store menu in top bar', 'woo-admin-revamp' ); ?></span>
@@ -166,27 +98,6 @@ class WAR_Unified_State_Switcher {
 						</label>
 					</div>
 				</div>
-
-				<?php if ( $is_dashboard ) : ?>
-				<!-- Dashboard-specific options -->
-				<div style="border-top:1px solid #f0f0f1;padding:4px 0;">
-					<p class="war-state-menu-label"><?php esc_html_e( 'Dashboard', 'woo-admin-revamp' ); ?></p>
-					<div style="padding:4px 16px 8px;">
-						<label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:8px;" for="war-redesign-toggle">
-							<span>
-								<span style="font-size:13px;display:block;"><?php esc_html_e( 'New design', 'woo-admin-revamp' ); ?></span>
-								<span style="font-size:11px;color:#757575;display:block;"><?php esc_html_e( 'Switch to the redesigned dashboard layout.', 'woo-admin-revamp' ); ?></span>
-							</span>
-							<span class="war-toggle-switch">
-								<input type="checkbox" id="war-redesign-toggle" class="war-toggle-input"
-									<?php checked( CDW_State_Switcher::get_redesign_active() ); ?>>
-								<span class="war-toggle-track" aria-hidden="true"></span>
-							</span>
-						</label>
-
-					</div>
-				</div>
-				<?php endif; ?>
 			</div>
 
 			<button id="war-unified-fab-btn"
@@ -222,41 +133,12 @@ class WAR_Unified_State_Switcher {
 					.fail(function(){ done(); });
 			}
 
-			if (t.id === 'war-redesign-toggle') {
-				post({action:'cdw_toggle_redesign', nonce:<?php echo wp_json_encode( wp_create_nonce( 'cdw_nonce' ) ); ?>});
-			} else if (t.id === 'war-plugin-toggle') {
-				post({action:'war_toggle_plugin', nonce:<?php echo wp_json_encode( wp_create_nonce( 'war_nonce' ) ); ?>, enabled: t.checked ? '1' : '0'});
-			} else if (t.id === 'war-default-store-toggle' || t.id === 'war-store-menu-toggle') {
-				var map = {'war-default-store-toggle':'war_default_to_store','war-store-menu-toggle':'war_show_store_menu'};
-				post({action:'war_toggle_admin_experience', nonce:<?php echo wp_json_encode( wp_create_nonce( 'war_nonce' ) ); ?>, option: map[t.id], value: t.checked ? 'yes' : 'no'});
+			if (t.id === 'war-store-menu-toggle') {
+				post({action:'war_toggle_admin_experience', nonce:<?php echo wp_json_encode( wp_create_nonce( 'war_nonce' ) ); ?>, option: 'war_show_store_menu', value: t.checked ? 'yes' : 'no'});
 			}
 		});
 		</script>
 		<?php
-	}
-
-	/**
-	 * AJAX handler: toggle plugin enabled/disabled.
-	 */
-	public static function ajax_toggle_plugin() {
-		check_ajax_referer( 'war_nonce', 'nonce' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error();
-		}
-
-		$enabled = isset( $_POST['enabled'] ) ? sanitize_key( $_POST['enabled'] ) : '1';
-		update_user_meta( get_current_user_id(), 'war_plugin_enabled', $enabled );
-		wp_send_json_success();
-	}
-
-	/**
-	 * Check if the plugin is enabled for the current user.
-	 */
-	public static function is_plugin_enabled(): bool {
-		$val = get_user_meta( get_current_user_id(), 'war_plugin_enabled', true );
-		// Default to enabled if never set.
-		return ( $val === '' || $val === '1' );
 	}
 
 	/**
@@ -271,7 +153,7 @@ class WAR_Unified_State_Switcher {
 
 		$option = isset( $_POST['option'] ) ? sanitize_key( $_POST['option'] ) : '';
 		$value  = isset( $_POST['value'] ) ? sanitize_key( $_POST['value'] ) : 'no';
-		$allowed = array( 'war_default_to_store', 'war_show_store_menu' );
+		$allowed = array( 'war_show_store_menu' );
 
 		if ( ! in_array( $option, $allowed, true ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid option.' ) );

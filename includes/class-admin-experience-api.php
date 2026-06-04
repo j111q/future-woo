@@ -14,14 +14,8 @@ class WAR_Admin_Experience_API {
 
 	/**
 	 * Default values.
-	 *
-	 * `war_default_to_store` defaults to 'no' since the vendored nested nav
-	 * (WC PR #64712) gives Woo its own top-level rail item; the WP Dashboard
-	 * should stay as WP. Users who explicitly want index.php to redirect to
-	 * the Woo Store Dashboard can toggle this back on via the State Switcher.
 	 */
 	private static $defaults = array(
-		'war_default_to_store' => 'no',
 		'war_show_store_menu'  => 'yes',
 	);
 
@@ -66,13 +60,6 @@ class WAR_Admin_Experience_API {
 		}
 
 		return rest_ensure_response( array( 'success' => true ) );
-	}
-
-	/**
-	 * Check if "Open WooCommerce by default" is enabled.
-	 */
-	public static function is_default_to_store(): bool {
-		return get_option( 'war_default_to_store', 'no' ) === 'yes';
 	}
 
 	/**

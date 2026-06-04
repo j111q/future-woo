@@ -95,9 +95,7 @@ class WAR_Admin_Bar_Menu {
 			$total = count( $tasks );
 			$done  = count( array_filter( $tasks, fn( $t ) => $t['complete'] ) );
 
-			$setup_url = WAR_Admin_Experience_API::is_default_to_store()
-				? admin_url( 'admin.php?page=war-store-dashboard' )
-				: admin_url( 'index.php' );
+			$setup_url = admin_url( 'admin.php?page=war-store-dashboard' );
 
 			$wp_admin_bar->add_node( array(
 				'parent' => 'war-store-menu',

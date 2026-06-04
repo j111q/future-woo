@@ -20,20 +20,24 @@ You're being asked to add to or modify the Future Woo plugin (this repo, `future
 
 - **PHP layer** (`includes/`, 28 classes, ~7 K LOC): hooks into WP/WC, registers admin pages, handles AJAX, runs the State Switcher backend, creates/deletes demo data.
 - **React/JS layer** (`src/`, `client/`, `assets/js/`): self-contained bundles per surface. Order view is React + DataViews. Settings uses `@wordpress/components` and `@wordpress/ui`. Built with `@wordpress/scripts`.
-- **State Switcher** (`includes/class-unified-state-switcher.php` + `assets/js/unified-state-switcher.js`): the floating "States" button. Toggles between *new store*, *being set up*, *active store*. On switch, it fires AJAX → backend deletes existing demo data, creates new demo data for the chosen state, reloads.
+- **Configure-prototype FAB** (`includes/class-unified-state-switcher.php` + `assets/js/unified-state-switcher.js`): the floating "Configure prototype" button (gear icon). Switches demo store-states (*new store* / *being set up* / *active store*) via AJAX → backend swaps demo data → reload. **Two-FAB gotcha:** `includes/class-dashboard-state-switcher.php` (`CDW_State_Switcher`) is legacy and is NOT rendered — only its AJAX + state-helper methods are still wired. Put any FAB UI in the *unified* switcher, never there. (Two scripts drive the FAB: the inline `<script>` in `render_fab()` and the enqueued JS — keep both in sync.)
+- **Shared page header** (`includes/class-custom-header.php` + `assets/css/custom-header.css`): `WAR_Custom_Header` renders the `.war-page-header` bar on all Woo pages, gated by `is_woo_page()` — which matches `wc-*`, `woocommerce`, **and** Future Woo's own `war-*` page slugs (so the Store Dashboard gets it too). JS moves the bar into `#wpbody-content` so `position: sticky` works.
+- **Nav rail** is vendored (`includes/vendor/nested-nav/`, WC PR #64712). Future Woo's customizations live in `includes/class-nav-tree-customizer.php` — the **durable FW layer that survives the vendor dir being deleted** when the PR merges upstream. Put nav tweaks there (Home → Store Dashboard remap, the "Back" relabel + styling, hiding stray menus), NOT in the vendored files. It gates on the splicer's own signals (e.g. the back link's arrow icon) so it only acts when the rail is actually spliced (inside Woo), matching the splicer's "is this a Woo page?" decision without coupling to its internals.
 
 ## Surfaces this plugin replaces or adds
 
 | Surface | Files |
 |---|---|
-| WP Dashboard widgets | `includes/class-store-status-widget.php`, `class-store-stats-widget.php`, `class-store-management-widget.php`, `class-store-inbox-widget.php`, `class-store-setup-widget.php`, `class-whats-next-widget.php` |
-| Store Dashboard (alt landing) | `includes/class-store-dashboard.php` |
+| Shared page header | `includes/class-custom-header.php` + `assets/css/custom-header.css` (`WAR_Custom_Header`; on Woo pages via `is_woo_page()`, incl. `war-*` slugs) |
+| Nav rail (vendored) + FW tweaks | `includes/vendor/nested-nav/` (WC PR #64712) + `includes/class-nav-tree-customizer.php` (durable FW layer) + `assets/css/nav-customizations.css` |
+| Store Dashboard ("Home" — rail's Home item points here) | `includes/class-store-dashboard.php` |
+| WP Dashboard widgets | `includes/class-store-status-widget.php`, `class-stats-widget.php`, `class-store-management-widget.php`, `class-woo-inbox-widget.php`, `class-woo-setup-widget.php`, `class-whats-next-widget.php` |
 | Order edit | `includes/class-order-page.php` + `src/order-view/` |
 | Orders list | `includes/class-orders-list-page.php` + `client/dataviews-tables/` |
-| Settings tabs (General, Products, Account, Tax, Site Visibility, Advanced) | `includes/class-modern-settings-*.php` + `src/settings/` |
-| Shipping setup | `includes/class-shipping-setup-page.php` + `assets/css/shipping-setup.css` |
-| Admin bar Store menu | `includes/class-store-admin-bar-menu.php` |
-| State Switcher FAB | `includes/class-unified-state-switcher.php` + `assets/js/unified-state-switcher.js` |
+| Settings tabs (General, Products, Account, Tax, Site Visibility, Advanced) | `includes/class-wc-settings-modern.php` + `src/settings/` |
+| Shipping setup | `includes/class-shipping-setup-admin.php` + `assets/css/shipping-setup.css` |
+| Admin bar Store menu | `includes/class-admin-bar-menu.php` |
+| Configure-prototype FAB | `includes/class-unified-state-switcher.php` + `assets/js/unified-state-switcher.js` |
 
 ## How to add a new designed screen
 

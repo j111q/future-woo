@@ -14,6 +14,10 @@ Five edits separate these vendored files from Beau's upstream:
 4. **`Telemetry.php`** — deleted entirely. The prototype doesn't need Tracks.
 5. **`Native_Rail_Splicer.php::insert_woo_roots` + `::mark_root_current`** — respect the `url` override on tree nodes when writing `$menu[$key][2]`. Upstream uses the slug directly (yielding `admin.php?page=<slug>`), which means the `woocommerce_admin_menu_tree` filter's `url` override is consulted for some code paths but NOT for top-level rail item hrefs. The fix is a `$url = $node['url'] ?? $slug;` swap in `insert_woo_roots`, plus a companion change in `mark_root_current` (which compares `$entry[2]` to the slug to apply the active-highlight class — now needs to compare against the same `url ?? slug` target so overridden rail-roots still get highlighted). Required so Future Woo can wire its own surfaces (the Store Dashboard at `war-store-dashboard`, etc.) into Beau's rail via the documented filter — and so the active rail item still highlights correctly. Worth raising upstream as a small consistency fix.
 
+## Behaviors worth knowing (not bugs)
+
+- **Section Memory (`Section_Memory.php`)** remembers your last-visited Woo section in a cookie. When you land on the Dashboard root (`index.php`) on a **fresh** entry — login redirect, typed URL, or external link (no in-admin referrer) — it redirects you to that remembered Woo section. It deliberately **skips internal clicks** (referrer starts with `admin_url()`), so the rail's "Back" link still reaches the plain WP Dashboard and stays there. Don't mistake the fresh-entry redirect for a bug, and don't add a competing `index.php` → store redirect on top of it — Future Woo had one ("Open WooCommerce by default") and removed it partly because it duplicated and conflicted with this (it made "Back" loop straight back to the store).
+
 ## Companion assets
 
 - `assets/js/nested-nav.js` — vendored from `plugins/woocommerce/client/legacy/js/admin/admin-navigation-v2.js` (unchanged)

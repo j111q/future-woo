@@ -115,8 +115,7 @@ class WAR_Store_Dashboard {
 
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Dashboard', 'woo-admin-revamp' ); ?></h1>
-
+			<?php // The "Dashboard" title is rendered by WAR_Custom_Header (the shared Future Woo page header), so no <h1> here. ?>
 			<div id="dashboard-widgets-wrap">
 				<div id="dashboard-widgets" class="metabox-holder">
 					<div id="postbox-container-1" class="postbox-container">
@@ -138,6 +137,15 @@ class WAR_Store_Dashboard {
 			</div>
 		</div>
 		<style>
+			/* The shared page header is full-bleed (custom-header.css zeroes
+			   #wpcontent's default left gutter), so the dashboard content
+			   supplies its own side padding — this aligns the widget columns
+			   with the header title (24px in) and keeps them off the admin menu. */
+			#wpbody-content > .wrap {
+				margin: 0;
+				padding: 0 24px;
+			}
+
 			#dashboard-widgets .postbox-container { float: left; }
 
 			/* 4 columns on very wide screens */

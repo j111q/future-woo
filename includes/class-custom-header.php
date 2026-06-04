@@ -32,7 +32,9 @@ class WAR_Custom_Header {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-		if ( $page && ( strpos( $page, 'wc-' ) === 0 || $page === 'woocommerce' ) ) {
+		// `wc-*` / `woocommerce` are core WooCommerce pages; `war-*` are Future Woo's
+		// own surfaces (e.g. war-store-dashboard) — all share this page header.
+		if ( $page && ( strpos( $page, 'wc-' ) === 0 || strpos( $page, 'war-' ) === 0 || $page === 'woocommerce' ) ) {
 			return true;
 		}
 
@@ -579,10 +581,11 @@ class WAR_Custom_Header {
 				}
 
 				$other_titles = array(
-					'wc-orders'   => __( 'Orders', 'woo-admin-revamp' ),
-					'wc-reports'  => __( 'Reports', 'woo-admin-revamp' ),
-					'wc-status'   => __( 'Status', 'woo-admin-revamp' ),
-					'wc-addons'   => __( 'Extensions', 'woo-admin-revamp' ),
+					'wc-orders'           => __( 'Orders', 'woo-admin-revamp' ),
+					'wc-reports'          => __( 'Reports', 'woo-admin-revamp' ),
+					'wc-status'           => __( 'Status', 'woo-admin-revamp' ),
+					'wc-addons'           => __( 'Extensions', 'woo-admin-revamp' ),
+					'war-store-dashboard' => __( 'Dashboard', 'woo-admin-revamp' ),
 				);
 
 				if ( ! $title && isset( $other_titles[ $page ] ) ) {

@@ -83,7 +83,9 @@ Some upstream extension points are advertised as supporting overrides (a `url` f
 
 If a documented override doesn't work at one render point, a 1-line vendored-code edit is acceptable. Document it in `includes/vendor/<name>/README.md` as a numbered adaptation, and consider raising it upstream as a small consistency fix.
 
-Precedent: Beau's `woocommerce_admin_menu_tree` filter respected `url` overrides for child entries and current-page highlighting, but `insert_woo_roots()` ignored it for top-level rail items. Adaptation #5 in `includes/vendor/nested-nav/README.md` is the 1-line fix.
+**Sub-rule: when you patch vendored code, grep the same file for every other consumer of the data path you just changed.** Vendored systems have internal invariants — multiple methods often read or compare the same global / array slot in lockstep. If you mutate that slot in one place to fix symptom A, you may silently break consumers that still expect the old shape. The cost of the grep is seconds; the cost of a second-order bug is hours.
+
+Precedent: Beau's `woocommerce_admin_menu_tree` filter respected `url` overrides for child entries and current-page highlighting, but `insert_woo_roots()` ignored it for top-level rail items. Adaptation #5's first half changed `$menu[$key][2]` from `$slug` to `$node['url'] ?? $slug`. That fixed the href, but silently broke `mark_root_current()` two methods down — which compared `$entry[2] !== $root` (the raw slug) and stopped matching once the slot held the URL. Result: the active rail item didn't highlight on URL-overridden pages. A `grep` for `$entry[2]` after applying the first half would have surfaced `mark_root_current` immediately. Companion fix landed as part of adaptation #5.
 
 ## How to redesign an existing surface
 

@@ -4,18 +4,27 @@
   "description": "A designer's vision of where WooCommerce admin could go — install on any WP store to see the future of Woo holistically.",
   "private": true,
   "scripts": {
-    "build": "wp-scripts build src/settings/index.js --output-path=assets/js/settings --output-filename=settings-general.js",
-    "start": "wp-scripts start src/settings/index.js --output-path=assets/js/settings --output-filename=settings-general.js",
-    "lint:js": "wp-scripts lint-js src/"
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "lint:js": "wp-scripts lint-js src/",
+    "ts:check": "tsc --noEmit"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.42.0",
     "@wordpress/components": "^32.4.0",
+    "@wordpress/data": "^10.0.0",
+    "@wordpress/dataviews": "^4.0.0",
     "@wordpress/element": "^6.42.0",
     "@wordpress/hooks": "^4.42.0",
-    "@wordpress/i18n": "^6.15.0"
+    "@wordpress/i18n": "^6.15.0",
+    "@wordpress/icons": "^10.0.0",
+    "@wordpress/ui": "^0.13.0",
+    "clsx": "^2.1.0"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^31.7.0"
+    "@types/wordpress__components": "^23.0.0",
+    "@woocommerce/dependency-extraction-webpack-plugin": "^3.0.0",
+    "@wordpress/scripts": "^31.7.0",
+    "typescript": "^5.5.0"
   }
 }

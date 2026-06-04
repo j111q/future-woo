@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Future Woo
  * Description: A designer's vision of where WooCommerce admin could go — redesigned dashboard, modern settings, reimagined order view, unified admin bar, and a state switcher for demoing three store states. Prototype only.
- * Version: 2.1.0
+ * Version: 2.2.0
  * Requires Plugins: woocommerce
  * Text Domain: woo-admin-revamp
  */
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WAR_VERSION', '2.1.0' );
+define( 'WAR_VERSION', '2.2.0' );
 define( 'WAR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WAR_URL', plugin_dir_url( __FILE__ ) );
 
@@ -157,6 +157,23 @@ new \FutureWoo\Vendor\NestedNav\Bootstrap();
 // --- Future Woo's customization of the vendored nav tree ---
 require_once WAR_PATH . 'includes/class-nav-tree-customizer.php';
 WAR_Nav_Tree_Customizer::init();
+
+// --- Vendored: Multichannel Campaigns (Marketing > Campaigns) ---
+// Folded in from the standalone `multichannel-campaigns` prototype
+// (Jill Quek, ~May 2026). A wc-admin React extension page: it registers via
+// woocommerce_marketing_menu_items + woocommerce_admin_pages_list and serves
+// its demo data over /mcc/v1/ REST routes. The React bundle builds to
+// assets/js/campaigns/ (see webpack.config.js + src/campaigns/).
+require_once WAR_PATH . 'includes/class-mcc-admin-page.php';
+require_once WAR_PATH . 'includes/class-mcc-data.php';
+require_once WAR_PATH . 'includes/class-mcc-rest.php';
+add_action( 'plugins_loaded', function () {
+	if ( ! class_exists( 'WooCommerce', false ) ) {
+		return;
+	}
+	new MCC_Admin_Page();
+	new MCC_REST();
+} );
 
 // --- Hook registration ---
 

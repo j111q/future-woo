@@ -1,0 +1,633 @@
+/**
+ * Multichannel Campaigns admin styles.
+ *
+ * Token names mirror WPDS 1:1 (Trac #65085 — once the real --wpds-* vars
+ * are loaded on wp-admin we can drop this :root block).
+ */
+
+/* DataViews ships its own stylesheet that wp-admin doesn't enqueue on
+ * its own. Importing it from here lets webpack bundle it into our
+ * style-index.css so we get the table borders, cell padding, layout
+ * switcher chrome, filter chip chrome, etc. */
+@import "@wordpress/dataviews/build-style/style.css";
+
+/* Floating-header polish to match WC 10.9 PR #64885. The Studio site
+ * runs WC 10.6.2 whose header SCSS loads after ours, so the existing
+ * rule wins on equal specificity — we bump with a body selector to
+ * override on our page only. When the WC install upgrades to 10.9+
+ * this block becomes a no-op (same values, same selectors).
+ */
+body.woocommerce-admin-page .woocommerce-layout__header .woocommerce-layout__header-heading {
+	padding: 0 0 0 24px;     /* $gap-large in base-styles */
+	font-size: 15px;          /* --wpds-typography-font-size-lg */
+	font-weight: 500;         /* --wpds-typography-font-weight-medium */
+	color: #1e1e1e;           /* $gray-900 */
+}
+
+/* On the Campaigns page only:
+ *  - hide the floating WC header entirely (we render our own CIAB-style
+ *    page header with the breadcrumb path inside the page content);
+ *  - clear the body margin-top that BaseHeader synced from the (now
+ *    hidden) header's height so the page content doesn't get pushed
+ *    down by an empty offset;
+ *  - zero out wc-admin's __primary / __main container margins so the
+ *    page header can sit edge-to-edge against the wp-admin sidebar
+ *    and viewport right. Without these, wc-admin's 40px outer
+ *    margin/padding put a grey gutter around our header.
+ * The body class is added/removed from React on mount/unmount, so the
+ * wc-admin chrome reappears the moment the user navigates elsewhere.
+ */
+body.mcc-page-active {
+	.woocommerce-layout__header { display: none !important; }
+	#wpbody { margin-top: 0 !important; }
+	#woocommerce-layout__primary { margin: 0 !important; }
+	.woocommerce-layout__main { padding: 0 !important; }
+
+	// Future Woo's shared page header (WAR_Custom_Header) renders its own
+	// "Marketing" bar on every wc-admin page via is_woo_page(). On Campaigns
+	// we render our own CIAB-style header (breadcrumb + status badge +
+	// per-campaign actions), so hide Future Woo's to avoid a doubled header.
+	.war-page-header { display: none !important; }
+}
+:root {
+	--wpds-color-bg-surface-neutral:        #ffffff;
+	--wpds-color-bg-surface-neutral-weak:   #f6f7f7;
+	--wpds-color-bg-surface-brand:          #eef1ff;
+	--wpds-color-bg-surface-success-weak:   #edf7ed;
+	--wpds-color-bg-surface-info-weak:      #eaf2ff;
+
+	--wpds-color-bg-interactive-brand-strong:        #3858e9;
+	--wpds-color-bg-interactive-brand-strong-active: #1d3ad1;
+	--wpds-color-bg-interactive-neutral-weak:        #f0f0f1;
+
+	--wpds-color-fg-content-neutral:        #1e1e1e;
+	--wpds-color-fg-content-neutral-weak:   #6c7079;
+	--wpds-color-fg-content-success:        #1d6634;
+	--wpds-color-fg-content-info:           #1d4ed8;
+	--wpds-color-fg-content-error:          #a3231f;
+	--wpds-color-fg-interactive-brand:      #3858e9;
+
+	--wpds-color-stroke-surface-neutral-weak: #eaeaec;
+	--wpds-color-stroke-surface-neutral:      #dcdcde;
+	--wpds-color-stroke-focus-brand:          #3858e9;
+
+	--wpds-border-radius-sm: 4px;
+	--wpds-border-radius-md: 6px;
+
+	--wpds-elevation-xs: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.mcc-page {
+	/* Zero side-padding here; .mcc-page-header runs edge-to-edge,
+	 * and content sections below the header carry their own gutter
+	 * via .mcc-content-gutter. */
+	padding: 0 0 48px;
+	color: var(--wpds-color-fg-content-neutral);
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+/* Gutter for content sections below the page header. Matches the
+ * 32px the header pads internally, so content edges visually line up
+ * with the title and the "Create campaign" button. */
+.mcc-content-gutter {
+	padding: 0 32px;
+}
+
+/* Page header — anatomy matches CIAB's @automattic/admin-toolkit Header:
+ *   row 1 = breadcrumb path + title + badges (left) + actions (right)
+ *   row 2 = subtitle
+ *   optional row 3 = tabs
+ *   border-bottom = light grey separator from page content
+ * Rendered as a real <header>. Full-bleed: zero outer margin so it
+ * extends edge-to-edge between the wp-admin sidebar and viewport right;
+ * .mcc-content-gutter below re-introduces the gutter for body content. */
+.mcc-page-header {
+	margin: 0 0 24px;
+	padding: 14px 32px;        /* symmetric — title row sits visually centred */
+	border-bottom: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+	/* Transparent so the header inherits the wp-admin body grey —
+	 * matches CIAB's "header is part of the page surface" treatment
+	 * (next-admin-page__header uses --wpds-color-bg-surface-neutral
+	 * which resolves to the same grey in their token system). */
+	background: transparent;
+
+	&__title {
+		margin: 0;
+		font-size: 15px;
+		font-weight: 500;
+		line-height: 32px;        /* CIAB sizes title at 15/32 */
+		display: inline;          /* lets the crumb button sit inline */
+	}
+
+	&__title-row {
+		min-height: 32px;
+	}
+
+	&__crumb {
+		background: none;
+		border: 0;
+		padding: 0;
+		font: inherit;
+		color: var(--wpds-color-fg-content-neutral);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		text-decoration-color: var(--wpds-color-stroke-surface-neutral);
+		cursor: pointer;
+	}
+	&__crumb:hover {
+		color: var(--wpds-color-fg-interactive-brand);
+		text-decoration-color: currentColor;
+	}
+	&__crumb:focus-visible {
+		outline: 2px solid var(--wpds-color-stroke-focus-brand);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+
+	&__sep {
+		color: var(--wpds-color-fg-content-neutral-weak);
+		font-weight: 400;
+	}
+
+	&__subtitle {
+		color: var(--wpds-color-fg-content-neutral-weak);
+		margin: 4px 0 0;
+		max-width: 80ch;
+		font-size: 13px;
+	}
+}
+
+.mcc-detail-title {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
+	h1 { margin: 0; }
+}
+
+/* Channel chip — light grey surface with the channel's brand colour
+ * applied as the ink (letter colour). Lower contrast than a fully
+ * filled chip so dense stacks read as cohesive rather than gaudy. */
+.mcc-chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	font-weight: 700;
+	vertical-align: middle;
+	line-height: 1;
+	background: var(--wpds-color-bg-interactive-neutral-weak);
+	box-shadow: 0 0 0 2px var(--wpds-color-bg-surface-neutral);
+	flex-shrink: 0;
+
+	&--overflow {
+		width: 24px;
+		height: 24px;
+		color: var(--wpds-color-fg-content-neutral-weak);
+		font-weight: 600;
+		font-size: 10px;
+	}
+}
+
+/* Stack of chips that overlap from left to right, with a white ring
+ * separating each so the layering reads. After max=3 chips an overflow
+ * "+N" chip rolls up the rest. */
+.mcc-chip-stack {
+	display: inline-flex;
+	align-items: center;
+
+	&__item {
+		display: inline-flex;
+	}
+
+	&__item + &__item,
+	&__item + .mcc-chip--overflow,
+	&__item:has( + .mcc-chip--overflow ) ~ .mcc-chip--overflow,
+	.mcc-chip--overflow {
+		margin-left: -10px;
+	}
+
+	/* :has() fallback: explicitly negative-margin every chip after the first */
+	> *:not(:first-child) {
+		margin-left: -10px;
+	}
+}
+
+.mcc-pill {
+	display: inline-flex;
+	align-items: center;
+	font-size: 12px;
+	padding: 3px 8px;
+	border-radius: 999px;
+	font-weight: 500;
+	white-space: nowrap;
+
+	&--small { font-size: 11px; padding: 2px 7px; }
+	&--success   { background: var(--wpds-color-bg-surface-success-weak); color: var(--wpds-color-fg-content-success); }
+	&--scheduled { background: var(--wpds-color-bg-surface-info-weak); color: var(--wpds-color-fg-content-info); }
+	&--draft     { background: var(--wpds-color-bg-surface-neutral-weak); color: var(--wpds-color-fg-content-neutral-weak); }
+	&--completed { background: #efeaff; color: #5b3eb1; }
+}
+
+/* Stat cards — analytics-style summary tiles, mirroring CIAB's
+ * next-woocommerce-analytics MetricWithComparison anatomy (big value
+ * + coloured delta). */
+.mcc-stat-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px;
+	margin-bottom: 24px;
+}
+
+.mcc-stat-card {
+	&__label {
+		color: var(--wpds-color-fg-content-neutral-weak);
+	}
+	&__value {
+		font-variant-numeric: tabular-nums;
+		letter-spacing: -0.02em;
+	}
+	&__delta {
+		font-variant-numeric: tabular-nums;
+		font-weight: 500;
+
+		&--up      { color: var(--wpds-color-fg-content-success); }
+		&--down    { color: var(--wpds-color-fg-content-error); }
+		&--neutral { color: var(--wpds-color-fg-content-neutral-weak); }
+	}
+}
+
+/* DataViews tweaks — match the rest of the surface */
+.mcc-page .dataviews-wrapper {
+	margin-top: 0;
+	background: var(--wpds-color-bg-surface-neutral);
+	border: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+	border-radius: var(--wpds-border-radius-md);
+	box-shadow: var(--wpds-elevation-xs);
+	overflow: hidden;
+}
+
+/* Trim DataViews' utility columns so the actions column doesn't push
+ * past the right edge on standard wp-admin widths. The bulk-select
+ * checkbox and the per-row 3-dot menu only need ~40px each. */
+.mcc-page .dataviews-view-table {
+	th.dataviews-view-table__checkbox-column,
+	td.dataviews-view-table__checkbox-column {
+		width: 40px;
+		padding-left: 12px;
+		padding-right: 4px;
+	}
+	th.dataviews-view-table__actions-column,
+	td.dataviews-view-table__actions-column {
+		width: 48px;
+		padding-left: 4px;
+		padding-right: 12px;
+	}
+}
+
+/* Cell content */
+.mcc-cell-name {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+
+	&__title {
+		font-weight: 500;
+		color: var(--wpds-color-fg-content-neutral);
+		background: none;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		text-align: left;
+		font: inherit;
+		font-weight: 500;
+		cursor: pointer;
+	}
+	&__title:hover { color: var(--wpds-color-fg-interactive-brand); text-decoration: underline; }
+	&__title:focus-visible {
+		outline: 2px solid var(--wpds-color-stroke-focus-brand);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+	&__goal { font-size: 12px; color: var(--wpds-color-fg-content-neutral-weak); }
+}
+
+.mcc-source-pill {
+	display: inline-block;
+	margin-left: 6px;
+	padding: 1px 6px;
+	font-size: 11px;
+	border-radius: 999px;
+	background: var(--wpds-color-bg-surface-info-weak);
+	color: var(--wpds-color-fg-content-info);
+}
+
+.mcc-dim { color: var(--wpds-color-fg-content-neutral-weak); }
+.mcc-small { font-size: 12px; }
+.mcc-num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.mcc-header-with-hint { display: inline-flex; align-items: center; gap: 4px; }
+
+.mcc-hint {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	color: var(--wpds-color-fg-content-neutral-weak);
+	font-size: 12px;
+	cursor: help;
+	border-radius: 50%;
+	vertical-align: middle;
+
+	&:hover, &:focus-visible {
+		color: var(--wpds-color-fg-interactive-brand);
+		background: var(--wpds-color-bg-surface-brand);
+		outline: none;
+	}
+}
+
+/* Empty state */
+.mcc-empty-state {
+	padding: 48px 16px;
+	text-align: center;
+
+	h2 { margin: 12px 0 4px; font-size: 16px; }
+	p { color: var(--wpds-color-fg-content-neutral-weak); margin: 0 0 16px; }
+}
+
+.mcc-empty-icon { color: var(--wpds-color-fg-content-neutral-weak); }
+
+/* Form — centred narrow column matching CIAB's New Product layout.
+ * Card panels are CollapsibleCard.Root; field labels stack above
+ * their controls (DataForm labelPosition: "top"). */
+.mcc-form {
+	max-width: 720px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+/* Card description text under the Card.Title from @wordpress/ui.
+ * Card.Title already renders Text variant="heading-lg" at the
+ * @wordpress/ui design-token sizes, so we only style the description
+ * row below it. */
+.mcc-card-description {
+	color: var(--wpds-color-fg-content-neutral-weak);
+	max-width: 60ch;
+}
+
+.mcc-panel {
+	overflow: hidden;
+
+	/* CIAB-style uppercase field labels above each control. When
+	 * DataForm uses labelPosition: "top", TextControl renders its
+	 * own .components-base-control__label — that's the one we
+	 * restyle to read as the bold uppercase label seen in CIAB's
+	 * New Product page. */
+	.components-base-control__label {
+		text-transform: uppercase;
+		font-size: 11px !important;
+		font-weight: 600 !important;
+		letter-spacing: 0.04em;
+		color: var(--wpds-color-fg-content-neutral);
+		margin-bottom: 6px !important;
+		display: block;
+	}
+	.components-base-control,
+	.components-text-control__input,
+	input[type="text"],
+	input[type="date"] {
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+/* Match WP's __next40pxDefaultSize convention so DateEdit lines up with
+ * TextControl, SelectControl, and any other DataForm field controls in
+ * the same form. */
+.mcc-date-input {
+	font: inherit;
+	height: 40px;
+	padding: 0 12px;
+	border: 1px solid var(--wpds-color-stroke-surface-neutral);
+	border-radius: var(--wpds-border-radius-sm);
+	background: white;
+	color: var(--wpds-color-fg-content-neutral);
+	box-sizing: border-box;
+}
+.mcc-date-input:focus {
+	outline: none;
+	border-color: var(--wpds-color-stroke-focus-brand);
+	box-shadow: 0 0 0 1px var(--wpds-color-stroke-focus-brand);
+}
+
+.mcc-form-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	padding: 12px 0;
+	border-top: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+}
+
+/* Channel cards in create flow */
+.mcc-channel-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.mcc-channel {
+	background: var(--wpds-color-bg-surface-neutral);
+	border: 1px solid var(--wpds-color-stroke-surface-neutral);
+	border-radius: var(--wpds-border-radius-md);
+	padding: 14px 16px;
+
+	&.is-selected {
+		border-color: var(--wpds-color-fg-interactive-brand);
+		box-shadow: 0 0 0 2px rgba(56,88,233,0.08);
+	}
+	&.is-disconnected { opacity: 0.85; }
+
+	&__header {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+	&__meta { flex: 1; }
+	&__title { font-weight: 600; }
+	&__sub { font-size: 12px; color: var(--wpds-color-fg-content-neutral-weak); }
+}
+
+/* Switch */
+.mcc-switch {
+	position: relative;
+	display: inline-block;
+	width: 36px;
+	height: 20px;
+	flex-shrink: 0;
+
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+
+		&:checked + span { background: var(--wpds-color-bg-interactive-brand-strong); }
+		&:checked + span::before { transform: translateX(16px); }
+	}
+
+	span {
+		position: absolute;
+		inset: 0;
+		background: var(--wpds-color-bg-interactive-neutral-weak);
+		border-radius: 999px;
+		transition: background 120ms;
+		cursor: pointer;
+
+		&::before {
+			content: '';
+			position: absolute;
+			width: 14px;
+			height: 14px;
+			left: 3px;
+			top: 3px;
+			background: white;
+			border-radius: 50%;
+			transition: transform 120ms;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		}
+	}
+}
+
+/* Detail view */
+.mcc-goal-card {
+	margin-bottom: 12px;
+
+	&__row {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		margin-bottom: 12px;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+	&__big {
+		font-size: 28px;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+		font-variant-numeric: tabular-nums;
+	}
+	&__meta { text-align: right; }
+}
+
+.mcc-progress {
+	height: 8px;
+	background: var(--wpds-color-bg-interactive-neutral-weak);
+	border-radius: 999px;
+	overflow: hidden;
+
+	&__bar {
+		height: 100%;
+		background: linear-gradient(90deg, #3858e9, #6f7eff);
+		border-radius: 999px;
+		transition: width 400ms ease;
+	}
+}
+
+.mcc-detail-grid {
+	display: grid;
+	grid-template-columns: 1.6fr 1fr;
+	gap: 12px;
+	margin-top: 12px;
+}
+
+.mcc-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+
+	thead th {
+		text-align: left;
+		font-weight: 500;
+		font-size: 12px;
+		color: var(--wpds-color-fg-content-neutral-weak);
+		padding: 10px 12px;
+		border-bottom: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+	}
+
+	tbody td {
+		padding: 14px 12px;
+		border-bottom: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+		vertical-align: middle;
+	}
+
+	tbody tr:last-child td { border-bottom: 0; }
+}
+
+.mcc-feed {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		display: grid;
+		grid-template-columns: 16px 1fr;
+		gap: 12px;
+		padding: 10px 0;
+		border-bottom: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+		align-items: flex-start;
+
+		&:last-child { border-bottom: 0; }
+	}
+
+	&__dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--wpds-color-bg-interactive-neutral-weak);
+		margin-top: 5px;
+
+		&--success { background: #2e9d4b; }
+		&--warning { background: #d97706; }
+	}
+
+	&__title { font-weight: 500; }
+}
+
+/* Footnote */
+.mcc-footnote {
+	margin-top: 24px;
+	padding: 16px;
+	background: var(--wpds-color-bg-surface-brand);
+	border-radius: var(--wpds-border-radius-md);
+	font-size: 12px;
+	max-width: 80ch;
+}
+
+/* Snackbar */
+.mcc-snackbar-wrap {
+	position: fixed;
+	bottom: 24px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 100000;
+	min-width: 320px;
+}
+
+.mcc-inline-loading {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	color: var(--wpds-color-fg-content-neutral-weak);
+	padding: 16px 0;
+}
+
+@media (max-width: 1100px) {
+	.mcc-stat-grid { grid-template-columns: repeat(2, 1fr); }
+	.mcc-detail-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 800px) {
+	.mcc-page { padding: 16px; }
+}

@@ -2,10 +2,18 @@
 	function getFab() { return document.getElementById('war-unified-fab-btn'); }
 	function getMenu() { return document.getElementById('war-unified-menu'); }
 
+	// The FAB's original markup (gear icon + label), captured before the first
+	// loading-spinner swap so it can be restored on failure rather than clobbered.
+	var fabOriginalHTML = null;
+
 	function setLoading( isLoading ) {
 		var fabBtn = getFab();
 		var menu = getMenu();
 		if ( ! fabBtn ) return;
+
+		if ( fabOriginalHTML === null ) {
+			fabOriginalHTML = fabBtn.innerHTML;
+		}
 
 		if ( isLoading ) {
 			fabBtn.classList.add( 'war-state-fab-btn--loading' );
@@ -16,7 +24,7 @@
 		} else {
 			fabBtn.classList.remove( 'war-state-fab-btn--loading' );
 			fabBtn.disabled = false;
-			fabBtn.textContent = 'States';
+			fabBtn.innerHTML = fabOriginalHTML;
 		}
 	}
 

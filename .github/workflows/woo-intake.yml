@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       since:
-        description: "Only consider Woo PRs merged on or after this date (YYYY-MM-DD)."
+        description: "Override the weekly window. Use 2026-04-15 for the initial Future Woo backfill."
         required: false
         type: string
 

@@ -24,8 +24,10 @@ when the prototype still builds.
 Edit `config/woo-intake.json`.
 
 - Change `pullRequestSearches` when the prototype needs a wider or narrower Woo
-  intake window. Future Woo currently scans all Woo PRs updated since
-  `2026-04-15`, the approximate prototype baseline date.
+  intake window. Scheduled runs currently scan all Woo PRs updated in the last
+  seven days.
+- Use the manual Action input `since: 2026-04-15` for the initial catch-up from
+  Future Woo’s approximate prototype baseline date.
 - Keep the search broad and use scoring to decide what matters. The script
   reads all matching PR metadata first, then fetches changed-file details only
   after a PR has at least one design signal or is explicitly tracked.
@@ -139,5 +141,5 @@ npm run build
 To scan from a specific date:
 
 ```bash
-node scripts/woo-intake.mjs discover --since 2026-06-01
+node scripts/woo-intake.mjs discover --since 2026-04-15
 ```

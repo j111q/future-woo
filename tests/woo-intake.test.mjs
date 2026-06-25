@@ -22,7 +22,7 @@ const config = loadConfigFromString( JSON.stringify( {
 			label: 'All recent Woo PR activity',
 			state: 'all',
 			dateQualifier: 'updated',
-			since: '2026-04-15',
+			lookbackDays: 7,
 			limit: 2000,
 		},
 	],
@@ -132,18 +132,18 @@ test( 'builds pull request searches for all recent Woo PR activity', () => {
 			label: 'All recent Woo PR activity',
 			state: 'all',
 			limit: 2000,
-			query: 'updated:>=2026-04-15',
+			query: 'updated:>=2026-06-18',
 		},
 	] );
 } );
 
-test( 'lets manual since override every configured date window', () => {
+test( 'lets manual since run the prototype-baseline backfill', () => {
 	const searches = buildPullRequestSearchQueries( config, {
 		now: new Date( '2026-06-25T00:00:00Z' ),
-		since: '2026-05-01',
+		since: '2026-04-15',
 	} );
 
-	assert.equal( searches[ 0 ].query, 'updated:>=2026-05-01' );
+	assert.equal( searches[ 0 ].query, 'updated:>=2026-04-15' );
 } );
 
 test( 'scores Woo PRs using designer-relevant signals', () => {

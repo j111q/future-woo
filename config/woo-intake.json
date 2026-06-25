@@ -10,7 +10,7 @@
 			"label": "All recent Woo PR activity",
 			"state": "all",
 			"dateQualifier": "updated",
-			"since": "2026-04-15",
+			"lookbackDays": 7,
 			"limit": 2000
 		}
 	],

@@ -7,7 +7,7 @@ when the prototype still builds.
 
 ## What It Does
 
-- Scans recent merged PRs in `woocommerce/woocommerce`.
+- Scans all configured Woo PR activity in `woocommerce/woocommerce`.
 - Scores PRs using design-facing labels, paths, keywords, authors, and tracked
   PR numbers.
 - Writes a designer-readable report to `sync/woo-intake/latest-report.md`.
@@ -23,6 +23,12 @@ when the prototype still builds.
 
 Edit `config/woo-intake.json`.
 
+- Change `pullRequestSearches` when the prototype needs a wider or narrower Woo
+  intake window. Future Woo currently scans all Woo PRs updated since
+  `2026-04-15`, the approximate prototype baseline date.
+- Keep the search broad and use scoring to decide what matters. The script
+  reads all matching PR metadata first, then fetches changed-file details only
+  after a PR has at least one design signal or is explicitly tracked.
 - Add paths for new Woo surfaces designers care about.
 - Add keywords for experimental work that may not have consistent labels yet.
 - Add designer GitHub handles under `designSignals.authors`.

@@ -6,7 +6,7 @@ Auto-merge gate: hold
 
 ## What the bot checked
 
-- Recent merged Woo PRs from the last 7 days.
+- All recent Woo PR activity: all PRs matching `updated:>=2026-04-15`.
 - Design-facing labels, paths, keywords, tracked people, and explicitly tracked PRs.
 - Future Woo feature flags that should be forced on for the prototype.
 

@@ -15,6 +15,7 @@ const DEFAULT_CONFIG = {
 	trackedPullRequests: [],
 	patchAdapters: [],
 	surfacePolicies: [],
+	pullRequestSearches: [],
 };
 
 const normalizeText = ( value ) => String( value ?? '' ).trim().toLowerCase();
@@ -59,6 +60,7 @@ export function loadConfigFromString( source ) {
 		trackedPullRequests: Array.isArray( parsed.trackedPullRequests ) ? parsed.trackedPullRequests : [],
 		patchAdapters: Array.isArray( parsed.patchAdapters ) ? parsed.patchAdapters : [],
 		surfacePolicies: Array.isArray( parsed.surfacePolicies ) ? parsed.surfacePolicies : [],
+		pullRequestSearches: Array.isArray( parsed.pullRequestSearches ) ? parsed.pullRequestSearches : [],
 	};
 }
 
@@ -75,6 +77,47 @@ const authorName = ( pullRequest ) => normalizeText(
 		? pullRequest.author.login ?? pullRequest.author.name
 		: pullRequest.author
 );
+
+const dateFromLookback = ( now, lookbackDays ) => {
+	const date = new Date( now );
+	date.setUTCDate( date.getUTCDate() - lookbackDays );
+	return date.toISOString().slice( 0, 10 );
+};
+
+const defaultPullRequestSearches = ( config ) => [
+	{
+		id: 'recent-merged',
+		label: 'Recent merged Woo PRs',
+		state: 'merged',
+		dateQualifier: 'merged',
+		lookbackDays: config.lookbackDays,
+		limit: config.maxPullRequests,
+	},
+];
+
+export function buildPullRequestSearchQueries( config, { now = new Date(), since } = {} ) {
+	const configuredSearches = config.pullRequestSearches?.length
+		? config.pullRequestSearches
+		: defaultPullRequestSearches( config );
+
+	return configuredSearches.flatMap( ( search ) => {
+		const dateQualifier = search.dateQualifier ?? 'merged';
+		const date = since ?? search.since ?? dateFromLookback( now, search.lookbackDays ?? config.lookbackDays );
+		const baseQuery = search.query ?? `${ dateQualifier }:>=${ date }`;
+		const authors = normalizeList( search.authors );
+		const queryParts = authors.length
+			? authors.map( ( author ) => `${ baseQuery } author:${ author }` )
+			: [ baseQuery ];
+
+		return queryParts.map( ( query ) => ( {
+			id: search.id ?? search.label ?? query,
+			label: search.label ?? search.id ?? query,
+			state: search.state ?? 'merged',
+			limit: Number( search.limit ?? config.maxPullRequests ),
+			query,
+		} ) );
+	} );
+}
 
 export function scorePullRequest( pullRequest, config ) {
 	const labels = labelNames( pullRequest );
@@ -322,6 +365,7 @@ export function buildDesignerReport( {
 	now = new Date(),
 } ) {
 	const date = now.toISOString().slice( 0, 10 );
+	const searchQueries = buildPullRequestSearchQueries( config, { now } );
 	const lines = [
 		'# Future Woo intake report',
 		'',
@@ -331,7 +375,7 @@ export function buildDesignerReport( {
 		'',
 		'## What the bot checked',
 		'',
-		`- Recent merged Woo PRs from the last ${ config.lookbackDays } days.`,
+		...searchQueries.map( ( search ) => `- ${ search.label }: ${ search.state } PRs matching \`${ search.query }\`.` ),
 		'- Design-facing labels, paths, keywords, tracked people, and explicitly tracked PRs.',
 		'- Future Woo feature flags that should be forced on for the prototype.',
 		'',
@@ -375,6 +419,9 @@ export function buildDesignerReport( {
 			lines.push( `Score: ${ candidate.score }` );
 			if ( candidate.author ) {
 				lines.push( `Author: ${ candidate.author }` );
+			}
+			if ( candidate.sourceSearches?.length ) {
+				lines.push( `Source search: ${ candidate.sourceSearches.join( '; ' ) }` );
 			}
 			if ( candidate.reasons.length ) {
 				lines.push( `Why it matched: ${ candidate.reasons.join( '; ' ) }` );

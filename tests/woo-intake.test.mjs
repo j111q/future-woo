@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
 	buildDesignerReport,
+	buildPullRequestSearchQueries,
 	classifySurfaceDecisions,
 	forceEnabledFlags,
 	loadConfigFromString,
@@ -15,6 +16,16 @@ import {
 const config = loadConfigFromString( JSON.stringify( {
 	wooRepository: 'woocommerce/woocommerce',
 	minimumScore: 3,
+	pullRequestSearches: [
+		{
+			id: 'recent-woo-activity',
+			label: 'All recent Woo PR activity',
+			state: 'all',
+			dateQualifier: 'updated',
+			since: '2026-04-15',
+			limit: 2000,
+		},
+	],
 	designSignals: {
 		labels: [ 'design', 'ux', 'dataviews' ],
 		paths: [
@@ -109,6 +120,31 @@ const config = loadConfigFromString( JSON.stringify( {
 		},
 	],
 } ) );
+
+test( 'builds pull request searches for all recent Woo PR activity', () => {
+	const searches = buildPullRequestSearchQueries( config, {
+		now: new Date( '2026-06-25T00:00:00Z' ),
+	} );
+
+	assert.deepEqual( searches, [
+		{
+			id: 'recent-woo-activity',
+			label: 'All recent Woo PR activity',
+			state: 'all',
+			limit: 2000,
+			query: 'updated:>=2026-04-15',
+		},
+	] );
+} );
+
+test( 'lets manual since override every configured date window', () => {
+	const searches = buildPullRequestSearchQueries( config, {
+		now: new Date( '2026-06-25T00:00:00Z' ),
+		since: '2026-05-01',
+	} );
+
+	assert.equal( searches[ 0 ].query, 'updated:>=2026-05-01' );
+} );
 
 test( 'scores Woo PRs using designer-relevant signals', () => {
 	const result = scorePullRequest( {

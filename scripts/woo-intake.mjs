@@ -5,9 +5,11 @@ import { dirname, resolve } from 'node:path';
 
 import {
 	buildDesignerReport,
+	buildPullRequestSearchQueries,
 	classifySurfaceDecisions,
 	loadConfig,
 	resolveGateStatus,
+	scorePullRequest,
 	selectCandidates,
 } from './woo-intake/lib.mjs';
 
@@ -57,12 +59,6 @@ const gh = ( ghArgs ) => {
 	return JSON.parse( output );
 };
 
-const sinceDate = ( lookbackDays ) => {
-	const date = new Date();
-	date.setUTCDate( date.getUTCDate() - lookbackDays );
-	return date.toISOString().slice( 0, 10 );
-};
-
 const normalizeGhPullRequest = ( pullRequest ) => ( {
 	number: pullRequest.number,
 	title: pullRequest.title,
@@ -73,6 +69,7 @@ const normalizeGhPullRequest = ( pullRequest ) => ( {
 	headRefName: pullRequest.headRefName,
 	files: ( pullRequest.files ?? [] ).map( ( file ) => file.path ?? file.name ?? file ),
 	body: pullRequest.body ?? '',
+	sourceSearches: pullRequest.sourceSearches ?? [],
 } );
 
 const withFiles = ( pullRequest, repository ) => {
@@ -89,32 +86,56 @@ const withFiles = ( pullRequest, repository ) => {
 		...pullRequest,
 		...details,
 		files: details.files ?? pullRequest.files,
+		sourceSearches: pullRequest.sourceSearches,
 	} );
 };
 
 const discoverPullRequests = ( config ) => {
-	const since = option( 'since', sinceDate( config.lookbackDays ) );
-	const mergedPullRequests = gh( [
-		'pr',
-		'list',
-		'--repo',
-		config.wooRepository,
-		'--state',
-		'merged',
-		'--limit',
-		String( config.maxPullRequests ),
-		'--search',
-		`merged:>=${ since }`,
-		'--json',
-		'number,title,url,author,labels,mergedAt,headRefName',
-	] );
+	const searches = buildPullRequestSearchQueries( config, {
+		since: option( 'since' ),
+	} );
 	const trackedNumbers = new Set( config.trackedPullRequests.map( ( item ) => Number( item.number ) ) );
-	const byNumber = new Map(
-		mergedPullRequests.map( ( pullRequest ) => [
-			Number( pullRequest.number ),
-			pullRequest,
-		] )
-	);
+	const byNumber = new Map();
+
+	const addPullRequest = ( pullRequest, sourceLabel ) => {
+		const number = Number( pullRequest.number );
+		const existing = byNumber.get( number );
+		if ( existing ) {
+			existing.sourceSearches = [
+				...new Set( [
+					...( existing.sourceSearches ?? [] ),
+					sourceLabel,
+				].filter( Boolean ) ),
+			];
+			return;
+		}
+
+		byNumber.set( number, {
+			...pullRequest,
+			sourceSearches: sourceLabel ? [ sourceLabel ] : [],
+		} );
+	};
+
+	for ( const search of searches ) {
+		const pullRequests = gh( [
+			'pr',
+			'list',
+			'--repo',
+			config.wooRepository,
+			'--state',
+			search.state,
+			'--limit',
+			String( search.limit ),
+			'--search',
+			search.query,
+			'--json',
+			'number,title,url,author,labels,mergedAt,headRefName',
+		] );
+
+		for ( const pullRequest of pullRequests ) {
+			addPullRequest( pullRequest, `${ search.label }: ${ search.query }` );
+		}
+	}
 
 	for ( const trackedPullRequest of config.trackedPullRequests ) {
 		if ( ! byNumber.has( Number( trackedPullRequest.number ) ) ) {
@@ -127,12 +148,18 @@ const discoverPullRequests = ( config ) => {
 				'--json',
 				'number,title,url,author,labels,mergedAt,headRefName',
 			] );
-			byNumber.set( Number( trackedPullRequest.number ), details );
+			addPullRequest( details, `Tracked PR: ${ trackedPullRequest.label ?? trackedPullRequest.number }` );
+		} else {
+			addPullRequest(
+				byNumber.get( Number( trackedPullRequest.number ) ),
+				`Tracked PR: ${ trackedPullRequest.label ?? trackedPullRequest.number }`
+			);
 		}
 	}
 
 	return [ ...byNumber.values() ].map( ( pullRequest ) => {
-		if ( trackedNumbers.has( Number( pullRequest.number ) ) || pullRequest.number ) {
+		const preliminary = scorePullRequest( normalizeGhPullRequest( pullRequest ), config );
+		if ( trackedNumbers.has( Number( pullRequest.number ) ) || preliminary.score > 0 ) {
 			return withFiles( pullRequest, config.wooRepository );
 		}
 		return normalizeGhPullRequest( pullRequest );

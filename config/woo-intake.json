@@ -1,9 +1,19 @@
 {
 	"wooRepository": "woocommerce/woocommerce",
 	"lookbackDays": 7,
-	"maxPullRequests": 40,
+	"maxPullRequests": 200,
 	"minimumScore": 3,
 	"autoMerge": true,
+	"pullRequestSearches": [
+		{
+			"id": "recent-woo-activity",
+			"label": "All recent Woo PR activity",
+			"state": "all",
+			"dateQualifier": "updated",
+			"since": "2026-04-15",
+			"limit": 2000
+		}
+	],
 	"designSignals": {
 		"labels": [
 			"design",
@@ -32,15 +42,24 @@
 			"settings UI",
 			"feature flag",
 			"experiment",
+			"RSM",
 			"analytics dashboard",
 			"marketing channels",
 			"sales channels",
 			"campaigns",
+			"floating header",
+			"order edit",
+			"stock notification",
+			"payment provider",
+			"payment setup",
+			"email template",
 			"shipping providers",
 			"navigation"
 		],
 		"authors": [
-			"veronica"
+			"veronica",
+			"j111q",
+			"annchichi"
 		]
 	},
 	"featureFlags": [

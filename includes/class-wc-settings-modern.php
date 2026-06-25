@@ -170,6 +170,18 @@ class CDW_WC_Settings_Modern {
 			true
 		);
 
+		$wp_components_select_path = WAR_PATH . 'assets/js/wp-web-components/select-control.js';
+		if ( file_exists( $wp_components_select_path ) ) {
+			wp_enqueue_script(
+				'war-wp-components-select-control',
+				WAR_URL . 'assets/js/wp-web-components/select-control.js',
+				array(),
+				(string) filemtime( $wp_components_select_path ),
+				true
+			);
+			wp_script_add_data( 'war-wp-components-select-control', 'type', 'module' );
+		}
+
 		if ( file_exists( $css_path ) ) {
 			wp_enqueue_style(
 				'cdw-settings-general',

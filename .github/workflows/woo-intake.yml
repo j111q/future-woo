@@ -1,0 +1,125 @@
+name: Woo intake
+
+on:
+  schedule:
+    - cron: "18 10 * * 2"
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Override the weekly window. Use 2026-04-15 for the initial Future Woo backfill."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  woo-intake:
+    name: Discover, verify, and self-merge Woo intake
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out Future Woo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Discover Woo design intake
+        run: |
+          if [ -n "${{ inputs.since }}" ]; then
+            node scripts/woo-intake.mjs discover --since "${{ inputs.since }}"
+          else
+            node scripts/woo-intake.mjs discover
+          fi
+
+      - name: Verify prototype gate
+        id: verify
+        run: |
+          set +e
+
+          npm run test:woo-intake
+          intake_tests=$?
+
+          npm run build
+          build=$?
+
+          php_syntax=0
+          while IFS= read -r file; do
+            php -l "$file" || php_syntax=1
+          done < <(find . -maxdepth 2 -name "*.php" -print)
+
+          if [ "$intake_tests" -eq 0 ] && [ "$build" -eq 0 ] && [ "$php_syntax" -eq 0 ]; then
+            gate="merge"
+          else
+            gate="hold"
+          fi
+
+          echo "intake_tests=$intake_tests" >> "$GITHUB_OUTPUT"
+          echo "build=$build" >> "$GITHUB_OUTPUT"
+          echo "php_syntax=$php_syntax" >> "$GITHUB_OUTPUT"
+          echo "gate=$gate" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve surface policy gate
+        id: policy_gate
+        run: |
+          gate="$(node scripts/woo-intake.mjs gate --gate-status "${{ steps.verify.outputs.gate }}")"
+          echo "gate=$gate" >> "$GITHUB_OUTPUT"
+
+      - name: Update designer report gate
+        run: |
+          status_for() {
+            if [ "$1" -eq 0 ]; then
+              echo "ok"
+            else
+              echo "fail"
+            fi
+          }
+
+          node scripts/woo-intake.mjs set-gate \
+            --gate-status "${{ steps.policy_gate.outputs.gate }}" \
+            --check "Intake tests:$(status_for "${{ steps.verify.outputs.intake_tests }}")" \
+            --check "Build:$(status_for "${{ steps.verify.outputs.build }}")" \
+            --check "PHP syntax:$(status_for "${{ steps.verify.outputs.php_syntax }}")"
+
+      - name: Create PR and merge when green
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No Future Woo intake changes to publish."
+            exit 0
+          fi
+
+          branch="automation/woo-intake-${GITHUB_RUN_ID}"
+          git config user.name "future-woo-intake[bot]"
+          git config user.email "future-woo-intake[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add .github config docs includes scripts sync tests package.json package-lock.json woo-admin-revamp.php assets/js/settings
+          git commit -m "Sync Woo design intake"
+          git push --force-with-lease origin "$branch"
+
+          pr_flags=()
+          if [ "${{ steps.policy_gate.outputs.gate }}" != "merge" ]; then
+            pr_flags+=( "--draft" )
+          fi
+
+          pr_url="$(gh pr create \
+            --title "Sync Woo design intake" \
+            --body-file sync/woo-intake/latest-report.md \
+            "${pr_flags[@]}")"
+
+          echo "Created $pr_url"
+
+          if [ "${{ steps.policy_gate.outputs.gate }}" = "merge" ]; then
+            gh pr merge "$pr_url" \
+              --squash \
+              --delete-branch \
+              --body "Auto-merged because the Future Woo verification and surface policy gates passed."
+          fi

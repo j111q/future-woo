@@ -7,7 +7,9 @@
     "build": "wp-scripts build",
     "start": "wp-scripts start",
     "lint:js": "wp-scripts lint-js src/",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "sync:woo": "node scripts/woo-intake.mjs discover",
+    "test:woo-intake": "node --test tests/woo-intake.test.mjs"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.42.0",

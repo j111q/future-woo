@@ -15,6 +15,10 @@ define( 'WAR_VERSION', '2.2.0' );
 define( 'WAR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WAR_URL', plugin_dir_url( __FILE__ ) );
 
+// Prototype-first Woo feature flags.
+require_once WAR_PATH . 'includes/class-feature-flag-overrides.php';
+WAR_Feature_Flag_Overrides::init();
+
 // Enable the React-based order view in WooCommerce core's Edit.php.
 if ( ! defined( 'WC_USE_REACT_ORDER_VIEW' ) ) {
 	define( 'WC_USE_REACT_ORDER_VIEW', true );
@@ -475,4 +479,3 @@ function cdw_enqueue_assets( $hook ) {
 		),
 	) );
 }
-

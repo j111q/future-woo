@@ -42,11 +42,253 @@
 			"plugins/woocommerce/tests/php/src/Internal/Admin/Navigation/TreeBuilderTest.php",
 			"plugins/woocommerce/tests/php/src/Internal/Features/FeaturesControllerTest.php"
 		],
+		"sourceSearches": [
+			"Tracked PR: Nested admin navigation"
+		],
 		"reasons": [
+			"path: plugins/woocommerce/src/Internal/Admin/Navigation",
+			"path: plugins/woocommerce/client/legacy/js/admin/admin-navigation-v2.js",
+			"path: plugins/woocommerce/client/legacy/css/admin-navigation-v2.scss",
 			"keyword: feature flag",
 			"keyword: experiment",
 			"keyword: navigation",
 			"tracked PR: Nested admin navigation"
+		],
+		"score": 12,
+		"selected": true
+	},
+	{
+		"number": 65866,
+		"title": "[Backport to release/10.9] Add Settings UI section registry",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65866",
+		"author": "woocommercebot",
+		"labels": [
+			"documentation",
+			"plugin: woocommerce",
+			"metric: feature freeze exception",
+			"developer advisory"
+		],
+		"mergedAt": "2026-06-22T10:18:28Z",
+		"headRefName": "cherry-pick-PR65813-to-release/10.9",
+		"files": [
+			"docs/extensions/settings-and-config/registering-settings-ui-components.md",
+			"docs/extensions/settings-and-config/settings-ui-sdk.md",
+			"packages/js/settings-ui-sdk/src/registry.ts",
+			"packages/js/settings-ui-sdk/src/settings-ui-page.tsx",
+			"packages/js/settings-ui-sdk/src/test/html-rendering.test.tsx",
+			"packages/js/settings-ui-sdk/src/test/registry.test.ts",
+			"packages/js/settings-ui/changelog/update-section-scope-semantics",
+			"plugins/woocommerce/changelog/add-settings-ui-section-registry",
+			"plugins/woocommerce/client/admin/client/settings/settings-ui-registry.tsx",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-page.php",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-payment-gateways.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSection.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSectionInterface.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSectionRegistry.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings/RegisteredSettingsSectionAdapter.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings/SettingsUIRequestContext.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings/SettingsUISchema.php",
+			"plugins/woocommerce/src/Internal/Admin/WCAdminAssets.php",
+			"plugins/woocommerce/tests/php/includes/settings/class-wc-settings-payment-gateways-test.php",
+			"plugins/woocommerce/tests/php/src/Admin/Settings/SettingsSectionRegistryTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Admin/Settings/SettingsUIFeatureFlagTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Admin/Settings/SettingsUISchemaTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/settings",
+			"path: plugins/woocommerce/src/Admin",
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag",
+			"keyword: navigation"
+		],
+		"score": 11,
+		"selected": true
+	},
+	{
+		"number": 65813,
+		"title": "Add Settings UI section registry",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65813",
+		"author": "dmallory42",
+		"labels": [
+			"documentation",
+			"plugin: woocommerce",
+			"developer advisory"
+		],
+		"mergedAt": "2026-06-19T13:28:53Z",
+		"headRefName": "add/settings-ui-section-registry",
+		"files": [
+			"docs/extensions/settings-and-config/registering-settings-ui-components.md",
+			"docs/extensions/settings-and-config/settings-ui.md",
+			"packages/js/settings-ui/changelog/update-section-scope-semantics",
+			"packages/js/settings-ui/src/registry.ts",
+			"packages/js/settings-ui/src/settings-ui-page.tsx",
+			"packages/js/settings-ui/src/test/html-rendering.test.tsx",
+			"packages/js/settings-ui/src/test/registry.test.ts",
+			"plugins/woocommerce/changelog/add-settings-ui-section-registry",
+			"plugins/woocommerce/client/admin/client/settings/settings-ui-registry.tsx",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-page.php",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-payment-gateways.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSection.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSectionInterface.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSectionRegistry.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings/RegisteredSettingsSectionAdapter.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings/SettingsUIRequestContext.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings/SettingsUISchema.php",
+			"plugins/woocommerce/src/Internal/Admin/WCAdminAssets.php",
+			"plugins/woocommerce/tests/php/includes/settings/class-wc-settings-payment-gateways-test.php",
+			"plugins/woocommerce/tests/php/src/Admin/Settings/SettingsSectionRegistryTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Admin/Settings/SettingsUIFeatureFlagTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Admin/Settings/SettingsUISchemaTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/settings",
+			"path: plugins/woocommerce/src/Admin",
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag",
+			"keyword: navigation"
+		],
+		"score": 11,
+		"selected": true
+	},
+	{
+		"number": 65975,
+		"title": "Add native Settings UI page provider for registered sections",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65975",
+		"author": "dmallory42",
+		"labels": [
+			"documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "add-settings-section-ui-page-provider",
+		"files": [
+			"docs/extensions/settings-and-config/settings-ui.md",
+			"plugins/woocommerce/changelog/add-settings-section-ui-page-provider",
+			"plugins/woocommerce/includes/admin/views/html-admin-settings.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSection.php",
+			"plugins/woocommerce/src/Admin/Settings/SettingsSectionUIPageProviderInterface.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings/SettingsUIRequestContext.php",
+			"plugins/woocommerce/tests/php/src/Admin/Settings/SettingsSectionRegistryTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag",
+			"keyword: navigation"
+		],
+		"score": 10,
+		"selected": true
+	},
+	{
+		"number": 65437,
+		"title": "Clean enabled admin feature flags from config",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65437",
+		"author": "gigitux",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: e2e tests"
+		],
+		"mergedAt": null,
+		"headRefName": "codex/remove-true-admin-feature-flags",
+		"files": [
+			"packages/js/internal-js-tests/src/setup-globals.js",
+			"plugins/woocommerce/changelog/dev-clean-enabled-admin-feature-flags",
+			"plugins/woocommerce/client/admin/client/activity-panel/index.js",
+			"plugins/woocommerce/client/admin/client/analytics/components/report-header/report-header.tsx",
+			"plugins/woocommerce/client/admin/client/analytics/components/report-table/style.scss",
+			"plugins/woocommerce/client/admin/client/analytics/components/scheduled-updates-promotion-notice/index.tsx",
+			"plugins/woocommerce/client/admin/client/analytics/components/scheduled-updates-promotion-notice/test/index.tsx",
+			"plugins/woocommerce/client/admin/client/analytics/settings/config.js",
+			"plugins/woocommerce/client/admin/client/analytics/settings/test/index.test.js",
+			"plugins/woocommerce/client/admin/client/core-profiler/index.tsx",
+			"plugins/woocommerce/client/admin/client/guided-tours/shipping-tour.tsx",
+			"plugins/woocommerce/client/admin/client/header/test/index.test.js",
+			"plugins/woocommerce/client/admin/client/launch-your-store/hooks/use-launch-your-store.tsx",
+			"plugins/woocommerce/client/admin/client/layout/controller.js",
+			"plugins/woocommerce/client/admin/client/layout/shared.tsx",
+			"plugins/woocommerce/client/admin/client/payments/payment-recommendations.tsx",
+			"plugins/woocommerce/client/admin/client/shared.tsx",
+			"plugins/woocommerce/client/admin/client/shipping/shipping-recommendations-wrapper.tsx",
+			"plugins/woocommerce/client/admin/client/task-lists/fills/index.ts",
+			"plugins/woocommerce/client/admin/client/task-lists/fills/products/index.tsx",
+			"plugins/woocommerce/client/admin/client/task-lists/fills/products/test/index.tsx",
+			"plugins/woocommerce/client/admin/client/task-lists/fills/shipping/index.js",
+			"plugins/woocommerce/client/admin/client/task-lists/fills/utils.js",
+			"plugins/woocommerce/client/admin/client/typings/global.d.ts",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/index.tsx",
+			"plugins/woocommerce/client/admin/config/core.json",
+			"plugins/woocommerce/client/admin/config/development.json",
+			"plugins/woocommerce/client/blocks/tests/e2e/tests/add-to-cart-with-options/add-to-cart-with-options.block_theme.spec.ts",
+			"plugins/woocommerce/client/blocks/tests/e2e/tests/mini-cart/mini-cart-block.shopper.block_theme.spec.ts",
+			"plugins/woocommerce/client/blocks/tests/e2e/tests/mini-cart/mini-cart.block_theme.spec.ts",
+			"plugins/woocommerce/includes/admin/class-wc-admin-dashboard-setup.php",
+			"plugins/woocommerce/includes/admin/class-wc-admin-settings.php",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-payment-gateways.php",
+			"plugins/woocommerce/includes/react-admin/connect-existing-pages.php",
+			"plugins/woocommerce/src/Admin/API/Init.php",
+			"plugins/woocommerce/src/Admin/API/OnboardingTasks.php",
+			"plugins/woocommerce/src/Admin/Features/Features.php",
+			"plugins/woocommerce/src/Admin/Features/OnboardingTasks/TaskLists.php",
+			"plugins/woocommerce/src/Admin/Features/OnboardingTasks/Tasks/ExperimentalShippingRecommendation.php",
+			"plugins/woocommerce/src/Admin/Features/OnboardingTasks/Tasks/LaunchYourStore.php",
+			"plugins/woocommerce/src/Admin/Features/OnboardingTasks/Tasks/Marketing.php",
+			"plugins/woocommerce/src/Admin/Features/OnboardingTasks/Tasks/Shipping.php",
+			"plugins/woocommerce/src/Blocks/BlockPatterns.php",
+			"plugins/woocommerce/src/Blocks/BlockTemplatesRegistry.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/EmptyMiniCartContentsBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/FilledMiniCartContentsBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCart.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartCartButtonBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartCheckoutButtonBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartContents.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartFooterBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartItemsBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartShoppingButtonBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartTitleBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartTitleItemsCounterBlock.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCartTitleLabelBlock.php",
+			"plugins/woocommerce/src/Blocks/Patterns/PTKPatternsStore.php",
+			"plugins/woocommerce/src/Blocks/Utils/BlockTemplateUtils.php",
+			"plugins/woocommerce/src/Internal/Admin/Coupons.php",
+			"plugins/woocommerce/src/Internal/Admin/Events.php",
+			"plugins/woocommerce/src/Internal/Admin/FeaturePlugin.php",
+			"plugins/woocommerce/src/Internal/Admin/Homescreen.php",
+			"plugins/woocommerce/src/Internal/Admin/Notes/ScheduledUpdatesPromotion.php",
+			"plugins/woocommerce/src/Internal/Admin/Onboarding/OnboardingProducts.php",
+			"plugins/woocommerce/src/Internal/Admin/Schedulers/OrdersScheduler.php",
+			"plugins/woocommerce/src/Internal/Admin/Settings.php",
+			"plugins/woocommerce/src/Internal/Admin/WCAdminAssets.php",
+			"plugins/woocommerce/src/Internal/ComingSoon/ComingSoonRequestHandler.php",
+			"plugins/woocommerce/src/Internal/Features/ProductBlockEditor/ProductTemplates/SimpleProductTemplate.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/analytics",
+			"path: plugins/woocommerce/client/admin/client/shipping",
+			"path: plugins/woocommerce/client/admin/client/payments",
+			"path: plugins/woocommerce/src/Admin",
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: feature flag",
+			"keyword: experiment"
 		],
 		"score": 9,
 		"selected": true
@@ -107,6 +349,9 @@
 			"plugins/woocommerce/src/Internal/Admin/WCAdminAssets.php",
 			"pnpm-lock.yaml"
 		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
 		"reasons": [
 			"path: plugins/woocommerce/client/admin/client/settings",
 			"path: plugins/woocommerce/includes/admin",
@@ -115,6 +360,2688 @@
 			"keyword: feature flag"
 		],
 		"score": 8,
+		"selected": true
+	},
+	{
+		"number": 65729,
+		"title": "[Backport to release/10.9] Align settings UI layout and number inputs with design spec",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65729",
+		"author": "woocommercebot",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce",
+			"focus: monorepo infrastructure",
+			"metric: feature freeze exception"
+		],
+		"mergedAt": "2026-06-12T21:04:41Z",
+		"headRefName": "cherry-pick-PR65695-to-release/10.9",
+		"files": [
+			"packages/js/settings-ui-sdk/changelog/update-number-spin-control",
+			"packages/js/settings-ui-sdk/package.json",
+			"packages/js/settings-ui-sdk/src/native-fields.tsx",
+			"packages/js/settings-ui-sdk/src/number-spin-control.tsx",
+			"packages/js/settings-ui-sdk/src/test/native-fields.test.tsx",
+			"plugins/woocommerce/changelog/update-settings-ui-layout-width-spacing",
+			"plugins/woocommerce/changelog/update-settings-ui-number-spin-control-styles",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/settings-ui.scss",
+			"pnpm-lock.yaml"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 8,
+		"selected": true
+	},
+	{
+		"number": 65719,
+		"title": "Rename @woocommerce/settings-ui-sdk to @woocommerce/settings-ui",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65719",
+		"author": "dmallory42",
+		"labels": [
+			"documentation",
+			"plugin: woocommerce",
+			"focus: monorepo infrastructure",
+			"package: dependency-extraction-webpack-plugin"
+		],
+		"mergedAt": "2026-06-17T11:57:05Z",
+		"headRefName": "update/rename-settings-ui-sdk-package",
+		"files": [
+			"docs/extensions/settings-and-config/registering-settings-ui-components.md",
+			"docs/extensions/settings-and-config/settings-ui.md",
+			"packages/js/dependency-extraction-webpack-plugin/assets/packages.js",
+			"packages/js/dependency-extraction-webpack-plugin/changelog/update-rename-settings-ui-entry",
+			"packages/js/settings-ui-sdk/changelog/add-settings-ui-sdk",
+			"packages/js/settings-ui-sdk/changelog/tweak-settings-ui-card-design",
+			"packages/js/settings-ui/README.md",
+			"packages/js/settings-ui/build.mjs",
+			"packages/js/settings-ui/changelog/add-settings-ui",
+			"packages/js/settings-ui/changelog/fix-number-spin-control-scientific-precision",
+			"packages/js/settings-ui/changelog/tweak-settings-ui-card-design",
+			"packages/js/settings-ui/changelog/update-number-spin-control",
+			"packages/js/settings-ui/changelog/update-rename-settings-ui-package",
+			"packages/js/settings-ui/jest.config.json",
+			"packages/js/settings-ui/package.json",
+			"packages/js/settings-ui/src/diagnostics.ts",
+			"packages/js/settings-ui/src/hidden-inputs.tsx",
+			"packages/js/settings-ui/src/html.ts",
+			"packages/js/settings-ui/src/index.ts",
+			"packages/js/settings-ui/src/native-fields.tsx",
+			"packages/js/settings-ui/src/number-spin-control.tsx",
+			"packages/js/settings-ui/src/registry.ts",
+			"packages/js/settings-ui/src/settings-ui-page.tsx",
+			"packages/js/settings-ui/src/test/hidden-inputs.test.ts",
+			"packages/js/settings-ui/src/test/html-rendering.test.tsx",
+			"packages/js/settings-ui/src/test/html.test.ts",
+			"packages/js/settings-ui/src/test/native-fields.test.tsx",
+			"packages/js/settings-ui/src/test/registry.test.ts",
+			"packages/js/settings-ui/src/types.ts",
+			"packages/js/settings-ui/tsconfig.json",
+			"plugins/woocommerce/changelog/update-rename-settings-ui-script-handle",
+			"plugins/woocommerce/changelog/update-settings-ui-layout-width-spacing",
+			"plugins/woocommerce/client/admin/client/settings/settings-ui-registry.tsx",
+			"plugins/woocommerce/client/admin/package.json",
+			"plugins/woocommerce/client/admin/tsconfig.json",
+			"plugins/woocommerce/client/admin/webpack.config.js",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-page.php",
+			"plugins/woocommerce/src/Internal/Admin/WCAdminAssets.php",
+			"pnpm-lock.yaml"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/settings",
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 8,
+		"selected": true
+	},
+	{
+		"number": 65715,
+		"title": "Fix horizontal overflow of the settings UI tab bar",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65715",
+		"author": "mordeth",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-15T20:44:30Z",
+		"headRefName": "fix/settings-ui-tabs-horizontal-overflow",
+		"files": [
+			"plugins/woocommerce/changelog/fix-settings-ui-tabs-horizontal-overflow",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/settings-ui.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag",
+			"keyword: navigation"
+		],
+		"score": 8,
+		"selected": true
+	},
+	{
+		"number": 65695,
+		"title": "Align settings UI layout and number inputs with design spec",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65695",
+		"author": "dmallory42",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce",
+			"focus: monorepo infrastructure"
+		],
+		"mergedAt": "2026-06-12T16:53:10Z",
+		"headRefName": "update/settings-ui-layout-width-spacing",
+		"files": [
+			"packages/js/settings-ui-sdk/changelog/update-number-spin-control",
+			"packages/js/settings-ui-sdk/package.json",
+			"packages/js/settings-ui-sdk/src/native-fields.tsx",
+			"packages/js/settings-ui-sdk/src/number-spin-control.tsx",
+			"packages/js/settings-ui-sdk/src/test/native-fields.test.tsx",
+			"plugins/woocommerce/changelog/update-settings-ui-layout-width-spacing",
+			"plugins/woocommerce/changelog/update-settings-ui-number-spin-control-styles",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/settings-ui.scss",
+			"pnpm-lock.yaml"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 8,
+		"selected": true
+	},
+	{
+		"number": 65910,
+		"title": "Fix Settings UI save-and-continue navigation",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65910",
+		"author": "dmallory42",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "fix/settings-ui-save-and-continue",
+		"files": [
+			"packages/js/settings-ui/changelog/fix-save-and-continue-navigation",
+			"packages/js/settings-ui/src/settings-ui-page.tsx",
+			"packages/js/settings-ui/src/test/html-rendering.test.tsx",
+			"plugins/woocommerce/changelog/fix-settings-ui-save-and-continue",
+			"plugins/woocommerce/includes/admin/class-wc-admin-settings.php",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-admin-settings-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: navigation"
+		],
+		"score": 7,
+		"selected": true
+	},
+	{
+		"number": 65587,
+		"title": "[Backport to release/10.9] Surface settings UI fallback through wc_doing_it_wrong",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65587",
+		"author": "woocommercebot",
+		"labels": [
+			"plugin: woocommerce",
+			"metric: feature freeze exception"
+		],
+		"mergedAt": "2026-06-08T20:32:39Z",
+		"headRefName": "cherry-pick-PR65499-to-release/10.9",
+		"files": [
+			"plugins/woocommerce/changelog/fix-settings-ui-fallback-doing-it-wrong",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-page.php",
+			"plugins/woocommerce/tests/php/src/Internal/Admin/Settings/SettingsUIFeatureFlagTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 7,
+		"selected": true
+	},
+	{
+		"number": 65504,
+		"title": "[Backport to release/10.9] [RSM] Add Checkout Recovery email settings behind an experimental feature flag",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65504",
+		"author": "woocommercebot",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "cherry-pick-PR65136-to-release/10.9",
+		"files": [
+			"plugins/woocommerce/changelog/abandoned-cart-recovery-email",
+			"plugins/woocommerce/changelog/abandoned-cart-recovery-recommendations",
+			"plugins/woocommerce/changelog/checkout-recovery-manual-send",
+			"plugins/woocommerce/changelog/checkout-recovery-unsubscribe",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations-wrapper.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations.scss",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/automatewoo-item.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/index.ts",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/mailpoet-item.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/abandoned-cart-recovery-recommendations-wrapper.test.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/abandoned-cart-recovery-recommendations.test.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/promo-items.test.tsx",
+			"plugins/woocommerce/client/admin/client/embedded-body-layout/embedded-body-layout.tsx",
+			"plugins/woocommerce/includes/class-wc-emails.php",
+			"plugins/woocommerce/includes/class-wc-install.php",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/includes/emails/class-wc-email-customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/src/Admin/API/Options.php",
+			"plugins/woocommerce/src/Internal/AbandonedCartRecovery/ManualSendHandler.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Endpoint.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Storage.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTagManager.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTags/UnsubscribeTagsProvider.php",
+			"plugins/woocommerce/src/Internal/Features/FeaturesController.php",
+			"plugins/woocommerce/templates/emails/block/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/plain/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/tests/php/includes/emails/class-wc-email-customer-abandoned-cart-recovery-test.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/EndpointTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/StorageTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: feature flag",
+			"keyword: experiment",
+			"keyword: rsm"
+		],
+		"score": 7,
+		"selected": true
+	},
+	{
+		"number": 65499,
+		"title": "Surface settings UI fallback through wc_doing_it_wrong",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65499",
+		"author": "dmallory42",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-08T17:04:40Z",
+		"headRefName": "fix/settings-ui-fallback-doing-it-wrong",
+		"files": [
+			"plugins/woocommerce/changelog/fix-settings-ui-fallback-doing-it-wrong",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-page.php",
+			"plugins/woocommerce/tests/php/src/Internal/Admin/Settings/SettingsUIFeatureFlagTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 7,
+		"selected": true
+	},
+	{
+		"number": 65136,
+		"title": "[RSM] Add Checkout Recovery email settings behind an experimental feature flag",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65136",
+		"author": "mayisha",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-03T16:50:56Z",
+		"headRefName": "rsm/native-checkout-recovery-email-setting",
+		"files": [
+			"plugins/woocommerce/changelog/abandoned-cart-recovery-email",
+			"plugins/woocommerce/changelog/abandoned-cart-recovery-recommendations",
+			"plugins/woocommerce/changelog/checkout-recovery-manual-send",
+			"plugins/woocommerce/changelog/checkout-recovery-unsubscribe",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations-wrapper.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations.scss",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/automatewoo-item.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/index.ts",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/mailpoet-item.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/abandoned-cart-recovery-recommendations-wrapper.test.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/abandoned-cart-recovery-recommendations.test.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/promo-items.test.tsx",
+			"plugins/woocommerce/client/admin/client/embedded-body-layout/embedded-body-layout.tsx",
+			"plugins/woocommerce/includes/class-wc-emails.php",
+			"plugins/woocommerce/includes/class-wc-install.php",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/includes/emails/class-wc-email-customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/src/Admin/API/Options.php",
+			"plugins/woocommerce/src/Internal/AbandonedCartRecovery/ManualSendHandler.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Endpoint.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Storage.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTagManager.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTags/UnsubscribeTagsProvider.php",
+			"plugins/woocommerce/src/Internal/Features/FeaturesController.php",
+			"plugins/woocommerce/templates/emails/block/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/plain/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/tests/php/includes/emails/class-wc-email-customer-abandoned-cart-recovery-test.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/EndpointTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/StorageTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: feature flag",
+			"keyword: experiment",
+			"keyword: rsm"
+		],
+		"score": 7,
+		"selected": true
+	},
+	{
+		"number": 65038,
+		"title": "Fix incorrect heading order on admin orders page",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65038",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: e2e tests"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-266-1778846753",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-266",
+			"plugins/woocommerce/client/legacy/css/admin.scss",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php",
+			"plugins/woocommerce/tests/e2e-pw/tests/order/create-order.spec.ts",
+			"plugins/woocommerce/tests/php/includes/admin/meta-boxes/class-wc-meta-box-order-data-heading-hierarchy-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm",
+			"keyword: order edit",
+			"keyword: navigation"
+		],
+		"score": 7,
+		"selected": true
+	},
+	{
+		"number": 65825,
+		"title": "Settings UI: add subtitle and badges to the shell header",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65825",
+		"author": "mordeth",
+		"labels": [
+			"documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-18T16:06:47Z",
+		"headRefName": "feat/settings-ui-header-fields",
+		"files": [
+			"docs/extensions/settings-and-config/settings-ui.md",
+			"packages/js/settings-ui/changelog/add-shell-header-fields",
+			"packages/js/settings-ui/src/index.ts",
+			"packages/js/settings-ui/src/settings-ui-page.tsx",
+			"packages/js/settings-ui/src/test/header-fields.test.tsx",
+			"packages/js/settings-ui/src/types.ts",
+			"plugins/woocommerce/changelog/add-settings-ui-shell-header-fields",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/settings-ui.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: navigation"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65802,
+		"title": "Explore DataForm internals for Settings UI",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65802",
+		"author": "dmallory42",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: monorepo infrastructure"
+		],
+		"mergedAt": null,
+		"headRefName": "try/settings-ui-dataform-internals",
+		"files": [
+			".syncpackrc",
+			"packages/js/settings-ui-sdk/changelog/tweak-settings-ui-dataform-internals",
+			"packages/js/settings-ui-sdk/package.json",
+			"packages/js/settings-ui-sdk/src/dataform.tsx",
+			"packages/js/settings-ui-sdk/src/settings-ui-page.tsx",
+			"packages/js/settings-ui-sdk/src/test/html-rendering.test.tsx",
+			"plugins/woocommerce/changelog/tweak-settings-ui-dataform-internals",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/settings-ui.scss",
+			"pnpm-lock.yaml"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: dataviews",
+			"keyword: settings-ui",
+			"keyword: settings ui"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65696,
+		"title": "Render settings UI number fields with design-spec spin controls",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65696",
+		"author": "dmallory42",
+		"labels": [],
+		"mergedAt": null,
+		"headRefName": "update/settings-ui-component-fidelity",
+		"files": [
+			"packages/js/settings-ui-sdk/changelog/update-number-control-spin-buttons",
+			"packages/js/settings-ui-sdk/src/native-fields.tsx",
+			"packages/js/settings-ui-sdk/src/test/native-fields.test.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65577,
+		"title": "Keep Settings UI navigation guard until form exists",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65577",
+		"author": "dmallory42",
+		"labels": [],
+		"mergedAt": null,
+		"headRefName": "fix/settings-ui-form-submit-navigation-guard",
+		"files": [
+			"packages/js/settings-ui/changelog/fix-form-submit-navigation-guard",
+			"packages/js/settings-ui/src/settings-ui-page.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: navigation"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65575,
+		"title": "[Backport to release/10.9] Add settings UI flag-off smoke test",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65575",
+		"author": "woocommercebot",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: e2e tests",
+			"metric: feature freeze exception"
+		],
+		"mergedAt": "2026-06-08T16:53:48Z",
+		"headRefName": "cherry-pick-PR65490-to-release/10.9",
+		"files": [
+			"plugins/woocommerce/changelog/add-settings-ui-flag-off-smoke",
+			"plugins/woocommerce/tests/e2e-pw/tests/settings/settings-ui-feature-flag.spec.ts"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65567,
+		"title": "[Backport to release/10.9] Align settings UI SDK with settings card design",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65567",
+		"author": "woocommercebot",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce",
+			"metric: feature freeze exception"
+		],
+		"mergedAt": "2026-06-08T12:08:02Z",
+		"headRefName": "cherry-pick-PR65557-to-release/10.9",
+		"files": [
+			"packages/js/settings-ui-sdk/changelog/tweak-settings-ui-card-design",
+			"packages/js/settings-ui-sdk/src/settings-ui-page.tsx",
+			"packages/js/settings-ui-sdk/src/test/html-rendering.test.tsx",
+			"plugins/woocommerce/changelog/tweak-settings-ui-card-design",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/settings-ui.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65557,
+		"title": "Align settings UI SDK with settings card design",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65557",
+		"author": "dmallory42",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-08T10:58:48Z",
+		"headRefName": "feat/settings-ui-sdk-figma-redesign",
+		"files": [
+			"packages/js/settings-ui-sdk/changelog/tweak-settings-ui-card-design",
+			"packages/js/settings-ui-sdk/src/settings-ui-page.tsx",
+			"packages/js/settings-ui-sdk/src/test/html-rendering.test.tsx",
+			"plugins/woocommerce/changelog/tweak-settings-ui-card-design",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/settings-embed/settings-ui.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65490,
+		"title": "Add settings UI flag-off smoke test",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65490",
+		"author": "dmallory42",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: e2e tests"
+		],
+		"mergedAt": "2026-06-08T13:19:04Z",
+		"headRefName": "fix/settings-ui-flag-off-smoke",
+		"files": [
+			"plugins/woocommerce/changelog/add-settings-ui-flag-off-smoke",
+			"plugins/woocommerce/tests/e2e-pw/tests/settings/settings-ui-feature-flag.spec.ts"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui",
+			"keyword: feature flag"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65241,
+		"title": "Fix variation table edit links",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65241",
+		"author": "gigitux",
+		"labels": [],
+		"mergedAt": "2026-05-21T11:52:19Z",
+		"headRefName": "fix/experimental-products-variation-parent-edit-link",
+		"files": [
+			"packages/js/experimental-products-app/changelog/fix-variation-parent-edit-link",
+			"packages/js/experimental-products-app/src/dataviews-actions/actions.test.tsx",
+			"packages/js/experimental-products-app/src/dataviews-actions/actions.tsx",
+			"packages/js/experimental-products-app/src/product-list/index.tsx",
+			"packages/js/experimental-products-app/src/product-list/utils.test.ts",
+			"packages/js/experimental-products-app/src/product-list/utils.ts"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: products table",
+			"keyword: dataviews",
+			"keyword: experiment"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65174,
+		"title": "Fix experimental products table polish",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65174",
+		"author": "gigitux",
+		"labels": [],
+		"mergedAt": "2026-05-20T08:34:36Z",
+		"headRefName": "fix/experimental-products-table-polish",
+		"files": [
+			"packages/js/experimental-products-app/changelog/fix-products-table-polish",
+			"packages/js/experimental-products-app/src/fields/price/field.tsx",
+			"packages/js/experimental-products-app/src/fields/stock/field.tsx",
+			"packages/js/experimental-products-app/src/product-list/index.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: products table",
+			"keyword: dataviews",
+			"keyword: experiment"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65165,
+		"title": "[RSM] Add customer unsubscribe to the Checkout Recovery email",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65165",
+		"author": "mayisha",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-03T14:09:30Z",
+		"headRefName": "rsm/checkout-recovery-unsubscribe",
+		"files": [
+			"plugins/woocommerce/changelog/checkout-recovery-unsubscribe",
+			"plugins/woocommerce/includes/class-wc-install.php",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/includes/emails/class-wc-email-customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Endpoint.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Storage.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTagManager.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTags/UnsubscribeTagsProvider.php",
+			"plugins/woocommerce/templates/emails/block/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/plain/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/tests/php/includes/emails/class-wc-email-customer-abandoned-cart-recovery-test.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/EndpointTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/StorageTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65155,
+		"title": "Allow multiple stock status filters",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65155",
+		"author": "gigitux",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce",
+			"package: @woocommerce/data"
+		],
+		"mergedAt": "2026-05-20T08:56:59Z",
+		"headRefName": "fix/rsm-3550-stock-multiselect",
+		"files": [
+			"packages/js/data/changelog/fix-rsm-3550-stock-status-query-type",
+			"packages/js/data/src/products/types.ts",
+			"packages/js/experimental-products-app/changelog/fix-rsm-3550-stock-multiselect",
+			"packages/js/experimental-products-app/src/fields/stock/field.tsx",
+			"packages/js/experimental-products-app/src/product-list/query.test.ts",
+			"packages/js/experimental-products-app/src/product-list/query.ts",
+			"plugins/woocommerce/changelog/fix-rsm-3550-stock-status-filter",
+			"plugins/woocommerce/src/Internal/RestApi/Routes/V4/Products/Controller.php",
+			"plugins/woocommerce/src/Internal/RestApi/Routes/V4/Products/README.md",
+			"plugins/woocommerce/tests/php/src/Internal/RestApi/Routes/V4/Products/ProductsControllerTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: experiment",
+			"keyword: rsm"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65152,
+		"title": "[RSM] Shopper Collections: add wishlists feature flag and My Account support",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65152",
+		"author": "jorgeatorres",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-05-21T07:07:56Z",
+		"headRefName": "shopper-collections-wishlists-base",
+		"files": [
+			"plugins/woocommerce/changelog/add-shopper-collections-wishlists-base",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/src/Blocks/BlockTypesController.php",
+			"plugins/woocommerce/src/Internal/Features/FeaturesController.php",
+			"plugins/woocommerce/src/Internal/ShopperLists/ShopperList.php",
+			"plugins/woocommerce/src/Internal/ShopperLists/ShopperListsController.php",
+			"plugins/woocommerce/src/StoreApi/RoutesController.php",
+			"plugins/woocommerce/tests/php/src/Blocks/StoreApi/Schemas/ShopperListSchemaTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/ShopperLists/ShopperListTests.php",
+			"plugins/woocommerce/tests/php/src/Internal/ShopperLists/ShopperListsControllerTests.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: experiment",
+			"keyword: rsm"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65137,
+		"title": "[VA] PHP groundwork: tab rename + form-POST preservation",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65137",
+		"author": "jamesckemp",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "jamesckemp/rsm-3467-variations-tab-php-groundwork",
+		"files": [
+			"plugins/woocommerce/changelog/rsm-3467-variations-tab-php-groundwork",
+			"plugins/woocommerce/client/legacy/js/admin/meta-boxes-product.js",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-product-data.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-product-attribute-inner.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-product-data-attributes.php",
+			"plugins/woocommerce/phpstan-baseline.neon",
+			"plugins/woocommerce/src/Admin/Features/ProductVariationsClassicRedesign/Init.php",
+			"plugins/woocommerce/tests/php/src/Admin/Features/ProductVariationsClassicRedesign/InitTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: feature flag",
+			"keyword: rsm"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65131,
+		"title": "Floating header: Tracks instrumentation for Screen Options and Help icon clicks",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65131",
+		"author": "j111q",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-05-19T02:21:50Z",
+		"headRefName": "sprinkle/floating-header-meta-icon-tracks",
+		"files": [
+			"plugins/woocommerce/changelog/sprinkle-floating-header-meta-icon-tracks",
+			"plugins/woocommerce/client/admin/client/header/embed.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: floating header",
+			"author: j111q"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65130,
+		"title": "Add experimental dashboard widgets framework with a Store Activity widget",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65130",
+		"author": "retrofox",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: monorepo infrastructure"
+		],
+		"mergedAt": null,
+		"headRefName": "update/dashboard-widgets-scaffold",
+		"files": [
+			".syncpackrc",
+			"plugins/woocommerce/.gitignore",
+			"plugins/woocommerce/changelog/add-dashboard-widgets-scaffold",
+			"plugins/woocommerce/package.json",
+			"plugins/woocommerce/packages/README.md",
+			"plugins/woocommerce/packages/core-dashboard-init/README.md",
+			"plugins/woocommerce/packages/core-dashboard-init/package.json",
+			"plugins/woocommerce/packages/core-dashboard-init/src/data/constants.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/data/index.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/data/register-entities.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/data/types.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/index.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/customers/customer-timeline-event.tsx",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/customers/index.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/customers/use-customers-activity.tsx",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/index.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/orders/index.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/orders/order-timeline-event.tsx",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/orders/use-orders-activity.tsx",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/register-sources.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/reviews/index.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/reviews/review-timeline-event.tsx",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/reviews/use-reviews-activity.tsx",
+			"plugins/woocommerce/packages/core-dashboard-init/src/store-activity/types.ts",
+			"plugins/woocommerce/packages/core-dashboard-init/tsconfig.json",
+			"plugins/woocommerce/src/Internal/Admin/DashboardWidgets/Loader.php",
+			"plugins/woocommerce/src/Internal/Features/FeaturesController.php",
+			"plugins/woocommerce/widgets/package.json",
+			"plugins/woocommerce/widgets/store-activity/README.md",
+			"plugins/woocommerce/widgets/store-activity/components/activity-source-loader/index.tsx",
+			"plugins/woocommerce/widgets/store-activity/components/empty-state/index.tsx",
+			"plugins/woocommerce/widgets/store-activity/components/index.ts",
+			"plugins/woocommerce/widgets/store-activity/hooks/index.ts",
+			"plugins/woocommerce/widgets/store-activity/hooks/use-activity-sources.ts",
+			"plugins/woocommerce/widgets/store-activity/render.tsx",
+			"plugins/woocommerce/widgets/store-activity/style.scss",
+			"plugins/woocommerce/widgets/store-activity/types.ts",
+			"plugins/woocommerce/widgets/store-activity/widget.json",
+			"plugins/woocommerce/widgets/store-activity/widget.ts",
+			"plugins/woocommerce/widgets/tsconfig.json",
+			"plugins/woocommerce/woocommerce.php",
+			"pnpm-lock.yaml",
+			"pnpm-workspace.yaml"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: dataviews",
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65114,
+		"title": "Polish the variations DataViews table and unify the stock pill",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65114",
+		"author": "poligilad-auto",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "poligilad/variations-dataviews-polish",
+		"files": [
+			"packages/js/experimental-products-app/changelog/variations-dataviews-polish",
+			"packages/js/experimental-products-app/src/fields/stock/field.test.tsx",
+			"packages/js/experimental-products-app/src/fields/stock/field.tsx",
+			"packages/js/experimental-products-app/src/product-edit/index.tsx",
+			"packages/js/experimental-products-app/src/product-edit/utils.test.ts",
+			"packages/js/experimental-products-app/src/variation-view/constants.ts",
+			"packages/js/experimental-products-app/src/variation-view/fields.tsx",
+			"packages/js/experimental-products-app/src/variation-view/index.tsx",
+			"packages/js/experimental-products-app/src/variation-view/normalization.test.ts",
+			"packages/js/experimental-products-app/src/variation-view/normalization.ts",
+			"packages/js/experimental-products-app/src/variation-view/style.scss",
+			"plugins/woocommerce/client/admin/config/development.json"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: dataviews",
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 6,
+		"selected": true
+	},
+	{
+		"number": 65788,
+		"title": "Migrate customer stock notification screens to the order actions \"more actions\" menu",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65788",
+		"author": "j111q",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "claude/jolly-cray-jdeqpb",
+		"files": [
+			"plugins/woocommerce/changelog/update-stock-notification-actions-more-menu",
+			"plugins/woocommerce/client/legacy/css/admin.scss",
+			"plugins/woocommerce/client/legacy/js/admin/meta-boxes-order.js",
+			"plugins/woocommerce/client/legacy/js/admin/order-actions-menu.js",
+			"plugins/woocommerce/client/legacy/js/admin/wc-customer-stock-notifications.js",
+			"plugins/woocommerce/includes/admin/class-wc-admin-assets.php",
+			"plugins/woocommerce/src/Internal/StockNotifications/Admin/AdminManager.php",
+			"plugins/woocommerce/src/Internal/StockNotifications/Admin/Templates/html-admin-notification-create.php",
+			"plugins/woocommerce/src/Internal/StockNotifications/Admin/Templates/html-admin-notification-edit.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: stock notification",
+			"author: j111q"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 65636,
+		"title": "Add deprecated WC Admin feature flag shims",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65636",
+		"author": "gigitux",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: monorepo infrastructure"
+		],
+		"mergedAt": null,
+		"headRefName": "stack/backward-compatibility-feature-flag",
+		"files": [
+			"plugins/woocommerce/changelog/dev-deflag-wc-admin-feature-compatibility-shims",
+			"plugins/woocommerce/client/admin/client/typings/global.d.ts",
+			"plugins/woocommerce/client/admin/client/utils/features/features.ts",
+			"plugins/woocommerce/client/admin/client/utils/features/retired-feature-flags.ts",
+			"plugins/woocommerce/client/admin/client/utils/test/admin-settings.js",
+			"plugins/woocommerce/client/admin/package.json",
+			"plugins/woocommerce/src/Admin/Features/Features.php",
+			"plugins/woocommerce/src/Blocks/BlockPatterns.php",
+			"plugins/woocommerce/src/Blocks/Patterns/PatternRegistry.php",
+			"plugins/woocommerce/tests/php/src/Admin/Features/Analytics/FeatureEnabledTest.php",
+			"plugins/woocommerce/tests/php/src/Blocks/BlockPatterns/BlockPatterns.php",
+			"plugins/woocommerce/tests/php/src/Blocks/Patterns/PatternRegistryTest.php",
+			"pnpm-lock.yaml"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: settings-ui",
+			"keyword: feature flag"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 65573,
+		"title": "Remove Point of Sale feature flag from WooCommerce",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65573",
+		"author": "samiuelson",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce",
+			"focus: e2e tests"
+		],
+		"mergedAt": "2026-06-17T07:36:17Z",
+		"headRefName": "woomob-2683-remove-pos-feature-flag-from-woocommerce",
+		"files": [
+			"plugins/woocommerce/changelog/woomob-2683-remove-pos-feature-flag",
+			"plugins/woocommerce/includes/admin/class-wc-admin-settings.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-product-data.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-product-data-advanced.php",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-point-of-sale.php",
+			"plugins/woocommerce/includes/class-wc-emails.php",
+			"plugins/woocommerce/includes/class-wc-install.php",
+			"plugins/woocommerce/includes/wc-update-functions.php",
+			"plugins/woocommerce/phpstan-baseline.neon",
+			"plugins/woocommerce/src/Internal/EmailEditor/WCTransactionalEmails/WCTransactionalEmails.php",
+			"plugins/woocommerce/src/Internal/Features/FeaturesController.php",
+			"plugins/woocommerce/src/Internal/ProductFeed/Integrations/POSCatalog/POSProductVisibilitySync.php",
+			"plugins/woocommerce/tests/e2e-pw/tests/email/settings-email-listing.spec.ts",
+			"plugins/woocommerce/tests/php/includes/wc-update-functions-test.php",
+			"plugins/woocommerce/tests/php/src/Internal/EmailEditor/WCTransactionalEmails/WCTransactionalEmailsTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Features/FeaturesControllerTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/ProductFeed/Integrations/POSCatalog/POSProductVisibilitySyncTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 65140,
+		"title": "[RSM] Add recommendation on Checkout Recovery settings",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65140",
+		"author": "mayisha",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-03T15:50:06Z",
+		"headRefName": "rsm/checkout-recovery-extension-recommendations",
+		"files": [
+			"plugins/woocommerce/changelog/abandoned-cart-recovery-recommendations",
+			"plugins/woocommerce/changelog/checkout-recovery-manual-send",
+			"plugins/woocommerce/changelog/checkout-recovery-unsubscribe",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations-wrapper.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations.scss",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/abandoned-cart-recovery-recommendations.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/automatewoo-item.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/index.ts",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/mailpoet-item.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/abandoned-cart-recovery-recommendations-wrapper.test.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/abandoned-cart-recovery-recommendations.test.tsx",
+			"plugins/woocommerce/client/admin/client/abandoned-cart-recovery/test/promo-items.test.tsx",
+			"plugins/woocommerce/client/admin/client/embedded-body-layout/embedded-body-layout.tsx",
+			"plugins/woocommerce/includes/class-wc-install.php",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/includes/emails/class-wc-email-customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/src/Admin/API/Options.php",
+			"plugins/woocommerce/src/Internal/AbandonedCartRecovery/ManualSendHandler.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Endpoint.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Storage.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTagManager.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTags/UnsubscribeTagsProvider.php",
+			"plugins/woocommerce/templates/emails/block/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/plain/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/tests/php/includes/emails/class-wc-email-customer-abandoned-cart-recovery-test.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/EndpointTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/StorageTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: feature flag",
+			"keyword: rsm"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 65072,
+		"title": "Fix Leaderboards analytics for users with view_woocommerce_reports cap",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65072",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-290-1778850420",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-290",
+			"plugins/woocommerce/src/Admin/API/Leaderboards.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/woocommerce-admin/api/leaderboards.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: products table",
+			"keyword: rsm"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 65053,
+		"title": "Fix a11y: render product attribute Remove control as a button",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65053",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-316-1778848404",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-316",
+			"plugins/woocommerce/client/legacy/css/admin.scss",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-product-attribute.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm",
+			"keyword: navigation"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 65044,
+		"title": "Fix country dropdown dropping the order's saved country on order edit screen",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65044",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-337-1778847372",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-337",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php",
+			"plugins/woocommerce/tests/php/includes/admin/meta-boxes/class-wc-meta-box-order-data-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64968,
+		"title": "Use boolean `selected` attribute on hardcoded WC admin <option> markup",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64968",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-434-1778812810",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-434",
+			"plugins/woocommerce/client/legacy/js/admin/meta-boxes-product.js",
+			"plugins/woocommerce/includes/admin/class-wc-admin-brands.php",
+			"plugins/woocommerce/includes/admin/class-wc-admin-settings.php",
+			"plugins/woocommerce/includes/admin/list-tables/class-wc-admin-list-table-products.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-order-shipping.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-product-attribute-inner.php",
+			"plugins/woocommerce/includes/admin/settings/views/html-keys-edit.php",
+			"plugins/woocommerce/includes/admin/settings/views/html-webhooks-edit.php",
+			"plugins/woocommerce/includes/class-wc-countries.php",
+			"plugins/woocommerce/includes/walkers/class-wc-product-cat-dropdown-walker.php",
+			"plugins/woocommerce/src/Internal/Admin/Orders/ListTable.php",
+			"plugins/woocommerce/src/Internal/Admin/ProductReviews/ReviewsListTable.php",
+			"plugins/woocommerce/src/Internal/StockNotifications/Admin/ListTable.php",
+			"plugins/woocommerce/src/Internal/StockNotifications/Admin/Templates/html-admin-notification-create.php",
+			"plugins/woocommerce/tests/php/includes/class-wc-countries-test.php",
+			"plugins/woocommerce/tests/php/includes/walkers/class-wc-product-cat-dropdown-walker-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64914,
+		"title": "Fix negative Net sales in Analytics after deleting refunded orders",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64914",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-426-1778757497",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-426",
+			"plugins/woocommerce/src/Admin/API/Reports/Orders/Stats/DataStore.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/woocommerce-admin/reports/class-wc-tests-reports-orders-stats.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64903,
+		"title": "fix: reject reserved internal meta keys in order item Add Meta UI (RSMAPGJ-444)",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64903",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-444-1778756902",
+		"files": [
+			"plugins/woocommerce/changelog/64903-ai-agent-rsmapgj-444-1778756902",
+			"plugins/woocommerce/changelog/fix-rsmapgj-444",
+			"plugins/woocommerce/includes/admin/wc-admin-functions.php",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-admin-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64885,
+		"title": "Floating header: polish + WP design token alignment",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64885",
+		"author": "j111q",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-05-19T06:24:06Z",
+		"headRefName": "sprinkle/preview-store-icon",
+		"files": [
+			"packages/js/internal-style-build/abstracts/_variables.scss",
+			"packages/js/internal-style-build/changelog/sprinkle-header-tokens-alignment",
+			"plugins/woocommerce/changelog/64885-sprinkle-preview-store-icon",
+			"plugins/woocommerce/client/admin/client/activity-panel/activity-panel.js",
+			"plugins/woocommerce/client/admin/client/activity-panel/display-options/icons/display.js",
+			"plugins/woocommerce/client/admin/client/activity-panel/style.scss",
+			"plugins/woocommerce/client/admin/client/header/style.scss",
+			"plugins/woocommerce/client/admin/client/marketplace/components/header-account/header-account.scss",
+			"plugins/woocommerce/client/admin/client/marketplace/components/header-account/header-account.tsx",
+			"plugins/woocommerce/client/admin/client/settings-payments/components/header/header.scss",
+			"plugins/woocommerce/client/admin/client/settings-payments/settings-payments-body.scss",
+			"plugins/woocommerce/client/legacy/css/admin.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/settings",
+			"keyword: floating header",
+			"author: j111q"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64880,
+		"title": "Payments settings: grey tab strip to match other Settings tabs",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64880",
+		"author": "j111q",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "sprinkle/payments-settings-grey-bg",
+		"files": [
+			"plugins/woocommerce/changelog/64880-sprinkle-payments-settings-grey-bg",
+			"plugins/woocommerce/changelog/sprinkle-payments-tab-strip-grey-bg",
+			"plugins/woocommerce/client/admin/client/settings-payments/settings-payments-body.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/settings",
+			"keyword: floating header",
+			"author: j111q"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64860,
+		"title": "Improve payment setup fallback coverage",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64860",
+		"author": "annchichi",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-05-19T04:21:51Z",
+		"headRefName": "codex/payment-setup-followup",
+		"files": [
+			"plugins/woocommerce/changelog/dev-payment-setup-fallback-tests",
+			"plugins/woocommerce/client/admin/client/settings-payments/components/buttons/enable-gateway-button.tsx",
+			"plugins/woocommerce/client/admin/client/settings-payments/components/buttons/test/enable-gateway-button.test.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/settings",
+			"keyword: payment setup",
+			"author: annchichi"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64846,
+		"title": "Analytics: align Date range and Data status, refine Update now button",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64846",
+		"author": "j111q",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce",
+			"package: @woocommerce/components",
+			"focus: e2e tests"
+		],
+		"mergedAt": "2026-06-10T09:08:12Z",
+		"headRefName": "sprinkle/analytics-date-range-alignment",
+		"files": [
+			"packages/js/components/changelog/sprinkle-analytics-date-range-alignment",
+			"packages/js/components/src/date-range-filter-picker/index.js",
+			"plugins/woocommerce/changelog/sprinkle-analytics-date-range-alignment",
+			"plugins/woocommerce/client/admin/client/analytics/components/import-status-bar/import-status-bar.scss",
+			"plugins/woocommerce/client/admin/client/analytics/components/import-status-bar/import-status-bar.tsx",
+			"plugins/woocommerce/tests/e2e-pw/tests/analytics/analytics-overview.spec.ts"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/analytics",
+			"keyword: feature flag",
+			"author: j111q"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 64799,
+		"title": "Improve payment provider setup error message",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64799",
+		"author": "annchichi",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-05-13T06:35:48Z",
+		"headRefName": "codex/payments-needs-setup-message",
+		"files": [
+			"plugins/woocommerce/changelog/fix-payment-provider-needs-setup-message",
+			"plugins/woocommerce/client/admin/client/settings-payments/components/buttons/enable-gateway-button.tsx",
+			"plugins/woocommerce/client/admin/client/settings-payments/components/buttons/test/enable-gateway-button.test.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/client/admin/client/settings",
+			"keyword: payment provider",
+			"author: annchichi"
+		],
+		"score": 5,
+		"selected": true
+	},
+	{
+		"number": 65917,
+		"title": "Fix Settings UI number field custom attributes",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65917",
+		"author": "dmallory42",
+		"labels": [],
+		"mergedAt": null,
+		"headRefName": "fix/settings-ui-number-custom-attrs",
+		"files": [
+			"packages/js/settings-ui/changelog/fix-number-custom-attributes",
+			"packages/js/settings-ui/src/native-fields.tsx",
+			"packages/js/settings-ui/src/test/native-fields.test.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: settings-ui",
+			"keyword: settings ui"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65657,
+		"title": "Add POS staff foundation: feature flag, orchestrator, caps model",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65657",
+		"author": "jaclync",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "feature/pos-staff-foundation",
+		"files": [
+			"plugins/woocommerce/changelog/add-pos-staff-foundation",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/src/Internal/Features/FeaturesController.php",
+			"plugins/woocommerce/src/Internal/POS/Capabilities.php",
+			"plugins/woocommerce/src/Internal/POS/POSController.php",
+			"plugins/woocommerce/tests/php/src/Internal/POS/CapabilitiesTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65521,
+		"title": "Make abandoned cart recovery experimental and opt-in (not default-on for new installs)",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65521",
+		"author": "prettyboymp",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-08T14:40:28Z",
+		"headRefName": "fix/abandoned-cart-recovery-experimental-optin",
+		"files": [
+			"plugins/woocommerce/changelog/abandoned-cart-recovery-experimental-optin",
+			"plugins/woocommerce/includes/class-wc-install.php",
+			"plugins/woocommerce/src/Internal/Features/FeaturesController.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65404,
+		"title": "Remove `experimental-iapi-runtime` feature flag",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65404",
+		"author": "gigitux",
+		"labels": [
+			"plugin: woocommerce",
+			"focus: monorepo infrastructure"
+		],
+		"mergedAt": "2026-06-01T08:34:00Z",
+		"headRefName": "remove-experimental-iapi-runtime",
+		"files": [
+			".pnpmfile.cjs",
+			".syncpackrc",
+			"plugins/woocommerce/changelog/dev-remove-experimental-iapi-runtime",
+			"plugins/woocommerce/client/admin/config/core.json",
+			"plugins/woocommerce/client/admin/config/development.json",
+			"plugins/woocommerce/client/blocks/assets/js/blocks/product-filters/frontend.ts",
+			"plugins/woocommerce/client/blocks/bin/webpack-config-interactivity.js",
+			"plugins/woocommerce/client/blocks/package.json",
+			"plugins/woocommerce/client/blocks/tsconfig.base.json",
+			"plugins/woocommerce/client/blocks/webpack.config.js",
+			"plugins/woocommerce/phpstan-baseline.neon",
+			"plugins/woocommerce/src/Blocks/AssetsController.php",
+			"pnpm-lock.yaml",
+			"pnpm-workspace.yaml"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65164,
+		"title": "[RSM] Add manual send action for the Checkout Recovery email",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65164",
+		"author": "mayisha",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-06-03T15:00:56Z",
+		"headRefName": "rsm/checkout-recovery-manual-send",
+		"files": [
+			"plugins/woocommerce/changelog/checkout-recovery-manual-send",
+			"plugins/woocommerce/changelog/checkout-recovery-unsubscribe",
+			"plugins/woocommerce/includes/class-wc-install.php",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/includes/emails/class-wc-email-customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/src/Internal/AbandonedCartRecovery/ManualSendHandler.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Endpoint.php",
+			"plugins/woocommerce/src/Internal/Email/Unsubscribes/Storage.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTagManager.php",
+			"plugins/woocommerce/src/Internal/EmailEditor/PersonalizationTags/UnsubscribeTagsProvider.php",
+			"plugins/woocommerce/templates/emails/block/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/templates/emails/plain/customer-abandoned-cart-recovery.php",
+			"plugins/woocommerce/tests/php/includes/emails/class-wc-email-customer-abandoned-cart-recovery-test.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/EndpointTest.php",
+			"plugins/woocommerce/tests/php/src/Internal/Email/Unsubscribes/StorageTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65159,
+		"title": "Fix variation quick edit crashes and save errors in experimental products app",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65159",
+		"author": "poligilad-auto",
+		"labels": [],
+		"mergedAt": "2026-05-22T08:31:27Z",
+		"headRefName": "poligilad/variation-status-active-inactive",
+		"files": [
+			"packages/js/experimental-products-app/src/product-edit/save.test.ts",
+			"packages/js/experimental-products-app/src/product-edit/save.ts"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: experiment"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65156,
+		"title": "Add price range filter spacing",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65156",
+		"author": "gigitux",
+		"labels": [],
+		"mergedAt": "2026-05-20T07:43:24Z",
+		"headRefName": "fix/rsm-3550-price-range-spacing",
+		"files": [
+			"packages/js/experimental-products-app/changelog/fix-rsm-3550-price-range-spacing",
+			"packages/js/experimental-products-app/src/fields/price/field.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: experiment",
+			"keyword: rsm"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65154,
+		"title": "Fix empty product list filters",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65154",
+		"author": "gigitux",
+		"labels": [],
+		"mergedAt": "2026-05-20T08:01:48Z",
+		"headRefName": "fix/rsm-3550-empty-filters",
+		"files": [
+			"packages/js/experimental-products-app/changelog/fix-rsm-3550-empty-filters",
+			"packages/js/experimental-products-app/src/product-list/query.test.ts",
+			"packages/js/experimental-products-app/src/product-list/query.ts"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: experiment",
+			"keyword: rsm"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65071,
+		"title": "Fix order refund items inheriting meta IDs from original line item",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65071",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-298-1778850093",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-298",
+			"plugins/woocommerce/includes/wc-order-functions.php",
+			"plugins/woocommerce/tests/php/includes/wc-order-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65061,
+		"title": "Fix wc_format_decimal trimming trailing zeros below price decimals",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65061",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-330-1778848870",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-330",
+			"plugins/woocommerce/includes/wc-formatting-functions.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/formatting/functions.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65054,
+		"title": "Preserve 0% tax rates on refund orders",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65054",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-310-1778848069",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-310",
+			"plugins/woocommerce/includes/class-wc-ajax.php",
+			"plugins/woocommerce/includes/wc-order-functions.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/order/class-wc-tests-order-functions.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65039,
+		"title": "Fix Mini Cart toggle missing from Navigation hooked-blocks panel",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65039",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-275-1778846326",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-275",
+			"plugins/woocommerce/src/Blocks/BlockTypes/CustomerAccount.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/MiniCart.php",
+			"plugins/woocommerce/src/Blocks/Utils/BlockHooksTrait.php",
+			"plugins/woocommerce/tests/php/src/Blocks/BlockTypes/BlockHooksTests.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: navigation"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65029,
+		"title": "Fix Analytics crash when customer-effort-score-tracks feature is disabled",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65029",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce",
+			"package: @woocommerce/customer-effort-score"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-319-1778845641",
+		"files": [
+			"packages/js/customer-effort-score/changelog/fix-rsmapgj-319",
+			"packages/js/customer-effort-score/src/components/customer-effort-score-modal-container/index.tsx",
+			"packages/js/customer-effort-score/src/components/customer-effort-score-modal-container/test/index.tsx",
+			"plugins/woocommerce/changelog/fix-rsmapgj-319"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: rsm"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65022,
+		"title": "Resolve relative paths in `getNewPath` against the current path",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65022",
+		"author": "ayushpahwa",
+		"labels": [
+			"package: @woocommerce/navigation"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-343-1778845097",
+		"files": [
+			"packages/js/navigation/changelog/fix-rsmapgj-343",
+			"packages/js/navigation/src/test/index.js",
+			"packages/js/navigation/src/url.js"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: navigation"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65009,
+		"title": "RSM: better detection for saved for later block on cart page",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65009",
+		"author": "jorgeatorres",
+		"labels": [
+			"needs: documentation",
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-05-18T16:34:33Z",
+		"headRefName": "hooked-block-has-block-check",
+		"files": [
+			"plugins/woocommerce/changelog/fix-shopper-collection-hooked-block-flag",
+			"plugins/woocommerce/src/Blocks/BlockTypes/Cart.php",
+			"plugins/woocommerce/src/Blocks/BlockTypes/ShopperCollection.php",
+			"plugins/woocommerce/tests/php/src/Blocks/BlockTypes/ShopperCollectionTests.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: feature flag",
+			"keyword: rsm"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64996,
+		"title": "Prevent duplicate order actions on Update button double-click",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64996",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-372-1778836535",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-372",
+			"plugins/woocommerce/client/legacy/js/admin/meta-boxes-order.js"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64982,
+		"title": "Fire woocommerce_trash_order and woocommerce_delete_order from WP post hooks",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64982",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-394-1778816139",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-394",
+			"plugins/woocommerce/includes/class-wc-post-data.php",
+			"plugins/woocommerce/includes/data-stores/abstract-wc-order-data-store-cpt.php",
+			"plugins/woocommerce/tests/php/includes/class-wc-post-data-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64976,
+		"title": "Fix CES shop_order_update survey on HPOS order edit page",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64976",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-433-1778815536",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-433",
+			"plugins/woocommerce/src/Internal/Admin/CustomerEffortScoreTracks.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/woocommerce-admin/features/class-wc-tests-ces-tracks.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64947,
+		"title": "Fix single product description CSS in Twenty * classic themes",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64947",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-403-1778780217",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-403",
+			"plugins/woocommerce/client/legacy/css/twenty-nineteen.scss",
+			"plugins/woocommerce/client/legacy/css/twenty-twenty-one.scss",
+			"plugins/woocommerce/client/legacy/css/twenty-twenty.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: navigation"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64939,
+		"title": "Fix current-menu-item class on shop page link in Navigation block",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64939",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-398-1778778430",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-398",
+			"plugins/woocommerce/includes/wc-page-functions.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/util/page-functions.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: navigation"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64938,
+		"title": "Reject refunds that exceed a line item's remaining total or quantity",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64938",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-379-1778778430",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-379",
+			"plugins/woocommerce/includes/wc-order-functions.php",
+			"plugins/woocommerce/tests/php/includes/wc-order-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64932,
+		"title": "Fix duplicate variation attributes on Order Pay, My Account, and emails",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64932",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-397-1778770749",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-397",
+			"plugins/woocommerce/includes/class-wc-order-item.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/order-items/class-wc-tests-order-item-product.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: email template"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64913,
+		"title": "Add per-tab empty states to the experimental products app",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64913",
+		"author": "verofasulo",
+		"labels": [
+			"needs: documentation"
+		],
+		"mergedAt": "2026-05-14T15:36:57Z",
+		"headRefName": "add/products-app-empty-states",
+		"files": [
+			"packages/js/experimental-products-app/changelog/add-products-app-empty-states",
+			"packages/js/experimental-products-app/src/product-list/empty-state/icon.tsx",
+			"packages/js/experimental-products-app/src/product-list/empty-state/index.tsx",
+			"packages/js/experimental-products-app/src/product-list/index.tsx"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: dataviews",
+			"keyword: experiment"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64902,
+		"title": "Fix color contrast for paragraph text on admin order screen",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64902",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-440-1778757497",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-440",
+			"plugins/woocommerce/client/legacy/css/admin.scss"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: rsm",
+			"keyword: order edit"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 64897,
+		"title": "fix: wrap product editor info tooltip text (GTIN field)",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64897",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce",
+			"package: @woocommerce/components"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-427-1778756902",
+		"files": [
+			"packages/js/components/changelog/64897-ai-agent-rsmapgj-427-1778756902",
+			"packages/js/components/changelog/fix-rsmapgj-427",
+			"packages/js/components/src/tooltip/style.scss",
+			"packages/js/product-editor/changelog/64897-ai-agent-rsmapgj-427-1778756902",
+			"packages/js/product-editor/changelog/fix-rsmapgj-427",
+			"packages/js/product-editor/src/components/label/style.scss",
+			"plugins/woocommerce/changelog/64897-ai-agent-rsmapgj-427-1778756902",
+			"plugins/woocommerce/changelog/fix-rsmapgj-427"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"keyword: experiment",
+			"keyword: rsm"
+		],
+		"score": 4,
+		"selected": true
+	},
+	{
+		"number": 65859,
+		"title": "Add unique CSS classes to the order_data_column DIVs in the order edit screen",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65859",
+		"author": "webdados",
+		"labels": [
+			"plugin: woocommerce",
+			"type: community contribution"
+		],
+		"mergedAt": null,
+		"headRefName": "patch-1",
+		"files": [
+			"plugins/woocommerce/changelog/patch-1",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: order edit"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65487,
+		"title": "Fix tooltip accessibility: keyboard navigation, ARIA roles, and WCAG 1.4.13 compliance",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65487",
+		"author": "anuj-rathore24",
+		"labels": [
+			"plugin: woocommerce",
+			"type: community contribution"
+		],
+		"mergedAt": null,
+		"headRefName": "fix/tooltip-accessibility",
+		"files": [
+			"plugins/woocommerce/client/legacy/css/admin.scss",
+			"plugins/woocommerce/client/legacy/js/admin/meta-boxes-product.js",
+			"plugins/woocommerce/client/legacy/js/admin/woocommerce_admin.js",
+			"plugins/woocommerce/client/legacy/js/jquery-tiptip/jquery.tipTip.js",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-downloads.php",
+			"plugins/woocommerce/includes/gateways/bacs/class-wc-gateway-bacs.php",
+			"plugins/woocommerce/includes/wc-core-functions.php",
+			"plugins/woocommerce/src/Internal/Admin/Orders/Edit.php",
+			"plugins/woocommerce/templates/order/customer-history.php",
+			"plugins/woocommerce/tests/php/includes/wc-core-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: navigation"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65387,
+		"title": "Remove product editor template system feature flag",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65387",
+		"author": "gigitux",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": "2026-05-29T07:37:31Z",
+		"headRefName": "remove/product-editor-template-system-flag",
+		"files": [
+			"packages/js/product-editor/changelog/remove-product-editor-template-system-flag",
+			"packages/js/product-editor/src/blocks/product-fields/product-details-section-description/edit.tsx",
+			"packages/js/product-editor/src/components/block-editor/block-editor.tsx",
+			"packages/js/product-editor/src/types.ts",
+			"packages/js/product-editor/src/utils/is-product-form-template-system-enabled.ts",
+			"plugins/woocommerce/changelog/remove-product-editor-template-system-flag",
+			"plugins/woocommerce/client/admin/config/core.json",
+			"plugins/woocommerce/client/admin/config/development.json",
+			"plugins/woocommerce/includes/class-wc-post-types.php",
+			"plugins/woocommerce/src/Admin/Features/ProductBlockEditor/Init.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: feature flag"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65086,
+		"title": "Fix: Allow sample products to be excluded from onboarding task completion",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65086",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-363-1778852576",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-363",
+			"plugins/woocommerce/src/Admin/Features/OnboardingTasks/Tasks/Products.php",
+			"plugins/woocommerce/tests/php/src/Admin/Features/OnboardingTasks/Tasks/ProductsTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65081,
+		"title": "Resync stock status when the out-of-stock threshold changes",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65081",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-274-1778851257",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-274",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-products.php",
+			"plugins/woocommerce/includes/class-woocommerce.php",
+			"plugins/woocommerce/src/Internal/StockThresholdResync.php",
+			"plugins/woocommerce/tests/php/src/Internal/StockThresholdResyncTest.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65078,
+		"title": "Fix duplicate product entry in admin menu order",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65078",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-289-1778850841",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-289",
+			"plugins/woocommerce/includes/admin/class-wc-admin-menus.php",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-admin-menus-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65076,
+		"title": "Replace deprecated `width` attribute on `<td>` with inline CSS",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65076",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-273-1778850258",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-273",
+			"plugins/woocommerce/client/admin/client/wp-admin-scripts/payment-method-promotions/payment-promotion-row.tsx",
+			"plugins/woocommerce/includes/admin/settings/views/html-admin-page-shipping-zone-methods.php",
+			"plugins/woocommerce/includes/admin/settings/views/html-admin-page-shipping-zones.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65075,
+		"title": "Fix woocommerce_wp_text_input not populating value under HPOS",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65075",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-283-1778850714",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-283",
+			"plugins/woocommerce/includes/admin/wc-meta-box-functions.php",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-meta-box-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65074,
+		"title": "Fix duplicate/missing rows in Analytics Products CSV export",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65074",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-287-1778850539",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-287",
+			"plugins/woocommerce/src/Admin/API/Reports/Products/DataStore.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/woocommerce-admin/reports/class-wc-tests-reports-products.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/src/Admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65073,
+		"title": "Preserve intentionally empty Shop Page during WooCommerce updates",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65073",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-295-1778850321",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-295",
+			"plugins/woocommerce/includes/admin/wc-admin-functions.php",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-admin-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65070,
+		"title": "Fix WooCommerce Status warning when PHP memory_limit is -1",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65070",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-299-1778850027",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-299",
+			"plugins/woocommerce/includes/admin/views/html-admin-page-status-report.php",
+			"plugins/woocommerce/includes/rest-api/Controllers/Version2/class-wc-rest-system-status-v2-controller.php",
+			"plugins/woocommerce/includes/wc-formatting-functions.php",
+			"plugins/woocommerce/phpstan-baseline.neon",
+			"plugins/woocommerce/tests/legacy/unit-tests/formatting/functions.php",
+			"plugins/woocommerce/tests/php/includes/rest-api/Controllers/Version2/class-wc-rest-system-status-v2-controller-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65058,
+		"title": "Fix product CSV import losing 'Used for variations' on edited attributes",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65058",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-334-1778848725",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-334",
+			"plugins/woocommerce/includes/admin/importers/class-wc-product-csv-importer-controller.php",
+			"plugins/woocommerce/includes/admin/importers/mappings/default.php",
+			"plugins/woocommerce/includes/export/class-wc-product-csv-exporter.php",
+			"plugins/woocommerce/includes/import/abstract-wc-product-importer.php",
+			"plugins/woocommerce/includes/import/class-wc-product-csv-importer.php",
+			"plugins/woocommerce/tests/php/includes/importer/class-wc-product-csv-importer-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65045,
+		"title": "Fix: only save product once on update (RSMAPGJ-324)",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65045",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-324-1778847517",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-324",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-product-data.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-product-images.php",
+			"plugins/woocommerce/tests/php/includes/admin/meta-boxes/class-wc-meta-box-product-save-once-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 65016,
+		"title": "Fix Out of Stock count in dashboard status widget for unmanaged products",
+		"url": "https://github.com/woocommerce/woocommerce/pull/65016",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-354-1778844476",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-354",
+			"plugins/woocommerce/includes/admin/class-wc-admin-dashboard.php",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-admin-dashboard-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64973,
+		"title": "Fix tax names containing percent-encoded-like sequences being stripped on order pages",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64973",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-418-1778814634",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-418",
+			"plugins/woocommerce/includes/admin/settings/class-wc-settings-tax.php",
+			"plugins/woocommerce/includes/class-wc-tax.php",
+			"plugins/woocommerce/includes/rest-api/Controllers/Version1/class-wc-rest-taxes-v1-controller.php",
+			"plugins/woocommerce/tests/php/includes/class-wc-tax-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64956,
+		"title": "Fix Sales by Date report TypeError when refund totals are strings (PHP 8+)",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64956",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-409-1778781858",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-409",
+			"plugins/woocommerce/includes/admin/reports/class-wc-report-sales-by-date.php",
+			"plugins/woocommerce/tests/legacy/unit-tests/admin/reports/class-wc-tests-report-sales-by-date.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64948,
+		"title": "Fix manual order shipping method name truncated to \"Shipping\" in emails",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64948",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-406-1778778430",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-406",
+			"plugins/woocommerce/includes/admin/wc-admin-functions.php",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-admin-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64940,
+		"title": "Fix wc/v3/reports/sales returning empty data on HPOS-only sites",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64940",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-425-1778778430",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-425",
+			"plugins/woocommerce/includes/admin/reports/class-wc-report-sales-by-date.php",
+			"plugins/woocommerce/tests/php/includes/admin/reports/class-wc-report-sales-by-date-hpos-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64933,
+		"title": "Fix manual order shipping instance id",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64933",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-410-1778770749",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-410",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-order-items.php",
+			"plugins/woocommerce/includes/admin/meta-boxes/views/html-order-shipping.php",
+			"plugins/woocommerce/includes/admin/wc-admin-functions.php",
+			"plugins/woocommerce/includes/class-wc-ajax.php",
+			"plugins/woocommerce/phpstan-baseline.neon",
+			"plugins/woocommerce/tests/php/includes/admin/class-wc-admin-functions-test.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64929,
+		"title": "Fix layout shift on Products list by rendering Import/Export buttons server-side",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64929",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-386-1778769240",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-386",
+			"plugins/woocommerce/client/legacy/js/admin/woocommerce_admin.js",
+			"plugins/woocommerce/includes/admin/class-wc-admin-importers.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64926,
+		"title": "Initialise product term `order` meta in non-admin contexts",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64926",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-396-1778769240",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-396",
+			"plugins/woocommerce/includes/admin/class-wc-admin-taxonomies.php",
+			"plugins/woocommerce/includes/wc-term-functions.php",
+			"plugins/woocommerce/tests/php/includes/wc-term-functions-tests.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64918,
+		"title": "Fix product quick edit saving NULL stock quantity with empty input",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64918",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-441-1778769240",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-441",
+			"plugins/woocommerce/includes/admin/class-wc-admin-post-types.php",
+			"plugins/woocommerce/tests/unit-tests/admin/class-wc-tests-admin-post-types.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
+		"selected": true
+	},
+	{
+		"number": 64915,
+		"title": "Fix shipping class cleared on quick/bulk edit with non-ASCII slugs",
+		"url": "https://github.com/woocommerce/woocommerce/pull/64915",
+		"author": "ayushpahwa",
+		"labels": [
+			"plugin: woocommerce"
+		],
+		"mergedAt": null,
+		"headRefName": "ai/agent/rsmapgj-381-1778757497",
+		"files": [
+			"plugins/woocommerce/changelog/fix-rsmapgj-381",
+			"plugins/woocommerce/includes/admin/class-wc-admin-post-types.php",
+			"plugins/woocommerce/tests/unit-tests/admin/class-wc-tests-admin-post-types.php"
+		],
+		"sourceSearches": [
+			"All recent Woo PR activity: updated:>=2026-04-15"
+		],
+		"reasons": [
+			"path: plugins/woocommerce/includes/admin",
+			"keyword: rsm"
+		],
+		"score": 3,
 		"selected": true
 	}
 ]

@@ -708,12 +708,19 @@
 				// produces %2F-encoded slashes, but PHP renders hrefs with literal
 				// slashes — match both forms.
 				if ( url && url !== '/' ) {
-					var subLit = 'page=wc-admin&path=' + url;
-					var subEnc = 'page=wc-admin&path=' + encodeURIComponent( url );
+					var subLit = 'admin.php?page=wc-admin&path=' + url;
+					var subEnc = 'admin.php?page=wc-admin&path=' + encodeURIComponent( url );
+					$( '#adminmenu .wp-submenu li.current' )
+						.removeClass( 'current' )
+						.find( '> a' )
+						.removeAttr( 'aria-current' );
 					$( '#adminmenu .wp-submenu li' ).each( function () {
 						var href = canonicalUrl( $( this ).find( '> a' ).attr( 'href' ) || '' );
-						if ( href.indexOf( subLit ) !== -1 || href.indexOf( subEnc ) !== -1 ) {
-							$( this ).addClass( 'current' );
+						if ( href === subLit || href === subEnc ) {
+							$( this )
+								.addClass( 'current' )
+								.find( '> a' )
+								.attr( 'aria-current', 'page' );
 							return false;
 						}
 					} );

@@ -12,6 +12,20 @@ class MCC_Data {
 	public static function get_channels() {
 		return array(
 			array(
+				'id'           => 'woo_ads',
+				'label'        => 'Woo Ads',
+				'short'        => 'W',
+				'color'        => '#720eec',
+				'connected'    => true,
+				'status'       => 'connected',
+				'category'     => 'Woo',
+				'description'  => 'Plan, launch, and compare Woo-native ad campaigns from one place.',
+				'capabilities' => array( 'Campaign setup', 'Product sync', 'Budget guidance', 'Performance reporting' ),
+				'badges'       => array( 'Official', 'Connected' ),
+				'action_label' => 'Manage',
+				'featured'     => true,
+			),
+			array(
 				'id'           => 'google',
 				'label'        => 'Google for WooCommerce',
 				'short'        => 'G',
@@ -21,9 +35,8 @@ class MCC_Data {
 				'category'     => 'Search and Shopping',
 				'description'  => 'Sync products to Google, run Performance Max campaigns, and track conversions.',
 				'capabilities' => array( 'Product sync', 'Paid ads', 'Free listings', 'Conversion tracking' ),
-				'badges'       => array( 'Official', 'Connected' ),
+				'badges'       => array( 'Connected' ),
 				'action_label' => 'Manage',
-				'featured'     => true,
 			),
 			array(
 				'id'           => 'meta',

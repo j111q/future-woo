@@ -21,7 +21,7 @@ test( 'marketing channels expose provider-row metadata', () => {
 	const channels = loadChannels();
 	const byId = new Map( channels.map( ( channel ) => [ channel.id, channel ] ) );
 
-	for ( const id of [ 'google', 'pinterest', 'amazon', 'ebay' ] ) {
+	for ( const id of [ 'woo_ads', 'google', 'pinterest', 'amazon', 'ebay' ] ) {
 		assert.ok( byId.has( id ), `expected ${ id } channel` );
 	}
 
@@ -38,7 +38,11 @@ test( 'marketing channels expose provider-row metadata', () => {
 		);
 	}
 
-	assert.equal( byId.get( 'google' ).featured, true );
+	assert.equal( byId.get( 'woo_ads' ).label, 'Woo Ads' );
+	assert.equal( byId.get( 'woo_ads' ).featured, true );
+	assert.ok( byId.get( 'woo_ads' ).badges.includes( 'Official' ) );
+	assert.notEqual( byId.get( 'google' ).featured, true );
+	assert.ok( ! byId.get( 'google' ).badges.includes( 'Official' ) );
 	assert.ok( byId.get( 'google' ).capabilities.includes( 'Product sync' ) );
 	assert.equal( byId.get( 'pinterest' ).status, 'recommended' );
 	assert.equal( byId.get( 'amazon' ).category, 'Marketplace' );

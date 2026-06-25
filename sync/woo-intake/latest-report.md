@@ -2,7 +2,7 @@
 
 Generated: 2026-06-25
 Source: woocommerce/woocommerce
-Auto-merge gate: merge
+Auto-merge gate: hold
 
 ## What the bot checked
 
@@ -57,6 +57,30 @@ Touched areas:
 - packages/js/settings-ui/README.md
 - packages/js/settings-ui/build.mjs
 
+## Surface ownership policy
+
+### Settings screens
+Mode: mirror-owned
+Owner: Woo core
+Woo PR: #65893 [Backport to release/10.9] Rename @woocommerce/settings-ui-sdk to @woocommerce/settings-ui
+Intent: feature-flag
+Action: draft-pr
+Designer review path: WooCommerce > Settings
+Matched by: path: plugins/woocommerce/client/admin/client/settings; path: plugins/woocommerce/includes/admin/settings; keyword: settings-ui
+Auto-merge: held; the bot should leave a draft PR for review.
+- Settings currently behaves like a mirror surface, so low-risk Woo improvements can flow in automatically when checks pass.
+
+### Woo admin navigation
+Mode: hybrid
+Owner: Future Woo plus Woo core
+Woo PR: #64712 Add nested admin navigation behind navigation_v2 feature flag
+Intent: feature-flag
+Action: draft-pr
+Designer review path: WooCommerce admin rail
+Matched by: path: plugins/woocommerce/src/Internal/Admin/Navigation; path: plugins/woocommerce/client/legacy/js/admin/admin-navigation-v2.js; path: plugins/woocommerce/client/legacy/css/admin-navigation-v2.scss; keyword: navigation_v2; keyword: nested admin navigation; keyword: navigation
+Auto-merge: held; the bot should leave a draft PR for review.
+- Navigation changes touch the frame of the whole prototype, so feature-flagged UI shifts should pause for review.
+
 ## Patch adapters
 
 No patch adapters matched this run.
@@ -65,6 +89,7 @@ No patch adapters matched this run.
 
 - Products > All Products
 - WooCommerce admin rail
+- WooCommerce > Settings
 
 ## How to read this
 

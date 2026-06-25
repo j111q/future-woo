@@ -13,11 +13,15 @@
 			"experimental"
 		],
 		"paths": [
+			"plugins/woocommerce/client/admin/client/analytics",
 			"plugins/woocommerce/client/admin/client/products",
 			"plugins/woocommerce/client/admin/client/settings",
 			"plugins/woocommerce/client/admin/client/marketing",
 			"plugins/woocommerce/client/admin/client/shipping",
 			"plugins/woocommerce/client/admin/client/payments",
+			"plugins/woocommerce/src/Internal/Admin/Navigation",
+			"plugins/woocommerce/client/legacy/js/admin/admin-navigation-v2.js",
+			"plugins/woocommerce/client/legacy/css/admin-navigation-v2.scss",
 			"plugins/woocommerce/src/Admin",
 			"plugins/woocommerce/includes/admin"
 		],
@@ -28,7 +32,10 @@
 			"settings UI",
 			"feature flag",
 			"experiment",
+			"analytics dashboard",
 			"marketing channels",
+			"sales channels",
+			"campaigns",
 			"shipping providers",
 			"navigation"
 		],
@@ -90,6 +97,166 @@
 			"notes": [
 				"Translate the Woo product-list DataViews surface into a Future Woo products-list bundle.",
 				"Keep the adapter separate from the existing orders-list DataViews bundle until the Products page has its own smoke test."
+			]
+		}
+	],
+	"surfacePolicies": [
+		{
+			"id": "analytics-dashboard",
+			"label": "Analytics dashboard",
+			"mode": "vision-owned",
+			"owner": "Future Woo design",
+			"reviewPath": "Analytics",
+			"matches": {
+				"paths": [
+					"plugins/woocommerce/client/admin/client/analytics"
+				],
+				"keywords": [
+					"analytics dashboard",
+					"analytics"
+				]
+			},
+			"intake": {
+				"bugfix": "report-only",
+				"feature-flag": "draft-pr",
+				"vision-change": "self-merge",
+				"default": "report-only"
+			},
+			"notes": [
+				"Future Woo owns a super-future version of this surface, so Woo core changes stay visible without automatically overwriting it."
+			]
+		},
+		{
+			"id": "marketing-channels",
+			"label": "Marketing and sales channels",
+			"mode": "vision-owned",
+			"owner": "Future Woo design",
+			"reviewPath": "Marketing > Campaigns",
+			"matches": {
+				"paths": [
+					"plugins/woocommerce/client/admin/client/marketing"
+				],
+				"keywords": [
+					"marketing channels",
+					"sales channels",
+					"campaigns"
+				]
+			},
+			"intake": {
+				"bugfix": "report-only",
+				"feature-flag": "draft-pr",
+				"vision-change": "self-merge",
+				"default": "report-only"
+			},
+			"notes": [
+				"Protects the future-facing Marketing > Campaigns exploration while still surfacing useful Woo changes."
+			]
+		},
+		{
+			"id": "products-table",
+			"label": "Products table",
+			"mode": "hybrid",
+			"owner": "Future Woo plus Woo core",
+			"reviewPath": "Products > All Products",
+			"matches": {
+				"paths": [
+					"plugins/woocommerce/client/admin/client/products",
+					"packages/js/product-editor"
+				],
+				"keywords": [
+					"products table",
+					"dataviews",
+					"product list"
+				]
+			},
+			"intake": {
+				"bugfix": "self-merge",
+				"feature-flag": "draft-pr",
+				"vision-change": "draft-pr",
+				"default": "draft-pr"
+			},
+			"notes": [
+				"Product-list DataViews work is worth pulling forward, but feature-flagged UI changes should pause as a draft for review."
+			]
+		},
+		{
+			"id": "settings-screens",
+			"label": "Settings screens",
+			"mode": "mirror-owned",
+			"owner": "Woo core",
+			"reviewPath": "WooCommerce > Settings",
+			"matches": {
+				"paths": [
+					"plugins/woocommerce/client/admin/client/settings",
+					"plugins/woocommerce/includes/admin/settings"
+				],
+				"keywords": [
+					"settings-ui",
+					"settings UI"
+				]
+			},
+			"intake": {
+				"bugfix": "self-merge",
+				"feature-flag": "draft-pr",
+				"vision-change": "draft-pr",
+				"default": "self-merge"
+			},
+			"notes": [
+				"Settings currently behaves like a mirror surface, so low-risk Woo improvements can flow in automatically when checks pass."
+			]
+		},
+		{
+			"id": "shipping-providers",
+			"label": "Shipping providers",
+			"mode": "hybrid",
+			"owner": "Future Woo plus Woo core",
+			"reviewPath": "WooCommerce > Settings > Shipping",
+			"matches": {
+				"paths": [
+					"plugins/woocommerce/client/admin/client/shipping"
+				],
+				"keywords": [
+					"shipping providers",
+					"shipping native"
+				]
+			},
+			"intake": {
+				"bugfix": "self-merge",
+				"feature-flag": "draft-pr",
+				"vision-change": "draft-pr",
+				"default": "draft-pr"
+			},
+			"notes": [
+				"Shipping provider work can follow the same provider-card pattern, but design-facing reshapes should stop as drafts."
+			]
+		},
+		{
+			"id": "admin-navigation",
+			"label": "Woo admin navigation",
+			"mode": "hybrid",
+			"owner": "Future Woo plus Woo core",
+			"reviewPath": "WooCommerce admin rail",
+			"matches": {
+				"paths": [
+					"plugins/woocommerce/src/Internal/Admin/Navigation",
+					"plugins/woocommerce/client/legacy/js/admin/admin-navigation-v2.js",
+					"plugins/woocommerce/client/legacy/css/admin-navigation-v2.scss"
+				],
+				"keywords": [
+					"navigation_v2",
+					"nested admin navigation",
+					"native rail",
+					"navigation"
+				]
+			},
+			"intake": {
+				"bugfix": "self-merge",
+				"feature-flag": "draft-pr",
+				"vision-change": "draft-pr",
+				"default": "draft-pr"
+			},
+			"notes": [
+				"Navigation changes touch the frame of the whole prototype, so feature-flagged UI shifts should pause for review."
 			]
 		}
 	]

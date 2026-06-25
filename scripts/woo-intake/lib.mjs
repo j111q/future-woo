@@ -14,6 +14,7 @@ const DEFAULT_CONFIG = {
 	featureFlags: [],
 	trackedPullRequests: [],
 	patchAdapters: [],
+	surfacePolicies: [],
 };
 
 const normalizeText = ( value ) => String( value ?? '' ).trim().toLowerCase();
@@ -57,6 +58,7 @@ export function loadConfigFromString( source ) {
 		featureFlags: Array.isArray( parsed.featureFlags ) ? parsed.featureFlags : [],
 		trackedPullRequests: Array.isArray( parsed.trackedPullRequests ) ? parsed.trackedPullRequests : [],
 		patchAdapters: Array.isArray( parsed.patchAdapters ) ? parsed.patchAdapters : [],
+		surfacePolicies: Array.isArray( parsed.surfacePolicies ) ? parsed.surfacePolicies : [],
 	};
 }
 
@@ -219,12 +221,103 @@ export function matchPatchAdapters( candidates, config ) {
 	} );
 }
 
+export function classifyCandidateIntent( candidate ) {
+	const labels = labelNames( candidate );
+	const searchableText = normalizeText( [
+		candidate.title,
+		candidate.body,
+		candidate.headRefName,
+		...( candidate.reasons ?? [] ),
+	].filter( Boolean ).join( ' ' ) );
+
+	if (
+		labels.some( ( label ) => [ 'feature flag', 'experimental', 'experiment' ].includes( label ) ) ||
+		/\b(feature flag|behind a flag|behind flag|experiment|experimental)\b/.test( searchableText )
+	) {
+		return 'feature-flag';
+	}
+
+	if (
+		labels.some( ( label ) => [ 'bug', 'bugfix', 'regression' ].includes( label ) ) ||
+		/^(fix|fixes|fixed|bugfix|bug fix)\b/.test( searchableText ) ||
+		/\b(regression|bug)\b/.test( searchableText )
+	) {
+		return 'bugfix';
+	}
+
+	if (
+		labels.some( ( label ) => [ 'design', 'ux', 'prototype' ].includes( label ) ) ||
+		/\b(redesign|vision|prototype|concept)\b/.test( searchableText )
+	) {
+		return 'vision-change';
+	}
+
+	return 'default';
+}
+
+const defaultActionForMode = ( mode ) => {
+	switch ( normalizeText( mode ) ) {
+		case 'vision-owned':
+			return 'report-only';
+		case 'hybrid':
+			return 'draft-pr';
+		case 'mirror-owned':
+			return 'self-merge';
+		default:
+			return 'draft-pr';
+	}
+};
+
+const actionForSurfaceIntent = ( surface, intent ) => {
+	const intake = surface.intake ?? {};
+	return intake[ intent ] ?? intake.default ?? defaultActionForMode( surface.mode );
+};
+
+export function classifySurfaceDecisions( candidates, config ) {
+	return ( config.surfacePolicies ?? [] ).flatMap( ( surface ) => {
+		return candidates
+			.map( ( candidate ) => ( {
+				candidate,
+				matchedBy: matchRuleReasons( candidate, surface.matches ),
+			} ) )
+			.filter( ( match ) => match.matchedBy.length > 0 )
+			.map( ( match ) => {
+				const intent = classifyCandidateIntent( match.candidate );
+				return {
+					surfaceId: surface.id,
+					label: surface.label ?? surface.id,
+					mode: surface.mode ?? 'hybrid',
+					owner: surface.owner,
+					reviewPath: surface.reviewPath,
+					notes: Array.isArray( surface.notes ) ? surface.notes : [],
+					candidate: match.candidate,
+					intent,
+					action: actionForSurfaceIntent( surface, intent ),
+					matchedBy: match.matchedBy,
+				};
+			} );
+	} );
+}
+
+export function resolveGateStatus( verificationStatus, surfaceDecisions = [] ) {
+	if ( normalizeText( verificationStatus ) !== 'merge' ) {
+		return 'hold';
+	}
+
+	const needsHumanReview = surfaceDecisions.some( ( decision ) => {
+		return [ 'draft-pr', 'hold' ].includes( normalizeText( decision.action ) );
+	} );
+
+	return needsHumanReview ? 'hold' : 'merge';
+}
+
 const checkbox = ( ok ) => ok ? 'pass' : 'fail';
 
 export function buildDesignerReport( {
 	config,
 	candidates,
 	adapterMatches = matchPatchAdapters( candidates, config ),
+	surfaceDecisions = classifySurfaceDecisions( candidates, config ),
 	gate = { status: 'pending', checks: [] },
 	now = new Date(),
 } ) {
@@ -296,6 +389,39 @@ export function buildDesignerReport( {
 		}
 	}
 
+	lines.push( '## Surface ownership policy', '' );
+
+	if ( ! surfaceDecisions.length ) {
+		lines.push( 'No surface ownership policies matched this run.' );
+		lines.push( '' );
+	} else {
+		for ( const decision of surfaceDecisions ) {
+			lines.push( `### ${ decision.label }` );
+			lines.push( `Mode: ${ decision.mode }` );
+			if ( decision.owner ) {
+				lines.push( `Owner: ${ decision.owner }` );
+			}
+			lines.push( `Woo PR: #${ decision.candidate.number } ${ decision.candidate.title }` );
+			lines.push( `Intent: ${ decision.intent }` );
+			lines.push( `Action: ${ decision.action }` );
+			if ( decision.reviewPath ) {
+				lines.push( `Designer review path: ${ decision.reviewPath }` );
+			}
+			if ( decision.matchedBy.length ) {
+				lines.push( `Matched by: ${ decision.matchedBy.join( '; ' ) }` );
+			}
+			if ( decision.action === 'report-only' ) {
+				lines.push( 'Auto-apply: skipped; this stays visible without overwriting the Future Woo surface.' );
+			} else if ( decision.action === 'draft-pr' || decision.action === 'hold' ) {
+				lines.push( 'Auto-merge: held; the bot should leave a draft PR for review.' );
+			}
+			for ( const note of decision.notes ) {
+				lines.push( `- ${ note }` );
+			}
+			lines.push( '' );
+		}
+	}
+
 	lines.push( '## Patch adapters', '' );
 
 	if ( ! adapterMatches.length ) {
@@ -327,6 +453,7 @@ export function buildDesignerReport( {
 			[
 				...config.featureFlags.map( ( featureFlag ) => featureFlag.reviewPath ),
 				...adapterMatches.map( ( adapterMatch ) => adapterMatch.reviewPath ),
+				...surfaceDecisions.map( ( decision ) => decision.reviewPath ),
 			]
 				.filter( Boolean )
 		),

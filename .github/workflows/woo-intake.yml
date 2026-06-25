@@ -68,6 +68,12 @@ jobs:
           echo "php_syntax=$php_syntax" >> "$GITHUB_OUTPUT"
           echo "gate=$gate" >> "$GITHUB_OUTPUT"
 
+      - name: Resolve surface policy gate
+        id: policy_gate
+        run: |
+          gate="$(node scripts/woo-intake.mjs gate --gate-status "${{ steps.verify.outputs.gate }}")"
+          echo "gate=$gate" >> "$GITHUB_OUTPUT"
+
       - name: Update designer report gate
         run: |
           status_for() {
@@ -79,7 +85,7 @@ jobs:
           }
 
           node scripts/woo-intake.mjs set-gate \
-            --gate-status "${{ steps.verify.outputs.gate }}" \
+            --gate-status "${{ steps.policy_gate.outputs.gate }}" \
             --check "Intake tests:$(status_for "${{ steps.verify.outputs.intake_tests }}")" \
             --check "Build:$(status_for "${{ steps.verify.outputs.build }}")" \
             --check "PHP syntax:$(status_for "${{ steps.verify.outputs.php_syntax }}")"
@@ -100,7 +106,7 @@ jobs:
           git push --force-with-lease origin "$branch"
 
           pr_flags=()
-          if [ "${{ steps.verify.outputs.gate }}" != "merge" ]; then
+          if [ "${{ steps.policy_gate.outputs.gate }}" != "merge" ]; then
             pr_flags+=( "--draft" )
           fi
 
@@ -111,9 +117,9 @@ jobs:
 
           echo "Created $pr_url"
 
-          if [ "${{ steps.verify.outputs.gate }}" = "merge" ]; then
+          if [ "${{ steps.policy_gate.outputs.gate }}" = "merge" ]; then
             gh pr merge "$pr_url" \
               --squash \
               --delete-branch \
-              --body "Auto-merged because the Future Woo intake gate passed."
+              --body "Auto-merged because the Future Woo verification and surface policy gates passed."
           fi

@@ -5,7 +5,9 @@ import { dirname, resolve } from 'node:path';
 
 import {
 	buildDesignerReport,
+	classifySurfaceDecisions,
 	loadConfig,
+	resolveGateStatus,
 	selectCandidates,
 } from './woo-intake/lib.mjs';
 
@@ -145,6 +147,11 @@ const checksFromArgs = () => allOptions( 'check' ).map( ( check ) => {
 	};
 } );
 
+const effectiveGateStatus = ( config, candidates, verificationStatus ) => resolveGateStatus(
+	verificationStatus,
+	classifySurfaceDecisions( candidates, config )
+);
+
 const writeRunFiles = ( { config, candidates, gate } ) => {
 	ensureOutputDir();
 	writeFileSync( candidatesPath, `${ JSON.stringify( candidates, null, '\t' ) }\n` );
@@ -171,15 +178,21 @@ if ( command === 'discover' ) {
 } else if ( command === 'set-gate' ) {
 	const config = loadConfig( configPath );
 	const candidates = JSON.parse( readFileSync( candidatesPath, 'utf8' ) );
+	const requestedGate = option( 'gate-status', 'pending' );
+	const effectiveGate = effectiveGateStatus( config, candidates, requestedGate );
 	writeRunFiles( {
 		config,
 		candidates,
 		gate: {
-			status: option( 'gate-status', 'pending' ),
+			status: effectiveGate,
 			checks: checksFromArgs(),
 		},
 	} );
-	console.log( `Updated ${ reportPath }.` );
+	console.log( `Updated ${ reportPath } with ${ effectiveGate } gate.` );
+} else if ( command === 'gate' ) {
+	const config = loadConfig( configPath );
+	const candidates = JSON.parse( readFileSync( candidatesPath, 'utf8' ) );
+	console.log( effectiveGateStatus( config, candidates, option( 'gate-status', 'pending' ) ) );
 } else if ( command === 'report' ) {
 	console.log( readFileSync( reportPath, 'utf8' ) );
 } else {

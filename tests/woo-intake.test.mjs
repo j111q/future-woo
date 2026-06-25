@@ -3,9 +3,11 @@ import test from 'node:test';
 
 import {
 	buildDesignerReport,
+	classifySurfaceDecisions,
 	forceEnabledFlags,
 	loadConfigFromString,
 	matchPatchAdapters,
+	resolveGateStatus,
 	scorePullRequest,
 	selectCandidates,
 } from '../scripts/woo-intake/lib.mjs';
@@ -53,6 +55,57 @@ const config = loadConfigFromString( JSON.stringify( {
 			notes: [
 				'Vendor or translate the Woo product-list DataViews surface into Future Woo.',
 			],
+		},
+	],
+	surfacePolicies: [
+		{
+			id: 'analytics-dashboard',
+			label: 'Analytics dashboard',
+			mode: 'vision-owned',
+			owner: 'Jill',
+			reviewPath: 'Analytics',
+			matches: {
+				paths: [ 'plugins/woocommerce/client/admin/client/analytics' ],
+				keywords: [ 'analytics dashboard', 'analytics' ],
+			},
+			intake: {
+				bugfix: 'report-only',
+				'feature-flag': 'draft-pr',
+				default: 'report-only',
+			},
+			notes: [
+				'Future Woo owns a super-future version of this surface.',
+			],
+		},
+		{
+			id: 'products-table',
+			label: 'Products table',
+			mode: 'hybrid',
+			owner: 'Future Woo',
+			reviewPath: 'Products > All Products',
+			matches: {
+				paths: [ 'plugins/woocommerce/client/admin/client/products' ],
+				keywords: [ 'products table', 'dataviews' ],
+			},
+			intake: {
+				bugfix: 'self-merge',
+				'feature-flag': 'draft-pr',
+				default: 'draft-pr',
+			},
+		},
+		{
+			id: 'settings',
+			label: 'Settings screens',
+			mode: 'mirror-owned',
+			owner: 'Woo core',
+			reviewPath: 'WooCommerce > Settings',
+			matches: {
+				paths: [ 'plugins/woocommerce/client/admin/client/settings' ],
+			},
+			intake: {
+				bugfix: 'self-merge',
+				default: 'self-merge',
+			},
 		},
 	],
 } ) );
@@ -171,4 +224,113 @@ test( 'matches patch adapters to the Woo PRs they can translate', () => {
 		'keyword: dataviews',
 		'author: veronica',
 	] );
+} );
+
+test( 'classifies surface ownership decisions for super-future surfaces', () => {
+	const candidates = [
+		scorePullRequest( {
+			number: 65011,
+			title: 'Fix Analytics chart empty-state bug',
+			author: 'woocommerce-dev',
+			labels: [ 'bug' ],
+			files: [
+				'plugins/woocommerce/client/admin/client/analytics/report/index.tsx',
+			],
+		}, config ),
+		scorePullRequest( {
+			number: 65012,
+			title: 'Add Analytics dashboard refresh behind feature flag',
+			author: 'woocommerce-dev',
+			labels: [ 'experimental' ],
+			files: [
+				'plugins/woocommerce/client/admin/client/analytics/components/dashboard.tsx',
+			],
+		}, config ),
+		scorePullRequest( {
+			number: 65013,
+			title: 'Fix Settings layout regression',
+			author: 'woocommerce-dev',
+			labels: [ 'bug' ],
+			files: [
+				'plugins/woocommerce/client/admin/client/settings/payments/index.tsx',
+			],
+		}, config ),
+	];
+
+	const decisions = classifySurfaceDecisions( candidates, config );
+
+	assert.deepEqual(
+		decisions.map( ( decision ) => ( {
+			number: decision.candidate.number,
+			surface: decision.surfaceId,
+			intent: decision.intent,
+			action: decision.action,
+		} ) ),
+		[
+			{
+				number: 65011,
+				surface: 'analytics-dashboard',
+				intent: 'bugfix',
+				action: 'report-only',
+			},
+			{
+				number: 65012,
+				surface: 'analytics-dashboard',
+				intent: 'feature-flag',
+				action: 'draft-pr',
+			},
+			{
+				number: 65013,
+				surface: 'settings',
+				intent: 'bugfix',
+				action: 'self-merge',
+			},
+		]
+	);
+} );
+
+test( 'uses surface decisions to hold risky auto-merges', () => {
+	const draftDecision = {
+		action: 'draft-pr',
+	};
+	const reportOnlyDecision = {
+		action: 'report-only',
+	};
+
+	assert.equal( resolveGateStatus( 'merge', [ draftDecision ] ), 'hold' );
+	assert.equal( resolveGateStatus( 'merge', [ reportOnlyDecision ] ), 'merge' );
+	assert.equal( resolveGateStatus( 'hold', [] ), 'hold' );
+} );
+
+test( 'adds surface ownership decisions to the designer report', () => {
+	const candidates = [
+		scorePullRequest( {
+			number: 65011,
+			title: 'Fix Analytics chart empty-state bug',
+			url: 'https://github.com/woocommerce/woocommerce/pull/65011',
+			author: 'woocommerce-dev',
+			labels: [ 'bug' ],
+			files: [
+				'plugins/woocommerce/client/admin/client/analytics/report/index.tsx',
+			],
+		}, config ),
+	];
+	const report = buildDesignerReport( {
+		config,
+		candidates,
+		gate: {
+			status: 'merge',
+			checks: [
+				{ name: 'Build', ok: true },
+			],
+		},
+		now: new Date( '2026-06-25T00:00:00Z' ),
+	} );
+
+	assert.match( report, /Surface ownership policy/ );
+	assert.match( report, /Analytics dashboard/ );
+	assert.match( report, /Mode: vision-owned/ );
+	assert.match( report, /Intent: bugfix/ );
+	assert.match( report, /Action: report-only/ );
+	assert.match( report, /Future Woo owns a super-future version/ );
 } );

@@ -9,7 +9,28 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class MCC_Data {
 
+	private static function should_show_marketing_demo_data() {
+		if ( ! class_exists( 'WAR_Global_State_Manager' ) || ! method_exists( 'WAR_Global_State_Manager', 'get_state' ) ) {
+			return true;
+		}
+
+		return 'active_store' === WAR_Global_State_Manager::get_state();
+	}
+
+	private static function get_empty_rollup() {
+		return array(
+			'active_count'     => 0,
+			'attributed_sales' => 0,
+			'avg_roas'         => 0,
+			'sessions'         => 0,
+		);
+	}
+
 	public static function get_channels() {
+		if ( ! self::should_show_marketing_demo_data() ) {
+			return array();
+		}
+
 		return array(
 			array(
 				'id'           => 'woo_ads',
@@ -146,6 +167,10 @@ class MCC_Data {
 	}
 
 	public static function get_campaigns() {
+		if ( ! self::should_show_marketing_demo_data() ) {
+			return array();
+		}
+
 		return array(
 			array(
 				'id'         => 1,
@@ -320,6 +345,10 @@ class MCC_Data {
 	}
 
 	public static function get_rollup() {
+		if ( ! self::should_show_marketing_demo_data() ) {
+			return self::get_empty_rollup();
+		}
+
 		return array(
 			'active_count'    => 5,
 			'attributed_sales' => 48210,
@@ -329,6 +358,10 @@ class MCC_Data {
 	}
 
 	public static function get_marketing_analytics() {
+		if ( ! self::should_show_marketing_demo_data() ) {
+			return null;
+		}
+
 		$channels = array(
 			array(
 				'id'                => 'google',

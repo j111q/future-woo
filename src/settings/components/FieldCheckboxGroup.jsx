@@ -18,19 +18,21 @@
  * is hidden. When parent is checked, child becomes visible.
  */
 
-import { CheckboxControl } from '@wordpress/components';
+import { FieldCheckbox } from './FieldCheckbox';
 
-/**
- * @param {{
- *   settings: import('../hooks/useWCSettings').WCSetting[],  — array of checkboxes in this group
- *   values: Object,       — full values map
- *   onChange: (id: string, value: string) => void,
- *   disabled?: boolean,
- * }} props
- */
-export function FieldCheckboxGroup( { settings, values, onChange, disabled = false } ) {
+// Props:
+// - settings: array of checkbox settings in this group
+// - values: full values map
+// - onChange: (id: string, value: string) => void
+// - disabled?: boolean
+export function FieldCheckboxGroup( {
+	settings,
+	values,
+	onChange,
+	disabled = false,
+} ) {
 	// The 'start' item is the parent/trigger; 'end' items are children.
-	const parent   = settings.find( ( s ) => s.checkboxgroup === 'start' );
+	const parent = settings.find( ( s ) => s.checkboxgroup === 'start' );
 	const children = settings.filter( ( s ) => s.checkboxgroup !== 'start' );
 
 	const parentChecked = parent ? values[ parent.id ] === 'yes' : false;
@@ -38,11 +40,10 @@ export function FieldCheckboxGroup( { settings, values, onChange, disabled = fal
 	return (
 		<div className="cdw-checkbox-group">
 			{ parent && (
-				<CheckboxControl
-					label={ parent.label || parent.description }
-					help={ parent.label ? ( parent.description || undefined ) : undefined }
-					checked={ parentChecked }
-					onChange={ ( checked ) => onChange( parent.id, checked ? 'yes' : 'no' ) }
+				<FieldCheckbox
+					setting={ parent }
+					value={ parentChecked ? 'yes' : 'no' }
+					onChange={ ( newValue ) => onChange( parent.id, newValue ) }
 					disabled={ disabled }
 				/>
 			) }
@@ -52,19 +53,30 @@ export function FieldCheckboxGroup( { settings, values, onChange, disabled = fal
 				const isVisible =
 					child.show_if_checked === 'yes' ? parentChecked : true;
 
-				if ( ! isVisible ) return null;
+				if ( ! isVisible ) {
+					return null;
+				}
 
-				const childLabel = child.label || child.desc || child.description;
-				const childHelp  = ( child.label || child.desc ) ? ( child.description || undefined ) : undefined;
+				const childLabel =
+					child.label || child.desc || child.description;
+				const childHelp =
+					child.label || child.desc
+						? child.description || undefined
+						: undefined;
 
 				return (
 					<div key={ child.id } className="cdw-checkbox-group__child">
-						<CheckboxControl
-							label={ childLabel }
-							help={ childHelp }
-							checked={ values[ child.id ] === 'yes' }
-							onChange={ ( checked ) =>
-								onChange( child.id, checked ? 'yes' : 'no' )
+						<FieldCheckbox
+							setting={ {
+								...child,
+								label: childLabel,
+								description: childHelp,
+							} }
+							value={
+								values[ child.id ] === 'yes' ? 'yes' : 'no'
+							}
+							onChange={ ( newValue ) =>
+								onChange( child.id, newValue )
 							}
 							disabled={ disabled }
 						/>

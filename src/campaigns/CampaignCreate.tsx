@@ -10,7 +10,7 @@ import { Button, Notice } from '@wordpress/components';
 import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { DataForm } from '@wordpress/dataviews';
 import type { Field, Form, DataFormControlProps } from '@wordpress/dataviews';
-import { ChannelChip } from './ChannelChip';
+import { ChannelProviderRow } from './ChannelProviderRow';
 import { PageHeader } from './PageHeader';
 
 /**
@@ -74,6 +74,8 @@ const initialDraft = (): Draft => ( {
 		onsite: true,
 		tiktok: false,
 		pinterest: false,
+		amazon: false,
+		ebay: false,
 	},
 } );
 
@@ -247,46 +249,15 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 						</Stack>
 					</CollapsibleCard.Header>
 					<CollapsibleCard.Content>
-						<div className="mcc-channel-list">
+						<div className="mcc-provider-list mcc-provider-list--select">
 							{ window.MCC_BOOT.channels.map( ( ch ) => (
-								<div
+								<ChannelProviderRow
 									key={ ch.id }
-									className={
-										'mcc-channel ' +
-										( ch.connected
-											? draft.channels[ ch.id ]
-												? 'is-selected'
-												: ''
-											: 'is-disconnected' )
-									}
-								>
-									<div className="mcc-channel__header">
-										<ChannelChip id={ ch.id } large />
-										<div className="mcc-channel__meta">
-											<div className="mcc-channel__title">{ ch.label }</div>
-											<div className="mcc-channel__sub">
-												{ ch.connected
-													? __( 'Connected', 'multichannel-campaigns' )
-													: __( 'Not connected', 'multichannel-campaigns' ) }
-											</div>
-										</div>
-										{ ch.connected ? (
-											<label className="mcc-switch">
-												<input
-													type="checkbox"
-													checked={ !! draft.channels[ ch.id ] }
-													onChange={ () => toggleChannel( ch.id ) }
-													aria-label={ `Include ${ ch.label } in this campaign` }
-												/>
-												<span aria-hidden="true" />
-											</label>
-										) : (
-											<Button variant="secondary" size="compact">
-												{ __( 'Connect', 'multichannel-campaigns' ) }
-											</Button>
-										) }
-									</div>
-								</div>
+									channel={ ch }
+									mode="select"
+									selected={ !! draft.channels[ ch.id ] }
+									onToggle={ toggleChannel }
+								/>
 							) ) }
 						</div>
 					</CollapsibleCard.Content>

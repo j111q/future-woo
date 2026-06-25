@@ -1,4 +1,5 @@
 export type CampaignStatus = 'active' | 'scheduled' | 'draft' | 'completed';
+export type ChannelStatus = 'connected' | 'recommended' | 'available' | 'coming_soon';
 
 export type Channel = {
 	id: string;
@@ -6,6 +7,13 @@ export type Channel = {
 	short: string;
 	color: string;
 	connected: boolean;
+	status: ChannelStatus;
+	category: string;
+	description: string;
+	capabilities: string[];
+	badges: string[];
+	action_label: string;
+	featured?: boolean;
 };
 
 export type Campaign = {
@@ -56,7 +64,9 @@ declare global {
 				avg_roas: number;
 				sessions: number;
 			};
+			marketingAnalytics?: unknown;
 			path: string;
+			businessLocation: string;
 		};
 	}
 }

@@ -6,7 +6,9 @@
   "scripts": {
     "build": "wp-scripts build src/settings/index.js --output-path=assets/js/settings --output-filename=settings-general.js",
     "start": "wp-scripts start src/settings/index.js --output-path=assets/js/settings --output-filename=settings-general.js",
-    "lint:js": "wp-scripts lint-js src/"
+    "lint:js": "wp-scripts lint-js src/",
+    "sync:woo": "node scripts/woo-intake.mjs discover",
+    "test:woo-intake": "node --test tests/woo-intake.test.mjs"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.42.0",

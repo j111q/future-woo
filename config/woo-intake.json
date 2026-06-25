@@ -1,0 +1,96 @@
+{
+	"wooRepository": "woocommerce/woocommerce",
+	"lookbackDays": 7,
+	"maxPullRequests": 40,
+	"minimumScore": 3,
+	"autoMerge": true,
+	"designSignals": {
+		"labels": [
+			"design",
+			"ux",
+			"dataviews",
+			"feature flag",
+			"experimental"
+		],
+		"paths": [
+			"plugins/woocommerce/client/admin/client/products",
+			"plugins/woocommerce/client/admin/client/settings",
+			"plugins/woocommerce/client/admin/client/marketing",
+			"plugins/woocommerce/client/admin/client/shipping",
+			"plugins/woocommerce/client/admin/client/payments",
+			"plugins/woocommerce/src/Admin",
+			"plugins/woocommerce/includes/admin"
+		],
+		"keywords": [
+			"products table",
+			"dataviews",
+			"settings-ui",
+			"settings UI",
+			"feature flag",
+			"experiment",
+			"marketing channels",
+			"shipping providers",
+			"navigation"
+		],
+		"authors": [
+			"veronica"
+		]
+	},
+	"featureFlags": [
+		{
+			"id": "product-list-dataviews",
+			"label": "Products table: DataViews",
+			"flags": [
+				"product_list_dataviews",
+				"products_table_dataviews"
+			],
+			"reviewPath": "Products > All Products",
+			"enabled": true
+		},
+		{
+			"id": "navigation-v2",
+			"label": "Nested admin navigation",
+			"flags": [
+				"navigation_v2"
+			],
+			"reviewPath": "WooCommerce admin rail",
+			"enabled": true
+		}
+	],
+	"trackedPullRequests": [
+		{
+			"number": 64712,
+			"label": "Nested admin navigation",
+			"reviewPath": "WooCommerce admin rail",
+			"localProvenance": "includes/vendor/nested-nav/README.md",
+			"mode": "vendored"
+		}
+	],
+	"patchAdapters": [
+		{
+			"id": "products-dataviews-table",
+			"label": "Products table: DataViews adapter",
+			"status": "planned",
+			"reviewPath": "Products > All Products",
+			"localTarget": "client/dataviews-tables/products-list",
+			"matches": {
+				"paths": [
+					"plugins/woocommerce/client/admin/client/products",
+					"packages/js/product-editor"
+				],
+				"keywords": [
+					"products table",
+					"dataviews",
+					"product list"
+				],
+				"authors": [
+					"veronica"
+				]
+			},
+			"notes": [
+				"Translate the Woo product-list DataViews surface into a Future Woo products-list bundle.",
+				"Keep the adapter separate from the existing orders-list DataViews bundle until the Products page has its own smoke test."
+			]
+		}
+	]
+}

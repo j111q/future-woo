@@ -292,11 +292,16 @@ export const CampaignsList = ( { onCreate, onOpen, tabs }: Props ): JSX.Element 
 
 const RollupTiles = (): JSX.Element => {
 	const r = window.MCC_BOOT.rollup;
+	const hasRollupActivity =
+		r.active_count > 0 ||
+		r.attributed_sales > 0 ||
+		r.avg_roas > 0 ||
+		r.sessions > 0;
 	const tiles = [
-		{ label: __( 'Active campaigns', 'multichannel-campaigns' ),         value: String( r.active_count ),       delta: '+1 vs last month',     tone: 'up'   as const },
-		{ label: __( 'Attributed sales', 'multichannel-campaigns' ),         value: fmtMoney( r.attributed_sales ), delta: '+22% vs last 30 days', tone: 'up'   as const },
-		{ label: __( 'Avg ROAS', 'multichannel-campaigns' ),                 value: r.avg_roas + '×',               delta: '−0.3 vs last 30 days', tone: 'down' as const },
-		{ label: __( 'Sessions from campaigns', 'multichannel-campaigns' ),  value: fmtNum( r.sessions ),           delta: '+18%',                 tone: 'up'   as const },
+		{ label: __( 'Active campaigns', 'multichannel-campaigns' ),         value: String( r.active_count ),       delta: hasRollupActivity ? '+1 vs last month' : undefined,     tone: 'up'   as const },
+		{ label: __( 'Attributed sales', 'multichannel-campaigns' ),         value: fmtMoney( r.attributed_sales ), delta: hasRollupActivity ? '+22% vs last 30 days' : undefined, tone: 'up'   as const },
+		{ label: __( 'Avg ROAS', 'multichannel-campaigns' ),                 value: r.avg_roas + '×',               delta: hasRollupActivity ? '−0.3 vs last 30 days' : undefined, tone: 'down' as const },
+		{ label: __( 'Sessions from campaigns', 'multichannel-campaigns' ),  value: fmtNum( r.sessions ),           delta: hasRollupActivity ? '+18%' : undefined,                 tone: 'up'   as const },
 	];
 
 	return (

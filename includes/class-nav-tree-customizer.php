@@ -40,6 +40,7 @@ class WAR_Nav_Tree_Customizer {
 	public static function init() {
 		add_filter( 'woocommerce_admin_menu_tree', array( __CLASS__, 'remap_home_to_store_dashboard' ), 10, 3 );
 		add_filter( 'woocommerce_admin_menu_tree', array( __CLASS__, 'add_marketing_children' ), 10, 3 );
+		add_filter( 'woocommerce_admin_menu_tree', array( __CLASS__, 'add_analytics_children' ), 10, 3 );
 		add_action( 'admin_init', array( __CLASS__, 'relabel_back_link' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_nav_css' ) );
 		// Priority 9999: after WP/plugins register menus, but before the vendored
@@ -224,6 +225,38 @@ class WAR_Nav_Tree_Customizer {
 				)
 			);
 		}
+
+		return $tree;
+	}
+
+	/**
+	 * Surface Future Woo's Marketing report inside the Analytics drilldown.
+	 *
+	 * Woo registers Analytics report pages through wc-admin, while Future Woo's
+	 * nested rail is backed by a PHP tree snapshot. Adding this synthetic child
+	 * keeps the prototype route reachable from the same Analytics menu as the
+	 * native Revenue, Orders, Products, and Coupons reports.
+	 *
+	 * @param array $tree    Tree keyed by slug.
+	 * @param array $menu    WP's $menu.
+	 * @param array $submenu WP's $submenu.
+	 *
+	 * @return array
+	 */
+	public static function add_analytics_children( array $tree, array $menu, array $submenu ): array {
+		$parent = 'wc-admin&path=/analytics/overview';
+		if ( ! isset( $tree[ $parent ] ) ) {
+			return $tree;
+		}
+
+		$tree['wc-admin&path=/analytics/marketing'] = array(
+			'parent'     => $parent,
+			'title'      => __( 'Marketing', 'woo-admin-revamp' ),
+			'position'   => 38,
+			'url'        => 'admin.php?page=wc-admin&path=/analytics/marketing',
+			'capability' => 'manage_woocommerce',
+			'source'     => 'future-woo',
+		);
 
 		return $tree;
 	}

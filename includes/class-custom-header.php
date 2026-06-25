@@ -132,6 +132,7 @@ class WAR_Custom_Header {
 		return "
 		(function() {
 			var pathTitles = {
+				'/analytics/marketing': 'Marketing',
 				'/customers': 'Customers',
 				'/marketing': 'Marketing',
 				'/analytics': 'Analytics',
@@ -168,6 +169,99 @@ class WAR_Custom_Header {
 				return '';
 			}
 
+			function isMarketingAnalyticsPath() {
+				var params = new URLSearchParams(window.location.search);
+				return params.get('page') === 'wc-admin' && params.get('path') === '/analytics/marketing';
+			}
+
+			function renderMarketingAnalyticsBreadcrumb(el) {
+				if (!el) return;
+				el.textContent = '';
+
+				var analyticsLink = document.createElement('a');
+				analyticsLink.href = 'admin.php?page=wc-admin&path=/analytics/overview';
+				analyticsLink.textContent = 'Analytics';
+
+				var separator = document.createElement('span');
+				separator.className = 'war-page-header__breadcrumb-sep';
+				separator.textContent = '/';
+
+				var marketing = document.createElement('span');
+				marketing.textContent = 'Marketing';
+
+				el.appendChild(analyticsLink);
+				el.appendChild(separator);
+				el.appendChild(marketing);
+			}
+
+			function ensureHeaderActions() {
+				var actions = document.querySelector('.war-page-header__actions');
+				if (actions) return actions;
+
+				var top = document.querySelector('.war-page-header__top');
+				if (!top) return null;
+
+				actions = document.createElement('div');
+				actions.className = 'war-page-header__actions';
+				top.appendChild(actions);
+				return actions;
+			}
+
+			function renderMarketingAnalyticsActions() {
+				var actions = ensureHeaderActions();
+				if (!actions) return;
+
+				if (actions.querySelector('#fwa-marketing-analytics-header-actions')) {
+					bindMarketingAnalyticsDateRange();
+					return;
+				}
+
+				var group = document.createElement('div');
+				group.id = 'fwa-marketing-analytics-header-actions';
+				group.setAttribute('data-fwa-marketing-analytics-action', 'true');
+
+				var dateRange = document.createElement('select');
+				dateRange.id = 'fwa-marketing-analytics-date-range';
+				dateRange.className = 'fwa-marketing-analytics-date-range';
+				dateRange.setAttribute('aria-label', 'Date range');
+
+				['Last 7 days', 'Last 30 days', 'Quarter to date'].forEach(function(label) {
+					var option = document.createElement('option');
+					option.value = label;
+					option.textContent = label;
+					option.selected = label === 'Last 30 days';
+					dateRange.appendChild(option);
+				});
+
+				var download = document.createElement('button');
+				download.type = 'button';
+				download.className = 'components-button is-tertiary is-compact';
+				download.textContent = 'Download report';
+
+				group.appendChild(dateRange);
+				group.appendChild(download);
+				actions.appendChild(group);
+				bindMarketingAnalyticsDateRange();
+			}
+
+			function bindMarketingAnalyticsDateRange() {
+				var dateRange = document.querySelector('#fwa-marketing-analytics-date-range');
+				if (!dateRange || dateRange.getAttribute('data-fwa-bound') === 'true') return;
+
+				dateRange.setAttribute('data-fwa-bound', 'true');
+				dateRange.addEventListener('change', function() {
+					window.dispatchEvent(new CustomEvent('fwa-marketing-analytics-date-range-change', {
+						detail: { range: dateRange.value }
+					}));
+				});
+			}
+
+			function clearMarketingAnalyticsActions() {
+				document.querySelectorAll('[data-fwa-marketing-analytics-action]').forEach(function(el) {
+					el.remove();
+				});
+			}
+
 			function updateHeader() {
 				var params = new URLSearchParams(window.location.search);
 				// Skip on shipping pages — Shipping_Setup_Admin manages its own breadcrumb.
@@ -177,6 +271,13 @@ class WAR_Custom_Header {
 
 				var el = document.querySelector('.war-page-header__breadcrumb');
 				if (!el) return;
+				if (isMarketingAnalyticsPath()) {
+					renderMarketingAnalyticsBreadcrumb(el);
+					renderMarketingAnalyticsActions();
+					return;
+				}
+
+				clearMarketingAnalyticsActions();
 				var title = getTitleFromPath();
 				if (title && el.textContent.trim() !== title) {
 					el.textContent = title;
@@ -630,7 +731,10 @@ class WAR_Custom_Header {
 		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$tab  = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'general';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$path = isset( $_GET['path'] ) ? sanitize_text_field( wp_unslash( $_GET['path'] ) ) : '';
 		$is_modern_settings = ( $page === 'wc-settings' && CDW_WC_Settings_Modern::is_enabled() );
+		$is_marketing_analytics = ( $page === 'wc-admin' && '/analytics/marketing' === $path );
 
 		$tab_descriptions = array(
 			'general'     => __( "Manage your store's basic details, display settings, and format preferences.", 'woo-admin-revamp' ),
@@ -647,12 +751,44 @@ class WAR_Custom_Header {
 			<div class="war-page-header__top">
 				<div class="war-page-header__left">
 					<h1 class="war-page-header__breadcrumb">
+						<?php if ( $is_marketing_analytics ) : ?>
+							<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-admin&path=/analytics/overview' ) ); ?>">
+								<?php esc_html_e( 'Analytics', 'woo-admin-revamp' ); ?>
+							</a>
+							<span class="war-page-header__breadcrumb-sep">/</span>
+							<span><?php esc_html_e( 'Marketing', 'woo-admin-revamp' ); ?></span>
+						<?php else : ?>
 						<?php echo esc_html( $title ); ?>
+						<?php endif; ?>
 					</h1>
 				</div>
-				<?php if ( $is_modern_settings ) : ?>
+				<?php if ( $is_modern_settings || $is_marketing_analytics ) : ?>
 				<div class="war-page-header__actions">
+					<?php if ( $is_marketing_analytics ) : ?>
+					<div id="fwa-marketing-analytics-header-actions" data-fwa-marketing-analytics-action="true">
+						<select
+							id="fwa-marketing-analytics-date-range"
+							class="fwa-marketing-analytics-date-range"
+							aria-label="<?php esc_attr_e( 'Date range', 'woo-admin-revamp' ); ?>"
+						>
+							<option value="<?php echo esc_attr__( 'Last 7 days', 'woo-admin-revamp' ); ?>">
+								<?php esc_html_e( 'Last 7 days', 'woo-admin-revamp' ); ?>
+							</option>
+							<option value="<?php echo esc_attr__( 'Last 30 days', 'woo-admin-revamp' ); ?>" selected>
+								<?php esc_html_e( 'Last 30 days', 'woo-admin-revamp' ); ?>
+							</option>
+							<option value="<?php echo esc_attr__( 'Quarter to date', 'woo-admin-revamp' ); ?>">
+								<?php esc_html_e( 'Quarter to date', 'woo-admin-revamp' ); ?>
+							</option>
+						</select>
+						<button type="button" class="components-button is-tertiary is-compact">
+							<?php esc_html_e( 'Download report', 'woo-admin-revamp' ); ?>
+						</button>
+					</div>
+					<?php endif; ?>
+					<?php if ( $is_modern_settings ) : ?>
 					<div id="war-settings-header-actions"></div>
+					<?php endif; ?>
 				</div>
 				<?php endif; ?>
 			</div>

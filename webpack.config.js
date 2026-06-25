@@ -12,6 +12,10 @@
  *     wc-admin global, with an exception: @wordpress/dataviews and @wordpress/ui
  *     aren't registered as script handles on this WP/Gutenberg yet, so we bundle
  *     them. Drop entries from BUNDLED_PACKAGES as those handles ship upstream.
+ *
+ *  3. Analytics > Marketing (src/analytics/index.tsx) →
+ *     assets/js/analytics/index.js
+ *     A wc-admin report page using the same dependency strategy as Campaigns.
  */
 const path = require( 'path' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
@@ -21,6 +25,24 @@ const BUNDLED_PACKAGES = new Set( [
 	'@wordpress/dataviews',
 	'@wordpress/ui',
 ] );
+
+const getWooAdminPlugins = () => [
+	...defaultConfig.plugins.filter(
+		( p ) => p.constructor.name !== 'DependencyExtractionWebpackPlugin'
+	),
+	new WooCommerceDependencyExtractionWebpackPlugin( {
+		requestToExternal( request ) {
+			if ( BUNDLED_PACKAGES.has( request ) ) {
+				return false;
+			}
+		},
+		requestToHandle( request ) {
+			if ( BUNDLED_PACKAGES.has( request ) ) {
+				return false;
+			}
+		},
+	} ),
+];
 
 // Surface 1 — Settings. Default config, explicit entry + output path so it
 // keeps landing exactly where class-wc-settings-modern.php enqueues it from.
@@ -48,23 +70,22 @@ const campaignsConfig = {
 		path: path.resolve( __dirname, 'assets/js/campaigns' ),
 		filename: '[name].js',
 	},
-	plugins: [
-		...defaultConfig.plugins.filter(
-			( p ) => p.constructor.name !== 'DependencyExtractionWebpackPlugin'
-		),
-		new WooCommerceDependencyExtractionWebpackPlugin( {
-			requestToExternal( request ) {
-				if ( BUNDLED_PACKAGES.has( request ) ) {
-					return false;
-				}
-			},
-			requestToHandle( request ) {
-				if ( BUNDLED_PACKAGES.has( request ) ) {
-					return false;
-				}
-			},
-		} ),
-	],
+	plugins: getWooAdminPlugins(),
 };
 
-module.exports = [ settingsConfig, campaignsConfig ];
+// Surface 3 — Analytics > Marketing. A wc-admin report page that uses the
+// multichannel demo data but lives under the native Analytics drilldown.
+const analyticsConfig = {
+	...defaultConfig,
+	entry: {
+		index: path.resolve( __dirname, 'src/analytics/index.tsx' ),
+	},
+	output: {
+		...defaultConfig.output,
+		path: path.resolve( __dirname, 'assets/js/analytics' ),
+		filename: '[name].js',
+	},
+	plugins: getWooAdminPlugins(),
+};
+
+module.exports = [ settingsConfig, campaignsConfig, analyticsConfig ];

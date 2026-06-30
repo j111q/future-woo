@@ -635,6 +635,34 @@ body.fwa-marketing-overview-enhanced {
 	width: 40px;
 }
 
+.mcc-provider-logo-mark {
+	display: block;
+	fill: currentColor;
+	height: 24px;
+	max-width: 30px;
+	width: 24px;
+
+	&.mcc-provider-logo-mark--amazon,
+	&.mcc-provider-logo-mark--woocommerce {
+		width: 30px;
+	}
+
+	// Brand asset colors, not UI palette colors.
+	&.mcc-provider-logo-mark--amazon {
+		fill: #221f1f;
+		height: 18px;
+	}
+
+	.mcc-provider-logo-mark__accent {
+		fill: #ff9900;
+	}
+}
+
+.mcc-provider-logo-fallback {
+	display: block;
+	line-height: 1;
+}
+
 .mcc-provider-row__text {
 	min-width: 0;
 }

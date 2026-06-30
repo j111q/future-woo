@@ -1,11 +1,19 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const campaignsEntry = readFileSync( 'src/campaigns/index.tsx', 'utf8' );
 const campaignsList = readFileSync( 'src/campaigns/CampaignsList.tsx', 'utf8' );
 const mccAdminPage = readFileSync( 'includes/class-mcc-admin-page.php', 'utf8' );
 const mccData = readFileSync( 'includes/class-mcc-data.php', 'utf8' );
+const providerRow = readFileSync(
+	'src/campaigns/ChannelProviderRow.tsx',
+	'utf8'
+);
+const providerLogoPath = 'src/campaigns/ChannelProviderLogo.tsx';
+const providerLogo = existsSync( providerLogoPath )
+	? readFileSync( providerLogoPath, 'utf8' )
+	: '';
 const styles = readFileSync( 'src/campaigns/style.scss', 'utf8' );
 
 test( 'Marketing Overview owns the channel provider list', () => {
@@ -87,6 +95,47 @@ test( 'native Marketing Overview cards share the provider-list styling', () => {
 		styles,
 		/woocommerce-marketing-learn-marketing-card/,
 		'Learn about marketing a store should read as a sibling surface'
+	);
+} );
+
+test( 'Marketing channel rows render brand logos instead of letter swatches', () => {
+	assert.match(
+		providerRow,
+		/ChannelProviderLogo/,
+		'provider rows should render the shared logo component'
+	);
+	assert.doesNotMatch(
+		providerRow,
+		/<div className="mcc-provider-row__logo" style=\{ logoStyle \}>\s*\{\s*channel\.short\s*\}\s*<\/div>/,
+		'provider rows should not render the old letter-only swatch'
+	);
+
+	for ( const id of [
+		'woo_ads',
+		'google',
+		'meta',
+		'pinterest',
+		'tiktok',
+		'amazon',
+		'ebay',
+		'email',
+	] ) {
+		assert.match(
+			providerLogo,
+			new RegExp( `${ id }:` ),
+			`${ id } should have a real brand mark`
+		);
+	}
+
+	assert.match(
+		providerLogo,
+		/mcc-provider-logo-mark/,
+		'logo SVGs should share a stable class for visual styling'
+	);
+	assert.match(
+		styles,
+		/\.mcc-provider-logo-mark/,
+		'provider logos should be sized by the campaign stylesheet'
 	);
 } );
 

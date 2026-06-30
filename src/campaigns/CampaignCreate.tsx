@@ -69,11 +69,8 @@ const initialDraft = (): Draft => ( {
 	channels: {
 		google: true,
 		meta: true,
-		email: true,
-		coupon: true,
-		onsite: true,
+		pinterest: true,
 		tiktok: false,
-		pinterest: false,
 		amazon: false,
 		ebay: false,
 	},
@@ -242,7 +239,7 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 							<Card.Title>{ __( 'Channels & activities', 'multichannel-campaigns' ) }</Card.Title>
 							<Text variant="body-sm" className="mcc-card-description">
 								{ __(
-									'Each channel contributes activities — an ad set on Meta, a send in Mailchimp, a coupon on your store.',
+									'Each channel contributes activities — a Performance Max campaign on Google, an ad set on Meta, or a promoted Pin on Pinterest.',
 									'multichannel-campaigns'
 								) }
 							</Text>

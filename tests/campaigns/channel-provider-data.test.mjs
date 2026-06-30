@@ -21,6 +21,20 @@ test( 'marketing channels expose provider-row metadata', () => {
 	const channels = loadChannels();
 	const byId = new Map( channels.map( ( channel ) => [ channel.id, channel ] ) );
 
+	assert.deepEqual(
+		channels.map( ( channel ) => channel.id ),
+		[
+			'woo_ads',
+			'google',
+			'meta',
+			'pinterest',
+			'tiktok',
+			'amazon',
+			'ebay',
+		],
+		'provider rows should stay focused on external marketing and sales channels'
+	);
+
 	for ( const id of [ 'woo_ads', 'google', 'pinterest', 'amazon', 'ebay' ] ) {
 		assert.ok( byId.has( id ), `expected ${ id } channel` );
 	}

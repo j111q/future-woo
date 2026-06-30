@@ -93,6 +93,31 @@ test( 'campaign create treats Woo Ads as recommendations, not a manual channel',
 	);
 	assert.match(
 		campaignCreate,
+		/Goal[\s\S]*Budget[\s\S]*Products to advertise/,
+		'Campaign budget should follow the goal recommendation step before merchants choose products to advertise'
+	);
+	assert.match(
+		campaignCreate,
+		/budget:\s*'2400'/,
+		'Campaign drafts should track an editable total budget'
+	);
+	assert.match(
+		campaignCreate,
+		/budgetFields/,
+		'Budget should use a dedicated form section instead of being hidden inside goal fields'
+	);
+	assert.match(
+		campaignCreate,
+		/Recommended starting budget/,
+		'The budget card should show Woo Ads guidance for a starting budget'
+	);
+	assert.match(
+		campaignCreate,
+		/getBudgetAmount\(\s*draft\s*\)/,
+		'Recommendation preview should use the merchant-set budget amount'
+	);
+	assert.match(
+		campaignCreate,
 		/fmtMoney\(\s*Number\(\s*draft\.target\s*\)\s*\)/,
 		'The revenue-impact line should render the current target value from the form'
 	);

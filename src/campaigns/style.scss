@@ -885,9 +885,34 @@ body.fwa-marketing-overview-enhanced {
 }
 
 .mcc-channel-path__description,
-.mcc-manual-channel-summary {
+.mcc-manual-channel-summary,
+.mcc-budget-guidance__label {
 	color: var(--wpds-color-foreground-content-neutral-weak, var(--wpds-color-fg-content-neutral-weak));
 	font-size: var(--wpds-typography-font-size-md, 13px);
+	line-height: var(--wpds-typography-line-height-sm, 20px);
+}
+
+.mcc-budget-guidance {
+	border-top: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+	display: grid;
+	gap: var(--wpds-dimension-gap-lg, 16px);
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin-top: var(--wpds-dimension-gap-lg, 16px);
+	padding-top: var(--wpds-dimension-padding-lg, 16px);
+}
+
+.mcc-budget-guidance__item {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wpds-dimension-gap-xs, 4px);
+	min-width: 0;
+}
+
+.mcc-budget-guidance__value {
+	color: var(--wpds-color-foreground-content-neutral, var(--wpds-color-fg-content-neutral));
+	display: block;
+	font-size: var(--wpds-typography-font-size-lg, 15px);
+	font-weight: var(--wpds-typography-font-weight-medium, 500);
 	line-height: var(--wpds-typography-line-height-sm, 20px);
 }
 
@@ -1367,6 +1392,7 @@ body.fwa-marketing-overview-enhanced {
 	.components-base-control,
 	.components-text-control__input,
 	input[type="text"],
+	input[type="number"],
 	input[type="date"] {
 		width: 100%;
 		max-width: 100%;
@@ -1632,6 +1658,9 @@ body.fwa-marketing-overview-enhanced {
 		flex-direction: column;
 	}
 	.mcc-channel-paths {
+		grid-template-columns: 1fr;
+	}
+	.mcc-budget-guidance {
 		grid-template-columns: 1fr;
 	}
 	.mcc-woo-ads-optimization__header {

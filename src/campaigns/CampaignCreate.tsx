@@ -50,6 +50,48 @@ const DateEdit = < Item extends Record< string, unknown > >( {
 	);
 };
 
+const BudgetEdit = < Item extends Record< string, unknown > >( {
+	data,
+	field,
+	onChange,
+}: DataFormControlProps< Item > ): JSX.Element => {
+	const id = String( field.id );
+	const value = ( data[ id ] as string | undefined ) ?? '';
+	const inputId = `mcc-budget-${ id }`;
+
+	return (
+		<div className="components-base-control">
+			<div className="components-base-control__field">
+				<label
+					htmlFor={ inputId }
+					className="components-base-control__label"
+				>
+					{ field.label ?? id }
+				</label>
+				<input
+					id={ inputId }
+					type="number"
+					inputMode="numeric"
+					min="0"
+					step="100"
+					value={ value }
+					className="mcc-date-input mcc-budget-input"
+					onChange={ ( e ) =>
+						onChange( {
+							[ id ]: e.target.value,
+						} as unknown as Partial< Item > )
+					}
+				/>
+			</div>
+			{ field.description ? (
+				<p className="components-base-control__help">
+					{ field.description }
+				</p>
+			) : null }
+		</div>
+	);
+};
+
 type Draft = {
 	name: string;
 	start_date: string;
@@ -57,6 +99,7 @@ type Draft = {
 	tag: string;
 	goal_type: 'revenue' | 'acquisition' | 'retention' | 'awareness';
 	target: string;
+	budget: string;
 	product_scope: 'catalog' | 'selected';
 	product_targets: string[];
 	channel_mode: 'woo_ads' | 'manual';
@@ -94,6 +137,7 @@ const initialDraft = (): Draft => ( {
 	tag: 'BFCM',
 	goal_type: 'revenue',
 	target: '50000',
+	budget: '2400',
 	product_scope: 'catalog',
 	product_targets: [],
 	channel_mode: 'woo_ads',
@@ -293,6 +337,18 @@ const goalFields: Field< Draft >[] = [
 	},
 ];
 
+const budgetFields: Field< Draft >[] = [
+	{
+		id: 'budget',
+		label: __( 'Total budget', 'multichannel-campaigns' ),
+		Edit: BudgetEdit,
+		description: __(
+			'Maximum spend across Woo Ads and selected manual channels.',
+			'multichannel-campaigns'
+		),
+	},
+];
+
 const basicsForm: Form = {
 	type: 'regular',
 	labelPosition: 'top',
@@ -303,6 +359,12 @@ const goalForm: Form = {
 	type: 'regular',
 	labelPosition: 'top',
 	fields: [ 'goal_type', 'target' ],
+};
+
+const budgetForm: Form = {
+	type: 'regular',
+	labelPosition: 'top',
+	fields: [ 'budget' ],
 };
 
 const dayInMs = 24 * 60 * 60 * 1000;
@@ -347,6 +409,16 @@ const getRecommendedSpend = ( draft: Draft ): number => {
 	}
 
 	return Math.max( 500, Math.round( ( target * 0.08 ) / 100 ) * 100 );
+};
+
+const getBudgetAmount = ( draft: Draft ): number => {
+	const budget = Number( draft.budget );
+
+	if ( ! Number.isFinite( budget ) || budget <= 0 ) {
+		return getRecommendedSpend( draft );
+	}
+
+	return budget;
 };
 
 const getGoalImpactLabel = ( draft: Draft ): string => {
@@ -538,7 +610,8 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 		( channel ) => draft.channels[ channel.id ]
 	).length;
 	const campaignDays = getCampaignDays( draft.start_date, draft.end_date );
-	const estimatedSpend = getRecommendedSpend( draft );
+	const recommendedSpend = getRecommendedSpend( draft );
+	const estimatedSpend = getBudgetAmount( draft );
 	const estimatedDailySpend = Math.round( estimatedSpend / campaignDays );
 	const goalImpactLabel = getGoalImpactLabel( draft );
 	const recommendationPreviewId = 'mcc-woo-ads-preview';
@@ -594,73 +667,115 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 						</Button>
 					</>
 				}
-			/>
+				/>
 
-			<div className="mcc-content-gutter">
-			<div className="mcc-form">
-				<CollapsibleCard.Root defaultOpen className="mcc-panel">
-					<CollapsibleCard.Header>
-						<Stack direction="column" gap="xs">
-							<Card.Title>{ __( 'Basics', 'multichannel-campaigns' ) }</Card.Title>
-							<Text variant="body-sm" className="mcc-card-description">
-								{ __( 'Name, dates, and tag.', 'multichannel-campaigns' ) }
-							</Text>
-						</Stack>
-					</CollapsibleCard.Header>
-					<CollapsibleCard.Content>
-						<DataForm< Draft >
-							data={ draft }
-							fields={ basicsFields }
-							form={ basicsForm }
-							onChange={ ( edits: Partial< Draft > ) =>
-								setDraft( ( d ) => ( { ...d, ...edits } ) )
-							}
-						/>
-					</CollapsibleCard.Content>
-				</CollapsibleCard.Root>
+				<div className="mcc-content-gutter">
+					<div className="mcc-form">
+						<CollapsibleCard.Root defaultOpen className="mcc-panel">
+							<CollapsibleCard.Header>
+								<Stack direction="column" gap="xs">
+									<Card.Title>{ __( 'Basics', 'multichannel-campaigns' ) }</Card.Title>
+									<Text variant="body-sm" className="mcc-card-description">
+										{ __( 'Name, dates, and tag.', 'multichannel-campaigns' ) }
+									</Text>
+								</Stack>
+							</CollapsibleCard.Header>
+							<CollapsibleCard.Content>
+								<DataForm< Draft >
+									data={ draft }
+									fields={ basicsFields }
+									form={ basicsForm }
+									onChange={ ( edits: Partial< Draft > ) =>
+										setDraft( ( d ) => ( { ...d, ...edits } ) )
+									}
+								/>
+							</CollapsibleCard.Content>
+						</CollapsibleCard.Root>
 
-				<CollapsibleCard.Root defaultOpen className="mcc-panel">
-					<CollapsibleCard.Header>
-						<Stack direction="column" gap="xs">
-							<Card.Title>{ __( 'Goal', 'multichannel-campaigns' ) }</Card.Title>
-							<Text variant="body-sm" className="mcc-card-description">
-								{ __(
-									'Drives channel recommendations and end-of-campaign scoring.',
-									'multichannel-campaigns'
-								) }
-							</Text>
-						</Stack>
-					</CollapsibleCard.Header>
-					<CollapsibleCard.Content>
-						<DataForm< Draft >
-							data={ draft }
-							fields={ goalFields }
-							form={ goalForm }
-							onChange={ ( edits: Partial< Draft > ) =>
-								setDraft( ( d ) => ( { ...d, ...edits } ) )
-							}
-						/>
-					</CollapsibleCard.Content>
-				</CollapsibleCard.Root>
+						<CollapsibleCard.Root defaultOpen className="mcc-panel">
+							<CollapsibleCard.Header>
+								<Stack direction="column" gap="xs">
+									<Card.Title>{ __( 'Goal', 'multichannel-campaigns' ) }</Card.Title>
+									<Text variant="body-sm" className="mcc-card-description">
+										{ __(
+											'Drives channel recommendations and end-of-campaign scoring.',
+											'multichannel-campaigns'
+										) }
+									</Text>
+								</Stack>
+							</CollapsibleCard.Header>
+							<CollapsibleCard.Content>
+								<DataForm< Draft >
+									data={ draft }
+									fields={ goalFields }
+									form={ goalForm }
+									onChange={ ( edits: Partial< Draft > ) =>
+										setDraft( ( d ) => ( { ...d, ...edits } ) )
+									}
+								/>
+							</CollapsibleCard.Content>
+						</CollapsibleCard.Root>
 
-				<CollapsibleCard.Root defaultOpen className="mcc-panel">
-					<CollapsibleCard.Header>
-						<Stack direction="column" gap="xs">
-							<Card.Title>{ __( 'Products to advertise', 'multichannel-campaigns' ) }</Card.Title>
-							<Text variant="body-sm" className="mcc-card-description">
-								{ __(
-									'Choose whether this campaign promotes the whole catalog or a focused set of products.',
-									'multichannel-campaigns'
-								) }
-							</Text>
-						</Stack>
-					</CollapsibleCard.Header>
-					<CollapsibleCard.Content>
-						<div
-							className="mcc-channel-paths mcc-product-scope-options"
-							role="group"
-							aria-label={ __( 'Products to advertise', 'multichannel-campaigns' ) }
-						>
+					<CollapsibleCard.Root defaultOpen className="mcc-panel">
+						<CollapsibleCard.Header>
+							<Stack direction="column" gap="xs">
+								<Card.Title>{ __( 'Budget', 'multichannel-campaigns' ) }</Card.Title>
+								<Text variant="body-sm" className="mcc-card-description">
+									{ __(
+										'Set the spend limit Woo Ads can optimize across the campaign.',
+										'multichannel-campaigns'
+									) }
+								</Text>
+							</Stack>
+						</CollapsibleCard.Header>
+						<CollapsibleCard.Content>
+							<DataForm< Draft >
+								data={ draft }
+								fields={ budgetFields }
+								form={ budgetForm }
+								onChange={ ( edits: Partial< Draft > ) =>
+									setDraft( ( d ) => ( { ...d, ...edits } ) )
+								}
+							/>
+							<div className="mcc-budget-guidance">
+								<div className="mcc-budget-guidance__item">
+									<Text variant="body-sm" className="mcc-budget-guidance__label">
+										{ __( 'Recommended starting budget', 'multichannel-campaigns' ) }
+									</Text>
+									<Text variant="body-md" className="mcc-budget-guidance__value">
+										{ fmtMoney( recommendedSpend ) }
+									</Text>
+								</div>
+								<div className="mcc-budget-guidance__item">
+									<Text variant="body-sm" className="mcc-budget-guidance__label">
+										{ __( 'Daily average', 'multichannel-campaigns' ) }
+									</Text>
+									<Text variant="body-md" className="mcc-budget-guidance__value">
+										{ fmtMoney( estimatedDailySpend ) }
+									</Text>
+								</div>
+							</div>
+						</CollapsibleCard.Content>
+					</CollapsibleCard.Root>
+
+						<CollapsibleCard.Root defaultOpen className="mcc-panel">
+							<CollapsibleCard.Header>
+								<Stack direction="column" gap="xs">
+									<Card.Title>{ __( 'Products to advertise', 'multichannel-campaigns' ) }</Card.Title>
+									<Text variant="body-sm" className="mcc-card-description">
+										{ __(
+											'Choose whether this campaign promotes the whole catalog or a focused set of products.',
+											'multichannel-campaigns'
+										) }
+									</Text>
+								</Stack>
+							</CollapsibleCard.Header>
+							<CollapsibleCard.Content>
+								<div
+									className="mcc-channel-paths mcc-product-scope-options"
+									role="group"
+									aria-label={ __( 'Products to advertise', 'multichannel-campaigns' ) }
+								>
 							<button
 								type="button"
 								className={ [

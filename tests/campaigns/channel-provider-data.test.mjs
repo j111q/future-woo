@@ -55,7 +55,7 @@ test( 'marketing channels expose provider-row metadata', () => {
 	assert.equal( byId.get( 'woo_ads' ).label, 'Woo Ads' );
 	assert.equal(
 		byId.get( 'woo_ads' ).description,
-		'Plan, launch, refine, and compare campaigns across Google, Meta, Pinterest, TikTok, and more, all from one place.'
+		'Plan, launch, refine, and compare free listings and paid campaigns across Google, Meta, Pinterest, TikTok, and more, all from one place.'
 	);
 	assert.equal( byId.get( 'woo_ads' ).color, '#873EFF' );
 	assert.equal( byId.get( 'woo_ads' ).featured, true );

@@ -57,7 +57,7 @@ class MCC_Data {
 				'connected'             => true,
 				'status'                => 'connected',
 				'category'              => 'Woo',
-				'description'           => 'Plan, launch, refine, and compare campaigns across Google, Meta, Pinterest, TikTok, and more, all from one place.',
+				'description'           => 'Plan, launch, refine, and compare free listings and paid campaigns across Google, Meta, Pinterest, TikTok, and more, all from one place.',
 				'capabilities'          => array( 'Campaign setup', 'Product sync', 'Budget guidance', 'Performance reporting' ),
 				'badges'                => array( 'Official', 'Connected' ),
 				'action_label'          => 'Manage',

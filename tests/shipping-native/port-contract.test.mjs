@@ -29,3 +29,16 @@ test( 'Shipping Native prototype is built and enqueued from its own bundle', () 
 	assert.doesNotMatch( shippingAdmin, /assets\/js\/shipping-setup\.js/ );
 	assert.doesNotMatch( shippingAdmin, /assets\/css\/shipping-setup\.css/ );
 } );
+
+test( 'Shipping Native does not render the legacy Woo settings tab strip', () => {
+	const entry = read( 'src/shipping-native/index.tsx' );
+	const hostStyles = read( 'src/shipping-native/source-host-overrides.scss' );
+
+	assert.doesNotMatch( entry, /ShippingSettingsHeader/ );
+	assert.doesNotMatch( entry, /settingsTabs/ );
+	assert.doesNotMatch( entry, /shipping-native-settings-tabs/ );
+	assert.doesNotMatch( hostStyles, /shipping-native-settings-header/ );
+	assert.doesNotMatch( hostStyles, /shipping-native-settings-tabs/ );
+	assert.doesNotMatch( hostStyles, /\.war-page-header--shipping#wss-page-header,/ );
+	assert.match( hostStyles, /#wss-tabs\s*\{[^}]*display:\s*none !important;/s );
+} );

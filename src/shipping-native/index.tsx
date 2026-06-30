@@ -64,18 +64,6 @@ const shippingHeaderDescriptions: Record< ShippingSection, string > = {
 		'Manage advanced shipping behavior, checkout defaults, and product groups.',
 };
 
-const settingsTabs = [
-	'General',
-	'Products',
-	'Shipping',
-	'Payments',
-	'Accounts & Privacy',
-	'Emails',
-	'Integration',
-	'Advanced',
-	'Multi-currency',
-];
-
 const SHIPPING_NATIVE_STORAGE_KEY = 'woocommerce-shipping-native-spike-zones';
 
 type PrototypeComponent = ( props: Record< string, unknown > ) => JSX.Element;
@@ -201,32 +189,6 @@ function ShippingPrototypeHeader( {
 					) }
 				</nav>
 			) }
-		</header>
-	);
-}
-
-function ShippingSettingsHeader() {
-	return (
-		<header className="shipping-native-settings-header">
-			<div className="shipping-native-settings-header__title">
-				<h1>Settings</h1>
-			</div>
-			<nav
-				className="shipping-native-settings-tabs"
-				aria-label="WooCommerce settings sections"
-			>
-				{ settingsTabs.map( ( tab ) => (
-					<button
-						key={ tab }
-						type="button"
-						className={ `shipping-native-settings-tab${
-							tab === 'Shipping' ? ' is-active' : ''
-						}` }
-					>
-						{ tab }
-					</button>
-				) ) }
-			</nav>
 		</header>
 	);
 }
@@ -461,8 +423,6 @@ export const ShippingNativeInlineSetup = () => {
 		<div
 			className={ `woocommerce-shipping-native shipping-native-prototype-flow is-${ screen }` }
 		>
-			{ screen === 'providers' && <ShippingSettingsHeader /> }
-
 			{ screen !== 'providers' && (
 				<ShippingPrototypeHeader
 					activeSection={ activeSection }

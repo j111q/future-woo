@@ -6,7 +6,7 @@
  */
 import { useState } from '@wordpress/element';
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { Button, Notice, ToggleControl } from '@wordpress/components';
+import { Button, Modal, Notice, ToggleControl } from '@wordpress/components';
 import { Card, CollapsibleCard, Stack, Text } from '@wordpress/ui';
 import { DataForm } from '@wordpress/dataviews';
 import type { Field, Form, DataFormControlProps } from '@wordpress/dataviews';
@@ -57,8 +57,34 @@ type Draft = {
 	tag: string;
 	goal_type: 'revenue' | 'acquisition' | 'retention' | 'awareness';
 	target: string;
+	product_scope: 'catalog' | 'selected';
+	product_targets: string[];
 	channel_mode: 'woo_ads' | 'manual';
 	channels: Record< string, boolean >;
+};
+
+type ProductTarget = {
+	id: string;
+	label: string;
+	kind: 'category' | 'product';
+	meta: string;
+};
+
+type ProductTargetGroup = {
+	id: string;
+	label: string;
+	description: string;
+	targets: ProductTarget[];
+};
+
+type PublicAdPreview = {
+	id: string;
+	platform: string;
+	placement: string;
+	headline: string;
+	body: string;
+	cta: string;
+	frame: 'shopping' | 'feed' | 'story' | 'pin';
 };
 
 const initialDraft = (): Draft => ( {
@@ -68,6 +94,8 @@ const initialDraft = (): Draft => ( {
 	tag: 'BFCM',
 	goal_type: 'revenue',
 	target: '50000',
+	product_scope: 'catalog',
+	product_targets: [],
 	channel_mode: 'woo_ads',
 	channels: {
 		google: true,
@@ -78,6 +106,144 @@ const initialDraft = (): Draft => ( {
 		ebay: false,
 	},
 } );
+
+const productTargetGroups: ProductTargetGroup[] = [
+	{
+		id: 'categories',
+		label: __( 'Categories', 'multichannel-campaigns' ),
+		description: __( 'Use when the campaign should cover a collection or product line.', 'multichannel-campaigns' ),
+		targets: [
+			{
+				id: 'category-bfcm',
+				label: __( 'Black Friday picks', 'multichannel-campaigns' ),
+				kind: 'category',
+				meta: __( '18 products', 'multichannel-campaigns' ),
+			},
+			{
+				id: 'category-gifts',
+				label: __( 'Holiday gifts', 'multichannel-campaigns' ),
+				kind: 'category',
+				meta: __( '24 products', 'multichannel-campaigns' ),
+			},
+			{
+				id: 'category-bestsellers',
+				label: __( 'Best sellers', 'multichannel-campaigns' ),
+				kind: 'category',
+				meta: __( '12 products', 'multichannel-campaigns' ),
+			},
+		],
+	},
+	{
+		id: 'products',
+		label: __( 'Products', 'multichannel-campaigns' ),
+		description: __( 'Use when the campaign should push one hero item or a short product list.', 'multichannel-campaigns' ),
+		targets: [
+			{
+				id: 'product-weekend-hoodie',
+				label: __( 'Weekend hoodie', 'multichannel-campaigns' ),
+				kind: 'product',
+				meta: __( '$64 · 38 in stock', 'multichannel-campaigns' ),
+			},
+			{
+				id: 'product-doorbuster-bundle',
+				label: __( 'Doorbuster gift bundle', 'multichannel-campaigns' ),
+				kind: 'product',
+				meta: __( '$88 · bundle', 'multichannel-campaigns' ),
+			},
+			{
+				id: 'product-everyday-tote',
+				label: __( 'Everyday canvas tote', 'multichannel-campaigns' ),
+				kind: 'product',
+				meta: __( '$32 · 112 in stock', 'multichannel-campaigns' ),
+			},
+			{
+				id: 'product-travel-mug',
+				label: __( 'Insulated travel mug', 'multichannel-campaigns' ),
+				kind: 'product',
+				meta: __( '$28 · 74 in stock', 'multichannel-campaigns' ),
+			},
+		],
+	},
+];
+
+const productTargets = productTargetGroups.flatMap( ( group ) => group.targets );
+
+const publicAdPreviews: PublicAdPreview[] = [
+	{
+		id: 'google-shopping',
+		platform: __( 'Google Shopping', 'multichannel-campaigns' ),
+		placement: __( 'Sponsored shopping result', 'multichannel-campaigns' ),
+		headline: __( 'Weekend-ready picks from your store', 'multichannel-campaigns' ),
+		body: __( 'Product image, price, promo copy, and store name appear together in shopping results.', 'multichannel-campaigns' ),
+		cta: __( 'Shop now', 'multichannel-campaigns' ),
+		frame: 'shopping',
+	},
+	{
+		id: 'facebook-feed',
+		platform: __( 'Facebook feed', 'multichannel-campaigns' ),
+		placement: __( 'Catalog carousel ad', 'multichannel-campaigns' ),
+		headline: __( 'Limited-time BFCM offer', 'multichannel-campaigns' ),
+		body: __( 'Woo Ads can pair product photography with short catalog copy and a product detail link.', 'multichannel-campaigns' ),
+		cta: __( 'View product', 'multichannel-campaigns' ),
+		frame: 'feed',
+	},
+	{
+		id: 'instagram-story',
+		platform: __( 'Instagram story', 'multichannel-campaigns' ),
+		placement: __( 'Vertical story placement', 'multichannel-campaigns' ),
+		headline: __( 'Giftable, shoppable, ready now', 'multichannel-campaigns' ),
+		body: __( 'A vertical crop can reuse the same product asset with a stronger seasonal overlay.', 'multichannel-campaigns' ),
+		cta: __( 'Swipe up', 'multichannel-campaigns' ),
+		frame: 'story',
+	},
+	{
+		id: 'pinterest-pin',
+		platform: __( 'Pinterest pin', 'multichannel-campaigns' ),
+		placement: __( 'Promoted product pin', 'multichannel-campaigns' ),
+		headline: __( 'Build a holiday gift board', 'multichannel-campaigns' ),
+		body: __( 'Pinterest-style creative can lean on product imagery, price, and collection context.', 'multichannel-campaigns' ),
+		cta: __( 'Save idea', 'multichannel-campaigns' ),
+		frame: 'pin',
+	},
+];
+
+const getProductTarget = ( targetId: string ): ProductTarget | undefined =>
+	productTargets.find( ( target ) => target.id === targetId );
+
+const getPrimaryProductForPreview = ( draft: Draft ): ProductTarget =>
+	draft.product_targets
+		.map( getProductTarget )
+		.find( ( target ): target is ProductTarget => Boolean( target ) ) ??
+	getProductTarget( 'product-weekend-hoodie' ) ??
+	productTargets[ 0 ];
+
+const getProductScopeSummary = ( draft: Draft ): string => {
+	if ( draft.product_scope === 'catalog' ) {
+		return __( 'Whole catalog', 'multichannel-campaigns' );
+	}
+
+	const selectedTargets = draft.product_targets
+		.map( getProductTarget )
+		.filter( ( target ): target is ProductTarget => Boolean( target ) );
+
+	if ( selectedTargets.length === 0 ) {
+		return __( 'No products selected yet', 'multichannel-campaigns' );
+	}
+
+	if ( selectedTargets.length === 1 ) {
+		return selectedTargets[ 0 ].label;
+	}
+
+	return sprintf(
+		_n(
+			'%d product or category selected',
+			'%d products or categories selected',
+			selectedTargets.length,
+			'multichannel-campaigns'
+		),
+		selectedTargets.length
+	);
+};
 
 const basicsFields: Field< Draft >[] = [
 	{
@@ -217,6 +383,143 @@ const getGoalImpactLabel = ( draft: Draft ): string => {
 	);
 };
 
+type ProductTargetPickerProps = {
+	selectedTargetIds: string[];
+	onChange: ( targetIds: string[] ) => void;
+};
+
+const ProductTargetPicker = ( {
+	selectedTargetIds,
+	onChange,
+}: ProductTargetPickerProps ): JSX.Element => {
+	const [ searchQuery, setSearchQuery ] = useState( '' );
+	const selectedTargets = selectedTargetIds
+		.map( getProductTarget )
+		.filter( ( target ): target is ProductTarget => Boolean( target ) );
+	const normalizedSearch = searchQuery.trim().toLowerCase();
+	const visibleGroups = productTargetGroups
+		.map( ( group ) => ( {
+			...group,
+			targets: group.targets.filter( ( target ) => {
+				if ( ! normalizedSearch ) {
+					return true;
+				}
+
+				return `${ target.label } ${ target.meta } ${ target.kind }`
+					.toLowerCase()
+					.includes( normalizedSearch );
+			} ),
+		} ) )
+		.filter( ( group ) => group.targets.length > 0 );
+
+	const toggleTarget = ( targetId: string ) => {
+		if ( selectedTargetIds.includes( targetId ) ) {
+			onChange( selectedTargetIds.filter( ( id ) => id !== targetId ) );
+			return;
+		}
+
+		onChange( [ ...selectedTargetIds, targetId ] );
+	};
+
+	return (
+		<div className="mcc-product-target-picker">
+			<label
+				className="mcc-product-target-picker__label"
+				htmlFor="mcc-product-target-search"
+			>
+				{ __( 'Selected products and categories', 'multichannel-campaigns' ) }
+			</label>
+			<input
+				id="mcc-product-target-search"
+				type="search"
+				className="mcc-product-target-picker__search"
+				placeholder={ __( 'Search products or categories', 'multichannel-campaigns' ) }
+				value={ searchQuery }
+				onChange={ ( event ) => setSearchQuery( event.target.value ) }
+			/>
+
+			{ selectedTargets.length > 0 && (
+				<div
+					className="mcc-product-target-picker__tags"
+					aria-label={ __( 'Selected product targets', 'multichannel-campaigns' ) }
+				>
+					{ selectedTargets.map( ( target ) => (
+						<button
+							key={ target.id }
+							type="button"
+							className="mcc-product-target-picker__tag"
+							onClick={ () => toggleTarget( target.id ) }
+						>
+							{ target.label }
+							<span aria-hidden="true">×</span>
+						</button>
+					) ) }
+				</div>
+			) }
+
+			<div
+				className="mcc-product-target-picker__tree"
+				role="group"
+				aria-label={ __( 'Products to advertise', 'multichannel-campaigns' ) }
+			>
+				{ visibleGroups.length === 0 ? (
+					<Text variant="body-sm" className="mcc-product-target-picker__empty">
+						{ __( 'No matching products or categories.', 'multichannel-campaigns' ) }
+					</Text>
+				) : (
+					visibleGroups.map( ( group ) => (
+						<div
+							key={ group.id }
+							className="mcc-product-target-picker__group"
+						>
+							<div className="mcc-product-target-picker__group-header">
+								<Text variant="body-md" className="mcc-product-target-picker__group-title">
+									{ group.label }
+								</Text>
+								<Text variant="body-sm" className="mcc-product-target-picker__group-description">
+									{ group.description }
+								</Text>
+							</div>
+							<div className="mcc-product-target-picker__options">
+								{ group.targets.map( ( target ) => {
+									const inputId = `mcc-product-target-${ target.id }`;
+
+									return (
+										<label
+											key={ target.id }
+											className="mcc-product-target-option"
+											htmlFor={ inputId }
+										>
+											<input
+												id={ inputId }
+												type="checkbox"
+												checked={ selectedTargetIds.includes( target.id ) }
+												onChange={ () => toggleTarget( target.id ) }
+											/>
+											<span className="mcc-product-target-option__body">
+												<span className="mcc-product-target-option__title">
+													{ target.label }
+												</span>
+												<span className="mcc-product-target-option__meta">
+													{ target.kind === 'category'
+														? __( 'Category', 'multichannel-campaigns' )
+														: __( 'Product', 'multichannel-campaigns' ) }
+													{ ' · ' }
+													{ target.meta }
+												</span>
+											</span>
+										</label>
+									);
+								} ) }
+							</div>
+						</div>
+					) )
+				) }
+			</div>
+		</div>
+	);
+};
+
 type Props = {
 	onCancel: () => void;
 	onLaunched: () => void;
@@ -226,6 +529,8 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 	const [ draft, setDraft ] = useState< Draft >( initialDraft );
 	const [ saving, setSaving ] = useState( false );
 	const [ showWooAdsPreview, setShowWooAdsPreview ] = useState( false );
+	const [ showPublicPreviewModal, setShowPublicPreviewModal ] = useState( false );
+	const [ activePublicPreviewIndex, setActivePublicPreviewIndex ] = useState( 0 );
 	const manualChannels = window.MCC_BOOT.channels.filter(
 		( channel ) => channel.id !== 'woo_ads'
 	);
@@ -237,6 +542,8 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 	const estimatedDailySpend = Math.round( estimatedSpend / campaignDays );
 	const goalImpactLabel = getGoalImpactLabel( draft );
 	const recommendationPreviewId = 'mcc-woo-ads-preview';
+	const primaryPreviewProduct = getPrimaryProductForPreview( draft );
+	const activePublicPreview = publicAdPreviews[ activePublicPreviewIndex ];
 
 	const setField =
 		< K extends keyof Draft >( key: K ) =>
@@ -256,6 +563,16 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 			...d,
 			channels: { ...d.channels, [ id ]: ! d.channels[ id ] },
 		} ) );
+
+	const showPreviousPublicPreview = () =>
+		setActivePublicPreviewIndex( ( index ) =>
+			index === 0 ? publicAdPreviews.length - 1 : index - 1
+		);
+
+	const showNextPublicPreview = () =>
+		setActivePublicPreviewIndex( ( index ) =>
+			index === publicAdPreviews.length - 1 ? 0 : index + 1
+		);
 
 	return (
 		<div className="mcc-page mcc-page--create">
@@ -323,6 +640,83 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 								setDraft( ( d ) => ( { ...d, ...edits } ) )
 							}
 						/>
+					</CollapsibleCard.Content>
+				</CollapsibleCard.Root>
+
+				<CollapsibleCard.Root defaultOpen className="mcc-panel">
+					<CollapsibleCard.Header>
+						<Stack direction="column" gap="xs">
+							<Card.Title>{ __( 'Products to advertise', 'multichannel-campaigns' ) }</Card.Title>
+							<Text variant="body-sm" className="mcc-card-description">
+								{ __(
+									'Choose whether this campaign promotes the whole catalog or a focused set of products.',
+									'multichannel-campaigns'
+								) }
+							</Text>
+						</Stack>
+					</CollapsibleCard.Header>
+					<CollapsibleCard.Content>
+						<div
+							className="mcc-channel-paths mcc-product-scope-options"
+							role="group"
+							aria-label={ __( 'Products to advertise', 'multichannel-campaigns' ) }
+						>
+							<button
+								type="button"
+								className={ [
+									'mcc-channel-path',
+									draft.product_scope === 'catalog' ? 'is-selected' : '',
+								]
+									.filter( Boolean )
+									.join( ' ' ) }
+								aria-pressed={ draft.product_scope === 'catalog' }
+								onClick={ () => setField( 'product_scope' )( 'catalog' ) }
+							>
+								<span className="mcc-channel-path__label">
+									{ __( 'Default', 'multichannel-campaigns' ) }
+								</span>
+								<span className="mcc-channel-path__title">
+									{ __( 'Advertise the whole catalog', 'multichannel-campaigns' ) }
+								</span>
+								<span className="mcc-channel-path__description">
+									{ __(
+										'Let Woo Ads and connected channels choose from every eligible product.',
+										'multichannel-campaigns'
+									) }
+								</span>
+							</button>
+							<button
+								type="button"
+								className={ [
+									'mcc-channel-path',
+									draft.product_scope === 'selected' ? 'is-selected' : '',
+								]
+									.filter( Boolean )
+									.join( ' ' ) }
+								aria-pressed={ draft.product_scope === 'selected' }
+								onClick={ () => setField( 'product_scope' )( 'selected' ) }
+							>
+								<span className="mcc-channel-path__label">
+									{ __( 'Focused', 'multichannel-campaigns' ) }
+								</span>
+								<span className="mcc-channel-path__title">
+									{ __( 'Choose products or categories', 'multichannel-campaigns' ) }
+								</span>
+								<span className="mcc-channel-path__description">
+									{ __(
+										'Promote one hero product, a short list, or a seasonal category.',
+										'multichannel-campaigns'
+									) }
+								</span>
+							</button>
+						</div>
+
+						{ draft.product_scope === 'selected' && (
+							<ProductTargetPicker
+								selectedTargetIds={ draft.product_targets }
+								onChange={ setField( 'product_targets' ) }
+							/>
+						) }
 					</CollapsibleCard.Content>
 				</CollapsibleCard.Root>
 
@@ -401,7 +795,7 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 							<div className="mcc-woo-ads-optimization">
 								<div className="mcc-woo-ads-optimization__header">
 									<div className="mcc-woo-ads-optimization__intro">
-										<Text variant="body" className="mcc-woo-ads-optimization__title">
+										<Text variant="body-md" className="mcc-woo-ads-optimization__title">
 											{ __( 'Woo Ads optimization path', 'multichannel-campaigns' ) }
 										</Text>
 										<Text variant="body-sm" className="mcc-woo-ads-optimization__description">
@@ -430,7 +824,7 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 												<Text variant="body-sm" className="mcc-recommendation-preview__eyebrow">
 													{ __( 'Campaign', 'multichannel-campaigns' ) }
 												</Text>
-												<Text variant="body" className="mcc-recommendation-preview__value">
+												<Text variant="body-md" className="mcc-recommendation-preview__value">
 													{ draft.name }
 												</Text>
 											</div>
@@ -438,7 +832,7 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 												<Text variant="body-sm" className="mcc-recommendation-preview__eyebrow">
 													{ __( 'Duration', 'multichannel-campaigns' ) }
 												</Text>
-												<Text variant="body" className="mcc-recommendation-preview__value">
+												<Text variant="body-md" className="mcc-recommendation-preview__value">
 													{ formatDateRange( draft.start_date, draft.end_date ) } ·{ ' ' }
 													{ sprintf(
 														_n(
@@ -453,9 +847,17 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 											</div>
 											<div>
 												<Text variant="body-sm" className="mcc-recommendation-preview__eyebrow">
+													{ __( 'Products', 'multichannel-campaigns' ) }
+												</Text>
+												<Text variant="body-md" className="mcc-recommendation-preview__value">
+													{ getProductScopeSummary( draft ) }
+												</Text>
+											</div>
+											<div>
+												<Text variant="body-sm" className="mcc-recommendation-preview__eyebrow">
 													{ __( 'Estimated spend', 'multichannel-campaigns' ) }
 												</Text>
-												<Text variant="body" className="mcc-recommendation-preview__value">
+												<Text variant="body-md" className="mcc-recommendation-preview__value">
 													{ fmtMoney( estimatedSpend ) }{ ' ' }
 													<span className="mcc-dim">
 														{ sprintf(
@@ -469,9 +871,17 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 										<Text variant="body-sm" className="mcc-recommendation-preview__impact">
 											{ goalImpactLabel }
 										</Text>
+										<div className="mcc-recommendation-preview__actions">
+											<Button
+												variant="secondary"
+												onClick={ () => setShowPublicPreviewModal( true ) }
+											>
+												{ __( 'Preview what the public will see', 'multichannel-campaigns' ) }
+											</Button>
+										</div>
 										<div className="mcc-recommendation-preview__grid">
 											<div className="mcc-recommendation-preview__section">
-												<Text variant="body" className="mcc-recommendation-preview__heading">
+												<Text variant="body-md" className="mcc-recommendation-preview__heading">
 													{ __( 'Recommended channels', 'multichannel-campaigns' ) }
 												</Text>
 												<ul className="mcc-recommendation-preview__list">
@@ -482,7 +892,7 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 												</ul>
 											</div>
 											<div className="mcc-recommendation-preview__section">
-												<Text variant="body" className="mcc-recommendation-preview__heading">
+												<Text variant="body-md" className="mcc-recommendation-preview__heading">
 													{ __( 'Activities Woo Ads will manage', 'multichannel-campaigns' ) }
 												</Text>
 												<ul className="mcc-recommendation-preview__list">
@@ -569,6 +979,96 @@ export const CampaignCreate = ( { onCancel, onLaunched }: Props ): JSX.Element =
 				</Notice>
 			</div>
 			</div>
+			{ showPublicPreviewModal && (
+				<Modal
+					className="mcc-public-preview-modal"
+					title={ __( 'Preview what the public will see', 'multichannel-campaigns' ) }
+					onRequestClose={ () => setShowPublicPreviewModal( false ) }
+				>
+					<div className="mcc-public-preview-carousel">
+						<div className="mcc-public-preview-carousel__header">
+							<div>
+								<Text variant="body-sm" className="mcc-recommendation-preview__eyebrow">
+									{ activePublicPreview.placement }
+								</Text>
+								<Text variant="body-md" className="mcc-public-preview-carousel__title">
+									{ activePublicPreview.platform }
+								</Text>
+							</div>
+							<Text variant="body-sm" className="mcc-public-preview-carousel__counter">
+								{ sprintf(
+									__( '%1$d of %2$d', 'multichannel-campaigns' ),
+									activePublicPreviewIndex + 1,
+									publicAdPreviews.length
+								) }
+							</Text>
+						</div>
+
+						<div
+							className={ [
+								'mcc-public-preview-frame',
+								`mcc-public-preview-frame--${ activePublicPreview.frame }`,
+							].join( ' ' ) }
+						>
+							<div className="mcc-public-preview-frame__chrome">
+								<span>{ activePublicPreview.platform }</span>
+								<span>{ __( 'Sponsored', 'multichannel-campaigns' ) }</span>
+							</div>
+							<div className="mcc-public-preview-frame__body">
+								<div className="mcc-public-preview-asset">
+									<div className="mcc-public-preview-asset__image">
+										<span>{ primaryPreviewProduct.label }</span>
+									</div>
+									<div className="mcc-public-preview-asset__meta">
+										<span>{ primaryPreviewProduct.label }</span>
+										<span>{ primaryPreviewProduct.meta }</span>
+									</div>
+								</div>
+								<div className="mcc-public-preview-copy">
+									<Text variant="body-md" className="mcc-public-preview-copy__headline">
+										{ activePublicPreview.headline }
+									</Text>
+									<Text variant="body-sm" className="mcc-public-preview-copy__body">
+										{ activePublicPreview.body }
+									</Text>
+									<span className="mcc-public-preview-copy__cta">
+										{ activePublicPreview.cta }
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div className="mcc-public-preview-carousel__controls">
+							<Button variant="secondary" onClick={ showPreviousPublicPreview }>
+								{ __( 'Previous', 'multichannel-campaigns' ) }
+							</Button>
+							<div className="mcc-public-preview-carousel__dots">
+								{ publicAdPreviews.map( ( preview, index ) => (
+									<button
+										key={ preview.id }
+										type="button"
+										className={ [
+											'mcc-public-preview-carousel__dot',
+											index === activePublicPreviewIndex ? 'is-active' : '',
+										]
+											.filter( Boolean )
+											.join( ' ' ) }
+										aria-label={ sprintf(
+											__( 'Show %s preview', 'multichannel-campaigns' ),
+											preview.platform
+										) }
+										aria-current={ index === activePublicPreviewIndex ? 'true' : undefined }
+										onClick={ () => setActivePublicPreviewIndex( index ) }
+									/>
+								) ) }
+							</div>
+							<Button variant="primary" onClick={ showNextPublicPreview }>
+								{ __( 'Next', 'multichannel-campaigns' ) }
+							</Button>
+						</div>
+					</div>
+				</Modal>
+			) }
 		</div>
 	);
 };

@@ -108,6 +108,76 @@ test( 'campaign create treats Woo Ads as recommendations, not a manual channel',
 	);
 	assert.match(
 		campaignCreate,
+		/Products to advertise[\s\S]*Channels & activities/,
+		'Campaign scope should be chosen before merchants decide channels and activities'
+	);
+	assert.match(
+		campaignCreate,
+		/Advertise the whole catalog/,
+		'Campaigns should default to a whole-catalog advertising scope'
+	);
+	assert.match(
+		campaignCreate,
+		/Choose products or categories/,
+		'Merchants should be able to narrow the campaign to selected products or categories'
+	);
+	assert.match(
+		campaignCreate,
+		/product_scope:\s*'catalog'/,
+		'Whole catalog should be the default product scope'
+	);
+	assert.match(
+		campaignCreate,
+		/product_targets:\s*\[\]/,
+		'Selected product targets should be tracked separately from the scope mode'
+	);
+	assert.match(
+		campaignCreate,
+		/Search products or categories/,
+		'The selected-scope path should expose a searchable product/category picker'
+	);
+	assert.match(
+		campaignCreate,
+		/ProductTargetPicker/,
+		'The product-scope step should use a reusable picker instead of hard-coding one-off checkboxes inline'
+	);
+	assert.match(
+		campaignCreate,
+		/Products[\s\S]*getProductScopeSummary\(\s*draft\s*\)/,
+		'The Woo Ads preview should summarize the selected advertising scope'
+	);
+	assert.match(
+		campaignCreate,
+		/Preview what the public will see/,
+		'The initial recommendation should let merchants preview public-facing ad creative'
+	);
+	assert.match(
+		campaignCreate,
+		/Modal[\s\S]*mcc-public-preview-modal/,
+		'The public preview should open in a modal instead of expanding the recommendation card'
+	);
+	assert.match(
+		campaignCreate,
+		/publicAdPreviews[\s\S]*Google Shopping[\s\S]*Facebook feed[\s\S]*Instagram story[\s\S]*Pinterest pin/s,
+		'The public preview should carousel through mocked-up channel ad placements'
+	);
+	assert.match(
+		campaignCreate,
+		/activePublicPreviewIndex/,
+		'The public preview modal should track the active carousel slide'
+	);
+	assert.match(
+		campaignCreate,
+		/getPrimaryProductForPreview\(\s*draft\s*\)/,
+		'Public ad previews should use the selected product scope when choosing the mock product asset'
+	);
+	assert.match(
+		campaignStyles,
+		/\.mcc-public-preview-carousel/,
+		'The public-facing ad preview carousel should have dedicated styles'
+	);
+	assert.match(
+		campaignCreate,
 		/\.filter\(\s*\(\s*channel\s*\)\s*=>\s*channel\.id\s*!==\s*'woo_ads'\s*\)/s,
 		'Woo Ads should be filtered out of the manual channel list'
 	);

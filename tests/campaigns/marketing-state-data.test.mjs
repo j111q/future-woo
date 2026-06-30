@@ -15,6 +15,7 @@ const loadMarketingDataForState = ( state ) => {
 		"'rollup' => MCC_Data::get_rollup(),",
 		"'analytics' => MCC_Data::get_marketing_analytics(),",
 		"'detail' => MCC_Data::get_campaign_detail( 1 ),",
+		"'hasConnectedMarketingChannel' => MCC_Data::has_connected_channel(),",
 		') );',
 	].join( ' ' );
 
@@ -44,6 +45,11 @@ test( 'early store states do not expose marketing demo data', () => {
 		);
 		assert.equal( data.analytics, null, `${ state } should have no analytics` );
 		assert.equal( data.detail, null, `${ state } should have no campaign detail` );
+		assert.equal(
+			data.hasConnectedMarketingChannel,
+			false,
+			`${ state } should not expose the Campaigns page`
+		);
 	}
 } );
 
@@ -55,4 +61,5 @@ test( 'active store keeps the marketing prototype data', () => {
 	assert.ok( data.rollup.active_count > 0 );
 	assert.ok( data.analytics.channels.length > 0 );
 	assert.equal( data.detail.id, 1 );
+	assert.equal( data.hasConnectedMarketingChannel, true );
 } );

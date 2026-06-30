@@ -65,6 +65,7 @@ declare global {
 				sessions: number;
 			};
 			marketingAnalytics?: unknown;
+			hasConnectedMarketingChannel: boolean;
 			path: string;
 			businessLocation: string;
 		};

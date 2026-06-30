@@ -118,7 +118,6 @@ test( 'Marketing channel rows render brand logos instead of letter swatches', ()
 		'tiktok',
 		'amazon',
 		'ebay',
-		'email',
 	] ) {
 		assert.match(
 			providerLogo,

@@ -126,6 +126,13 @@ body.woocommerce-shipping-native-settings-page.woocommerce-shipping-native-scree
 	}
 }
 
+body.woocommerce-shipping-native-settings-page.woocommerce-shipping-native-screen-setup,
+body.woocommerce-shipping-native-settings-page.woocommerce-shipping-native-screen-hub {
+	#wss-page-header {
+		display: none !important;
+	}
+}
+
 .shipping-native-prototype-header {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;

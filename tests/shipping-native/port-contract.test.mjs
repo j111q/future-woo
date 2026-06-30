@@ -42,3 +42,12 @@ test( 'Shipping Native does not render the legacy Woo settings tab strip', () =>
 	assert.doesNotMatch( hostStyles, /\.war-page-header--shipping#wss-page-header,/ );
 	assert.match( hostStyles, /#wss-tabs\s*\{[^}]*display:\s*none !important;/s );
 } );
+
+test( 'Shipping Native hides the shared page header inside Woo Shipping flows', () => {
+	const hostStyles = read( 'src/shipping-native/source-host-overrides.scss' );
+
+	assert.match(
+		hostStyles,
+		/body\.woocommerce-shipping-native-settings-page\.woocommerce-shipping-native-screen-setup,[\s\S]*body\.woocommerce-shipping-native-settings-page\.woocommerce-shipping-native-screen-hub\s*\{[\s\S]*#wss-page-header\s*\{[\s\S]*display:\s*none !important;/
+	);
+} );

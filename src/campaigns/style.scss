@@ -429,21 +429,6 @@ body.mcc-page-active {
 	}
 }
 
-.mcc-provider-location {
-	background: var(--wpds-color-background-surface-neutral, var(--wpds-color-bg-surface-neutral));
-	border: 1px solid var(--wpds-color-stroke-surface-neutral);
-	border-radius: var(--wpds-border-radius-sm);
-	color: var(--wpds-color-foreground-content-neutral, var(--wpds-color-fg-content-neutral));
-	cursor: default;
-	font: inherit;
-	min-height: 40px;
-	padding: 0 var(--wpds-dimension-padding-lg, 16px);
-
-	span {
-		color: var(--wpds-color-foreground-content-neutral-weak, var(--wpds-color-fg-content-neutral-weak));
-	}
-}
-
 .mcc-provider-list {
 	display: flex;
 	flex-direction: column;
@@ -487,11 +472,12 @@ body.fwa-marketing-overview-enhanced {
 		width: 100%;
 	}
 
-	.woocommerce-marketing-channels-card {
-		border-left: 0;
+	.woocommerce-marketing-overview-multichannel > .woocommerce-marketing-channels-card {
+		background: transparent;
+		border: 0;
 		border-radius: 0;
-		border-right: 0;
 		box-shadow: none;
+		overflow: visible;
 	}
 
 	.woocommerce-marketing-overview-multichannel .components-card__header {
@@ -573,7 +559,10 @@ body.fwa-marketing-overview-enhanced {
 }
 
 .mcc-provider-overview {
-	background: var(--wpds-color-background-surface-neutral, var(--wpds-color-bg-surface-neutral));
+	background: transparent;
+	display: flex;
+	flex-direction: column;
+	gap: var(--wpds-dimension-gap-lg, 16px);
 }
 
 .mcc-provider-overview__empty {
@@ -606,10 +595,6 @@ body.fwa-marketing-overview-enhanced {
 
 	&:last-child {
 		border-bottom: 0;
-	}
-
-	&.is-featured {
-		background: var(--wpds-color-background-surface-brand, var(--wpds-color-bg-surface-brand));
 	}
 }
 
@@ -647,6 +632,12 @@ body.fwa-marketing-overview-enhanced {
 		width: 30px;
 	}
 
+	&.mcc-provider-logo-mark--woo {
+		height: 40px;
+		max-width: 40px;
+		width: 40px;
+	}
+
 	// Brand asset colors, not UI palette colors.
 	&.mcc-provider-logo-mark--amazon {
 		fill: #221f1f;
@@ -680,12 +671,28 @@ body.fwa-marketing-overview-enhanced {
 	line-height: var(--wpds-typography-line-height-sm, 20px);
 }
 
-.mcc-provider-row__badges,
-.mcc-provider-row__capabilities {
+.mcc-provider-row__badges {
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--wpds-dimension-gap-xs, 4px);
+}
+
+.mcc-provider-official-badge {
+	align-items: center;
+	color: var(--wpds-color-foreground-content-neutral, var(--wpds-color-fg-content-neutral));
+	display: inline-flex;
+	font-size: var(--wpds-typography-font-size-md, 13px);
+	font-weight: var(--wpds-typography-font-weight-regular, 400);
+	gap: var(--wpds-dimension-gap-xs, 4px);
+	line-height: var(--wpds-typography-line-height-sm, 20px);
+}
+
+.mcc-provider-official-badge__mark {
+	display: block;
+	flex: 0 0 16px;
+	height: 16px;
+	width: 16px;
 }
 
 .mcc-provider-row__description {
@@ -695,17 +702,35 @@ body.fwa-marketing-overview-enhanced {
 	margin-top: 2px;
 }
 
-.mcc-provider-row__capabilities {
-	margin-top: var(--wpds-dimension-gap-sm, 8px);
+.mcc-provider-row__network-logos {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wpds-dimension-gap-sm, 8px);
+	margin-top: var(--wpds-dimension-gap-md, 12px);
+}
 
-	span {
-		background: var(--wpds-color-background-surface-neutral, var(--wpds-color-bg-surface-neutral));
-		border: 1px solid var(--wpds-color-stroke-surface-neutral);
-		border-radius: var(--wpds-border-radius-sm);
-		color: var(--wpds-color-foreground-content-neutral, var(--wpds-color-fg-content-neutral));
-		font-size: var(--wpds-typography-font-size-sm, 12px);
-		line-height: var(--wpds-typography-line-height-xs, 16px);
-		padding: 2px var(--wpds-dimension-padding-sm, 8px);
+.mcc-provider-row__network-logo {
+	align-items: center;
+	background: var(--wpds-color-background-surface-neutral, var(--wpds-color-bg-surface-neutral));
+	border: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+	border-radius: var(--wpds-border-radius-sm);
+	box-sizing: border-box;
+	color: var(--mcc-channel-color);
+	display: inline-flex;
+	height: 24px;
+	justify-content: center;
+	width: 40px;
+
+	.mcc-provider-logo-mark {
+		height: 16px;
+		max-width: 24px;
+		width: 16px;
+	}
+
+	.mcc-provider-logo-mark--amazon {
+		height: 12px;
+		width: 24px;
 	}
 }
 

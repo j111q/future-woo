@@ -1,5 +1,9 @@
 export type CampaignStatus = 'active' | 'scheduled' | 'draft' | 'completed';
-export type ChannelStatus = 'connected' | 'recommended' | 'available' | 'coming_soon';
+export type ChannelStatus =
+	| 'connected'
+	| 'recommended'
+	| 'available'
+	| 'coming_soon';
 
 export type Channel = {
 	id: string;
@@ -14,6 +18,7 @@ export type Channel = {
 	badges: string[];
 	action_label: string;
 	featured?: boolean;
+	supported_channel_ids?: string[];
 };
 
 export type Campaign = {

@@ -63,6 +63,12 @@ final class Context {
 				// Skip the Woo root itself — it isn't a navigable page.
 				continue;
 			}
+			if ( ! empty( $node['nav_only'] ) ) {
+				// Click-only aliases render menu entries but should not own
+				// current-state matching. Example: Future Woo's top-level
+				// Payments shortcut links to Settings > Payments.
+				continue;
+			}
 
 			// If the node declares a `url` override, match against that URL
 			// (the slug may be a bare handle like `action-scheduler` while

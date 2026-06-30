@@ -13,7 +13,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { CampaignsList } from './CampaignsList';
 import { CampaignCreate } from './CampaignCreate';
 import { Detail } from './CampaignDetail';
-import { CampaignChannels } from './CampaignChannels';
+import { mountMarketingOverviewChannels } from './MarketingOverviewChannels';
 import './style.scss';
 
 // REST nonce wiring.
@@ -23,9 +23,12 @@ apiFetch.use(
 
 type ViewState =
 	| { name: 'list' }
-	| { name: 'channels' }
 	| { name: 'create' }
 	| { name: 'detail'; id: number };
+
+const hasConnectedMarketingChannel =
+	window.MCC_BOOT.hasConnectedMarketingChannel ||
+	window.MCC_BOOT.channels.some( ( channel ) => channel.connected );
 
 const CampaignsPage = (): JSX.Element => {
 	const [ view, setView ] = useState< ViewState >( { name: 'list' } );
@@ -56,33 +59,6 @@ const CampaignsPage = (): JSX.Element => {
 		setView( { name: 'detail', id: 1 } );
 	};
 
-	const tabs = (
-		<nav
-			className="mcc-page-tabs"
-			role="tablist"
-			aria-label={ __( 'Campaign sections', 'multichannel-campaigns' ) }
-		>
-			<button
-				type="button"
-				role="tab"
-				aria-selected={ view.name === 'list' }
-				className={ view.name === 'list' ? 'is-active' : '' }
-				onClick={ () => setView( { name: 'list' } ) }
-			>
-				{ __( 'Campaigns', 'multichannel-campaigns' ) }
-			</button>
-			<button
-				type="button"
-				role="tab"
-				aria-selected={ view.name === 'channels' }
-				className={ view.name === 'channels' ? 'is-active' : '' }
-				onClick={ () => setView( { name: 'channels' } ) }
-			>
-				{ __( 'Channels', 'multichannel-campaigns' ) }
-			</button>
-		</nav>
-	);
-
 	return (
 		<>
 			{ notice && (
@@ -100,10 +76,8 @@ const CampaignsPage = (): JSX.Element => {
 				<CampaignsList
 					onCreate={ () => setView( { name: 'create' } ) }
 					onOpen={ ( id ) => setView( { name: 'detail', id } ) }
-					tabs={ tabs }
 				/>
 			) }
-			{ view.name === 'channels' && <CampaignChannels tabs={ tabs } /> }
 			{ view.name === 'create' && (
 				<CampaignCreate
 					onCancel={ () => setView( { name: 'list' } ) }
@@ -126,6 +100,10 @@ addFilter(
 	'woocommerce_admin_pages_list',
 	'multichannel-campaigns',
 	( pages: Array< Record< string, unknown > > ) => {
+		if ( ! hasConnectedMarketingChannel ) {
+			return pages;
+		}
+
 		pages.push( {
 			container: CampaignsPage,
 			path: '/marketing/campaigns',
@@ -139,3 +117,5 @@ addFilter(
 		return pages;
 	}
 );
+
+mountMarketingOverviewChannels();

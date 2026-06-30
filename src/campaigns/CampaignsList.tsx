@@ -184,10 +184,9 @@ const defaultLayouts = {
 type Props = {
 	onCreate: () => void;
 	onOpen: ( id: number ) => void;
-	tabs?: React.ReactNode;
 };
 
-export const CampaignsList = ( { onCreate, onOpen, tabs }: Props ): JSX.Element => {
+export const CampaignsList = ( { onCreate, onOpen }: Props ): JSX.Element => {
 	const [ view, setView ] = useState< View >( {
 		type: 'table',
 		search: '',
@@ -249,7 +248,6 @@ export const CampaignsList = ( { onCreate, onOpen, tabs }: Props ): JSX.Element 
 		<div className="mcc-page mcc-page--list">
 			<PageHeader
 				title={ __( 'Campaigns', 'multichannel-campaigns' ) }
-				tabs={ tabs }
 				actions={
 					<Button variant="primary" icon={ plus } onClick={ onCreate }>
 						{ __( 'Create campaign', 'multichannel-campaigns' ) }

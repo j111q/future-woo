@@ -28,6 +28,7 @@ class MCC_Admin_Page {
 	public function __construct() {
 		add_filter( 'woocommerce_marketing_menu_items', array( $this, 'register_page' ) );
 		add_filter( 'woocommerce_analytics_report_menu_items', array( $this, 'register_analytics_page' ) );
+		add_filter( 'woocommerce_admin_menu_tree', array( $this, 'remove_campaigns_nav_until_connected' ), 20, 3 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		// wc-admin's PageController::register_page() writes a path like
 		// `wc-admin&path=/marketing/campaigns` directly into the wp_submenu
@@ -42,6 +43,10 @@ class MCC_Admin_Page {
 	 * inside its React shell, so we get the WC header + breadcrumbs free.
 	 */
 	public function register_page( $pages ) {
+		if ( ! MCC_Data::has_connected_channel() ) {
+			return $pages;
+		}
+
 		$pages[] = array(
 			'id'         => self::PAGE_ID,
 			'title'      => __( 'Campaigns', 'multichannel-campaigns' ),
@@ -53,6 +58,26 @@ class MCC_Admin_Page {
 			),
 		);
 		return $pages;
+	}
+
+	/**
+	 * Remove the synthetic Marketing > Campaigns rail item until there is a
+	 * connected marketing channel to run campaigns from.
+	 */
+	public function remove_campaigns_nav_until_connected( array $tree, array $menu, array $submenu ): array {
+		if ( MCC_Data::has_connected_channel() ) {
+			return $tree;
+		}
+
+		unset( $tree['wc-admin&path=/marketing/campaigns'] );
+
+		foreach ( $tree as $slug => $node ) {
+			if ( ( $node['url'] ?? '' ) === 'admin.php?page=wc-admin&path=/marketing/campaigns' ) {
+				unset( $tree[ $slug ] );
+			}
+		}
+
+		return $tree;
 	}
 
 	/**
@@ -149,6 +174,7 @@ class MCC_Admin_Page {
 			'channels'         => MCC_Data::get_channels(),
 			'rollup'           => MCC_Data::get_rollup(),
 			'marketingAnalytics' => MCC_Data::get_marketing_analytics(),
+			'hasConnectedMarketingChannel' => MCC_Data::has_connected_channel(),
 			'path'             => self::PATH,
 			'businessLocation' => $business_location,
 		);

@@ -166,6 +166,16 @@ class MCC_Data {
 		);
 	}
 
+	public static function has_connected_channel() {
+		foreach ( self::get_channels() as $channel ) {
+			if ( ! empty( $channel['connected'] ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static function get_campaigns() {
 		if ( ! self::should_show_marketing_demo_data() ) {
 			return array();

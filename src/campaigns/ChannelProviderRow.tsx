@@ -2,6 +2,7 @@ import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { moreVertical } from '@wordpress/icons';
 import { Badge } from '@wordpress/ui';
+import { ChannelProviderLogo } from './ChannelProviderLogo';
 import type { Channel } from './types';
 
 type Mode = 'manage' | 'select';
@@ -81,7 +82,10 @@ export const ChannelProviderRow = ( {
 		>
 			<div className="mcc-provider-row__main">
 				<div className="mcc-provider-row__logo" style={ logoStyle }>
-					{ channel.short }
+					<ChannelProviderLogo
+						channelId={ channel.id }
+						fallback={ channel.short }
+					/>
 				</div>
 				<div className="mcc-provider-row__text">
 					<div className="mcc-provider-row__title-line">

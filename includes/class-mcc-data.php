@@ -26,12 +26,29 @@ class MCC_Data {
 		);
 	}
 
-	public static function get_channels() {
-		if ( ! self::should_show_marketing_demo_data() ) {
-			return array();
-		}
+	private static function get_discovery_channels( array $channels ) {
+		return array_map(
+			function ( $channel ) {
+				$channel['connected']    = false;
+				$channel['status']       = 'available';
+				$channel['badges']       = array_values(
+					array_filter(
+						$channel['badges'],
+						function ( $badge ) {
+							return 'Connected' !== $badge;
+						}
+					)
+				);
+				$channel['action_label'] = 'Set up';
 
-		return array(
+				return $channel;
+			},
+			$channels
+		);
+	}
+
+	public static function get_channels() {
+		$channels = array(
 			array(
 				'id'           => 'woo_ads',
 				'label'        => 'Woo Ads',
@@ -164,6 +181,12 @@ class MCC_Data {
 				'action_label' => 'Manage',
 			),
 		);
+
+		if ( ! self::should_show_marketing_demo_data() ) {
+			return self::get_discovery_channels( $channels );
+		}
+
+		return $channels;
 	}
 
 	public static function has_connected_channel() {

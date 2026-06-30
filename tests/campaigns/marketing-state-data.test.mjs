@@ -27,11 +27,30 @@ const loadMarketingDataForState = ( state ) => {
 	);
 };
 
-test( 'early store states do not expose marketing demo data', () => {
+test( 'early store states expose marketing discovery without campaign data', () => {
 	for ( const state of [ 'new_store', 'setting_up' ] ) {
 		const data = loadMarketingDataForState( state );
 
-		assert.deepEqual( data.channels, [], `${ state } should have no channels` );
+		assert.ok(
+			data.channels.length > 0,
+			`${ state } should still show marketing channels for discovery`
+		);
+		assert.ok(
+			data.channels.every( ( channel ) => channel.connected === false ),
+			`${ state } should not treat discovery channels as connected`
+		);
+		assert.ok(
+			data.channels.every(
+				( channel ) => channel.action_label === 'Set up'
+			),
+			`${ state } should show setup CTAs on every channel`
+		);
+		assert.ok(
+			data.channels.every(
+				( channel ) => ! channel.badges.includes( 'Connected' )
+			),
+			`${ state } should not show connected badges on discovery channels`
+		);
 		assert.deepEqual( data.campaigns, [], `${ state } should have no campaigns` );
 		assert.deepEqual(
 			data.rollup,

@@ -12,30 +12,53 @@ import { DataViews, filterSortAndPaginate } from '@wordpress/dataviews';
 import type { Field, View } from '@wordpress/dataviews';
 import { plus, megaphone } from '@wordpress/icons';
 import type { Campaign } from './types';
-import { ChannelChip, ChannelChipList } from './ChannelChip';
+import { ChannelChipList } from './ChannelChip';
 import { PageHeader } from './PageHeader';
-import { StatCard } from './StatCard';
 import { fmtMoney, fmtNum, fmtRoas, channelById } from './helpers';
 
 const STATUS_OPTIONS = [
-	{ value: 'active',    label: __( 'Active', 'multichannel-campaigns' ) },
+	{ value: 'active', label: __( 'Active', 'multichannel-campaigns' ) },
 	{ value: 'scheduled', label: __( 'Scheduled', 'multichannel-campaigns' ) },
-	{ value: 'draft',     label: __( 'Draft', 'multichannel-campaigns' ) },
+	{ value: 'draft', label: __( 'Draft', 'multichannel-campaigns' ) },
 	{ value: 'completed', label: __( 'Completed', 'multichannel-campaigns' ) },
 ];
 
 const STATUS_PILL_CLASS: Record< string, string > = {
-	active:    'mcc-pill mcc-pill--success',
+	active: 'mcc-pill mcc-pill--success',
 	scheduled: 'mcc-pill mcc-pill--scheduled',
-	draft:     'mcc-pill mcc-pill--draft',
+	draft: 'mcc-pill mcc-pill--draft',
 	completed: 'mcc-pill mcc-pill--completed',
 };
 
 const STATUS_PILL_LABEL: Record< string, string > = {
-	active:    '● Active',
+	active: '● Active',
 	scheduled: '◷ Scheduled',
-	draft:     '◌ Draft',
+	draft: '◌ Draft',
 	completed: '✓ Completed',
+};
+
+const goalUnit = ( goalType: string ): string => {
+	if ( goalType === 'bookings' ) {
+		return __( 'sign-ups', 'multichannel-campaigns' );
+	}
+
+	if ( goalType === 'awareness' ) {
+		return __( 'sessions', 'multichannel-campaigns' );
+	}
+
+	return __( 'orders', 'multichannel-campaigns' );
+};
+
+const formatGoalValue = ( item: Campaign ): string => {
+	if ( ! item.goal_value ) {
+		return '';
+	}
+
+	if ( item.goal_type === 'revenue' ) {
+		return fmtMoney( item.goal_value );
+	}
+
+	return `${ fmtNum( item.goal_value ) } ${ goalUnit( item.goal_type ) }`;
 };
 
 /**
@@ -43,6 +66,8 @@ const STATUS_PILL_LABEL: Record< string, string > = {
  * can render the title as a clickable link that routes into the detail
  * view. This mirrors WC's Campaigns card, which renders titles as
  * `<Link>` from `@woocommerce/components` pointing at `el.manageUrl`.
+ *
+ * @param onOpen Callback for opening a campaign detail view.
  */
 const buildFields = ( onOpen: ( id: number ) => void ): Field< Campaign >[] => [
 	{
@@ -65,26 +90,25 @@ const buildFields = ( onOpen: ( id: number ) => void ): Field< Campaign >[] => [
 				<span className="mcc-cell-name__goal">
 					{ item.source ? (
 						<>
-							{ __( 'Single channel · From ', 'multichannel-campaigns' ) }
-							<strong>{ channelById( item.source )?.label }</strong>
+							{ __( 'Single channel', 'multichannel-campaigns' ) }
+							{ ' · ' }
+							{ __( 'From', 'multichannel-campaigns' ) }{ ' ' }
+							<strong>
+								{ channelById( item.source )?.label }
+							</strong>
 							<span className="mcc-source-pill">↕ synced</span>
 						</>
 					) : (
 						<>
-							{ __( 'Goal · ', 'multichannel-campaigns' ) }
+							{ __( 'Goal', 'multichannel-campaigns' ) }
+							{ ' · ' }
 							{ item.goal_type }
-							{ item.goal_value
-								? ' · ' +
-								  ( item.goal_type === 'revenue'
-										? fmtMoney( item.goal_value )
-										: fmtNum( item.goal_value ) +
-										  ' ' +
-										  ( item.goal_type === 'bookings'
-												? 'sign-ups'
-												: item.goal_type === 'awareness'
-												? 'sessions'
-												: 'orders' ) )
-								: '' }
+							{ item.goal_value ? (
+								<>
+									{ ' · ' }
+									{ formatGoalValue( item ) }
+								</>
+							) : null }
 						</>
 					) }
 				</span>
@@ -150,8 +174,17 @@ const buildFields = ( onOpen: ( id: number ) => void ): Field< Campaign >[] => [
 		header: (
 			<span className="mcc-header-with-hint">
 				ROAS{ ' ' }
-				<Tooltip text={ __( 'Return on Ad Spend — attributed revenue divided by ad spend', 'multichannel-campaigns' ) }>
-					<span className="mcc-hint" tabIndex={ 0 } aria-label="ROAS help">
+				<Tooltip
+					text={ __(
+						'Return on Ad Spend — attributed revenue divided by ad spend',
+						'multichannel-campaigns'
+					) }
+				>
+					<span
+						className="mcc-hint"
+						tabIndex={ 0 }
+						aria-label="ROAS help"
+					>
 						ⓘ
 					</span>
 				</Tooltip>
@@ -172,8 +205,8 @@ const defaultLayouts = {
 				// against the container so the actions column never
 				// overflows the right edge of the page.
 				sessions: { width: 100, align: 'end' as const },
-				sales:    { width: 110, align: 'end' as const },
-				roas:     { width: 90, align: 'end' as const },
+				sales: { width: 110, align: 'end' as const },
+				roas: { width: 90, align: 'end' as const },
 			},
 		},
 	},
@@ -192,7 +225,11 @@ export const CampaignsList = ( { onCreate, onOpen }: Props ): JSX.Element => {
 		search: '',
 		fields: [ 'status', 'channels', 'dates', 'sessions', 'sales', 'roas' ],
 		filters: [
-			{ field: 'status', operator: 'isAny', value: [ 'active', 'scheduled' ] },
+			{
+				field: 'status',
+				operator: 'isAny',
+				value: [ 'active', 'scheduled' ],
+			},
 		],
 		layout: defaultLayouts.table.layout,
 		perPage: 25,
@@ -216,7 +253,9 @@ export const CampaignsList = ( { onCreate, onOpen }: Props ): JSX.Element => {
 				label: __( 'View details', 'multichannel-campaigns' ),
 				isPrimary: true,
 				callback: ( items: Campaign[] ) => {
-					if ( items[ 0 ] ) onOpen( items[ 0 ].id );
+					if ( items[ 0 ] ) {
+						onOpen( items[ 0 ].id );
+					}
 				},
 			},
 			{
@@ -249,70 +288,61 @@ export const CampaignsList = ( { onCreate, onOpen }: Props ): JSX.Element => {
 			<PageHeader
 				title={ __( 'Campaigns', 'multichannel-campaigns' ) }
 				actions={
-					<Button variant="primary" icon={ plus } onClick={ onCreate }>
+					<Button
+						variant="primary"
+						icon={ plus }
+						onClick={ onCreate }
+					>
 						{ __( 'Create campaign', 'multichannel-campaigns' ) }
 					</Button>
 				}
 			/>
 
 			<div className="mcc-content-gutter">
-				<RollupTiles />
-
-			<DataViews
-				data={ shownData }
-				view={ view }
-				onChangeView={ setView }
-				fields={ fields }
-				paginationInfo={ paginationInfo }
-				actions={ actions }
-				defaultLayouts={ defaultLayouts }
-				getItemId={ ( item: Campaign ) => String( item.id ) }
-				empty={
-					<div className="mcc-empty-state">
-						<div className="mcc-empty-icon">
-							{ /* megaphone — same icon WC uses on empty Campaigns card */ }
-							<svg width={ 32 } height={ 32 } viewBox="0 0 24 24" fill="currentColor">
-								<path d={ megaphone.props.d ?? '' } />
-							</svg>
+				<DataViews
+					data={ shownData }
+					view={ view }
+					onChangeView={ setView }
+					fields={ fields }
+					paginationInfo={ paginationInfo }
+					actions={ actions }
+					defaultLayouts={ defaultLayouts }
+					getItemId={ ( item: Campaign ) => String( item.id ) }
+					empty={
+						<div className="mcc-empty-state">
+							<div className="mcc-empty-icon">
+								{ /* megaphone — same icon WC uses on empty Campaigns card */ }
+								<svg
+									width={ 32 }
+									height={ 32 }
+									viewBox="0 0 24 24"
+									fill="currentColor"
+								>
+									<path d={ megaphone.props.d ?? '' } />
+								</svg>
+							</div>
+							<h2>
+								{ __(
+									'No campaigns match your filters',
+									'multichannel-campaigns'
+								) }
+							</h2>
+							<p>
+								{ __(
+									'Try clearing filters or start a new campaign.',
+									'multichannel-campaigns'
+								) }
+							</p>
+							<Button variant="primary" onClick={ onCreate }>
+								{ __(
+									'Create campaign',
+									'multichannel-campaigns'
+								) }
+							</Button>
 						</div>
-						<h2>{ __( 'No campaigns match your filters', 'multichannel-campaigns' ) }</h2>
-						<p>{ __( 'Try clearing filters or start a new campaign.', 'multichannel-campaigns' ) }</p>
-						<Button variant="primary" onClick={ onCreate }>
-							{ __( 'Create campaign', 'multichannel-campaigns' ) }
-						</Button>
-					</div>
-				}
-			/>
-			</div>
-		</div>
-	);
-};
-
-const RollupTiles = (): JSX.Element => {
-	const r = window.MCC_BOOT.rollup;
-	const hasRollupActivity =
-		r.active_count > 0 ||
-		r.attributed_sales > 0 ||
-		r.avg_roas > 0 ||
-		r.sessions > 0;
-	const tiles = [
-		{ label: __( 'Active campaigns', 'multichannel-campaigns' ),         value: String( r.active_count ),       delta: hasRollupActivity ? '+1 vs last month' : undefined,     tone: 'up'   as const },
-		{ label: __( 'Attributed sales', 'multichannel-campaigns' ),         value: fmtMoney( r.attributed_sales ), delta: hasRollupActivity ? '+22% vs last 30 days' : undefined, tone: 'up'   as const },
-		{ label: __( 'Avg ROAS', 'multichannel-campaigns' ),                 value: r.avg_roas + '×',               delta: hasRollupActivity ? '−0.3 vs last 30 days' : undefined, tone: 'down' as const },
-		{ label: __( 'Sessions from campaigns', 'multichannel-campaigns' ),  value: fmtNum( r.sessions ),           delta: hasRollupActivity ? '+18%' : undefined,                 tone: 'up'   as const },
-	];
-
-	return (
-		<div className="mcc-stat-grid">
-			{ tiles.map( ( t ) => (
-				<StatCard
-					key={ String( t.label ) }
-					label={ t.label }
-					value={ t.value }
-					delta={ t.delta }
-					deltaTone={ t.tone }
+					}
 				/>
-			) ) }
+			</div>
 		</div>
 	);
 };

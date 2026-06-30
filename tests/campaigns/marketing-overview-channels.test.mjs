@@ -46,6 +46,16 @@ test( 'Marketing Overview owns the channel provider list', () => {
 test( 'Marketing Overview separates Woo Ads from manually managed channels', () => {
 	assert.match(
 		overviewChannels,
+		/<MarketingOverviewPerformance\s*\/>[\s\S]*Optimize marketing across channels[\s\S]*Channels/,
+		'Overview should put campaign performance first, then Woo Ads, then manual channels'
+	);
+	assert.match(
+		overviewChannels,
+		/Campaign performance/,
+		'Overview should label the performance card clearly'
+	);
+	assert.match(
+		overviewChannels,
 		/Optimize marketing across channels/,
 		'Woo Ads should move into a dedicated optimizer card'
 	);

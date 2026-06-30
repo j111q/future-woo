@@ -91,7 +91,8 @@ body.mcc-page-active {
  * 32px the header pads internally, so content edges visually line up
  * with the title and the "Create campaign" button. */
 .mcc-content-gutter {
-	padding: 0 32px;
+	--mcc-content-gutter: 32px;
+	padding: 0 var(--mcc-content-gutter);
 }
 
 /* Page header — anatomy matches CIAB's @automattic/admin-toolkit Header:
@@ -271,11 +272,92 @@ body.mcc-page-active {
 /* Stat cards — analytics-style summary tiles, mirroring CIAB's
  * next-woocommerce-analytics MetricWithComparison anatomy (big value
  * + coloured delta). */
+.mcc-rollup-summary {
+	margin-bottom: 0;
+}
+
+.mcc-rollup-summary__header {
+	align-items: center;
+	display: flex;
+	gap: var(--wpds-dimension-gap-md, 12px);
+	justify-content: space-between;
+	margin-bottom: 0;
+
+	h2 {
+		font-size: var(--wpds-typography-font-size-lg, 15px);
+		font-weight: var(--wpds-typography-font-weight-medium, 500);
+		line-height: var(--wpds-typography-line-height-sm, 20px);
+		margin: 0;
+	}
+}
+
+.mcc-rollup-summary__link {
+	white-space: nowrap;
+}
+
+.mcc-rollup-summary__body {
+	padding: var(--wpds-dimension-padding-xl, 24px);
+}
+
+.mcc-rollup-summary__metrics {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.mcc-rollup-metric {
+	border-left: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+	min-width: 0;
+	padding: 0 var(--wpds-dimension-padding-lg, 16px);
+
+	&:first-child {
+		border-left: 0;
+		padding-left: 0;
+	}
+
+	&:last-child {
+		padding-right: 0;
+	}
+}
+
+.mcc-rollup-metric__label {
+	color: var(--wpds-color-foreground-content-neutral-weak, var(--wpds-color-fg-content-neutral-weak));
+	font-size: var(--wpds-typography-font-size-md, 13px);
+	line-height: var(--wpds-typography-line-height-sm, 20px);
+}
+
+.mcc-rollup-metric__value {
+	color: var(--wpds-color-foreground-content-neutral, var(--wpds-color-fg-content-neutral));
+	font-size: var(--wpds-typography-font-size-2xl, 24px);
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--wpds-typography-font-weight-medium, 500);
+	line-height: var(--wpds-typography-line-height-lg, 32px);
+	margin-top: var(--wpds-dimension-gap-xs, 4px);
+}
+
+.mcc-rollup-metric__delta {
+	font-size: var(--wpds-typography-font-size-md, 13px);
+	font-variant-numeric: tabular-nums;
+	font-weight: var(--wpds-typography-font-weight-medium, 500);
+	line-height: var(--wpds-typography-line-height-sm, 20px);
+	margin-top: var(--wpds-dimension-gap-xs, 4px);
+
+	&--up {
+		color: var(--wpds-color-foreground-content-success, var(--wpds-color-fg-content-success));
+	}
+
+	&--down {
+		color: var(--wpds-color-foreground-content-error, var(--wpds-color-fg-content-error));
+	}
+
+	&--neutral {
+		color: var(--wpds-color-foreground-content-neutral-weak, var(--wpds-color-fg-content-neutral-weak));
+	}
+}
+
 .mcc-stat-grid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 12px;
-	margin-bottom: 24px;
 }
 
 .mcc-stat-card {
@@ -298,12 +380,13 @@ body.mcc-page-active {
 
 /* DataViews tweaks — match the rest of the surface */
 .mcc-page .dataviews-wrapper {
+	margin-left: calc(var(--mcc-content-gutter, 32px) * -1);
+	margin-right: calc(var(--mcc-content-gutter, 32px) * -1);
 	margin-top: 0;
-	background: var(--wpds-color-bg-surface-neutral);
-	border: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
-	border-radius: var(--wpds-border-radius-md);
-	box-shadow: var(--wpds-elevation-xs);
-	overflow: hidden;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	overflow: visible;
 }
 
 /* Trim DataViews' utility columns so the actions column doesn't push
@@ -1511,6 +1594,18 @@ body.fwa-marketing-overview-enhanced {
 
 @media (max-width: 1100px) {
 	.mcc-stat-grid { grid-template-columns: repeat(2, 1fr); }
+	.mcc-rollup-summary__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.mcc-rollup-metric:nth-child(odd) {
+		border-left: 0;
+		padding-left: 0;
+	}
+	.mcc-rollup-metric:nth-child(-n+2) {
+		padding-bottom: var(--wpds-dimension-padding-lg, 16px);
+	}
+	.mcc-rollup-metric:nth-child(n+3) {
+		border-top: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+		padding-top: var(--wpds-dimension-padding-lg, 16px);
+	}
 	.mcc-detail-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 800px) {
@@ -1556,6 +1651,19 @@ body.fwa-marketing-overview-enhanced {
 	}
 	.mcc-provider-row__actions {
 		justify-content: flex-start;
+	}
+	.mcc-rollup-summary__metrics {
+		grid-template-columns: 1fr;
+	}
+	.mcc-rollup-metric,
+	.mcc-rollup-metric:nth-child(n) {
+		border-left: 0;
+		border-top: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
+		padding: var(--wpds-dimension-padding-md, 12px) 0 0;
+	}
+	.mcc-rollup-metric:first-child {
+		border-top: 0;
+		padding-top: 0;
 	}
 	body.fwa-marketing-overview-enhanced .woocommerce_marketing_plugin_card_body.components-card__body {
 		align-items: flex-start;

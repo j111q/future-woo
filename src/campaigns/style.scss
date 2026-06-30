@@ -450,11 +450,29 @@ body.mcc-page-active {
 }
 
 body.fwa-marketing-overview-enhanced {
+	--fwa-marketing-settings-gutter: 30px;
+
+	@media (min-width: 783px) {
+		// Match the classic Settings table gutter so provider rows feel like Settings > Payments.
+		.woocommerce-layout__primary {
+			margin-left: var(--fwa-marketing-settings-gutter);
+		}
+
+		.woocommerce-layout__main {
+			padding-right: var(--fwa-marketing-settings-gutter);
+		}
+	}
+
 	.woocommerce-marketing-overview-multichannel {
+		align-items: stretch;
+		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		gap: var(--wpds-dimension-gap-lg, 16px);
-		padding: var(--wpds-dimension-padding-xl, 24px) var(--wpds-dimension-padding-2xl, 32px) 48px;
+		margin: 0;
+		max-width: none;
+		padding: var(--wpds-dimension-padding-xl, 24px) 0 48px;
+		width: 100%;
 	}
 
 	.woocommerce-marketing-overview-multichannel > .components-card {
@@ -462,8 +480,18 @@ body.fwa-marketing-overview-enhanced {
 		border: 1px solid var(--wpds-color-stroke-surface-neutral-weak);
 		border-radius: var(--wpds-border-radius-lg, 8px);
 		box-shadow: var(--wpds-elevation-xs);
+		box-sizing: border-box;
 		margin: 0;
+		max-width: none;
 		overflow: hidden;
+		width: 100%;
+	}
+
+	.woocommerce-marketing-channels-card {
+		border-left: 0;
+		border-radius: 0;
+		border-right: 0;
+		box-shadow: none;
 	}
 
 	.woocommerce-marketing-overview-multichannel .components-card__header {

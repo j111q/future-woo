@@ -89,3 +89,41 @@ test( 'native Marketing Overview cards share the provider-list styling', () => {
 		'Learn about marketing a store should read as a sibling surface'
 	);
 } );
+
+test( 'Marketing Overview uses full-width Settings-style rows', () => {
+	assert.match(
+		styles,
+		/--fwa-marketing-settings-gutter:\s*30px/,
+		'Overview should define the same gutter rhythm used by Settings tables'
+	);
+	assert.match(
+		styles,
+		/\.woocommerce-layout__primary\s*{[^}]*margin-left:\s*var\(--fwa-marketing-settings-gutter\)/s,
+		'Overview should align the wc-admin content column with Settings rows'
+	);
+	assert.match(
+		styles,
+		/\.woocommerce-layout__main\s*{[^}]*padding-right:\s*var\(--fwa-marketing-settings-gutter\)/s,
+		'Overview should keep the right edge aligned with Settings rows'
+	);
+	assert.match(
+		styles,
+		/woocommerce-marketing-overview-multichannel\s*{[^}]*max-width:\s*none/s,
+		"Overview should override Woo's centered Marketing column"
+	);
+	assert.match(
+		styles,
+		/woocommerce-marketing-overview-multichannel\s*{[^}]*padding:\s*var\(--wpds-dimension-padding-xl,\s*24px\)\s*0\s*48px/s,
+		'Overview should not inset the full-width provider rows'
+	);
+	assert.match(
+		styles,
+		/woocommerce-marketing-overview-multichannel > \.components-card\s*{[^}]*width:\s*100%/s,
+		'Overview cards should stretch across the available settings content area'
+	);
+	assert.match(
+		styles,
+		/woocommerce-marketing-channels-card\s*{[^}]*border-left:\s*0/s,
+		'the primary Channels surface should read as full-width rows, not a narrow card'
+	);
+} );

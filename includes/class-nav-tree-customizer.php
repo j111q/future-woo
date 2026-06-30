@@ -18,6 +18,10 @@
  *    declare the Marketing children explicitly in the same tree filter so the
  *    rail drills down to Overview / Campaigns / Coupons.
  *
+ * 1c. Payments: the rail keeps a Woo-core-style top-level "Payments" shortcut,
+ *    but the actual Payments tab is reparented under Settings so current-state
+ *    matching behaves like Settings → Payments instead of a separate page.
+ *
  * 2. Back link: the vendored splicer relabels WP's `index.php` entry to
  *    "Dashboard" and gives it a left-arrow icon, turning it into a back-to-WP
  *    affordance. Future Woo relabels it to "Back" — clearer that it leaves the
@@ -39,6 +43,7 @@ class WAR_Nav_Tree_Customizer {
 
 	public static function init() {
 		add_filter( 'woocommerce_admin_menu_tree', array( __CLASS__, 'remap_home_to_store_dashboard' ), 10, 3 );
+		add_filter( 'woocommerce_admin_menu_tree', array( __CLASS__, 'map_payments_to_settings_payments' ), 10, 3 );
 		add_filter( 'woocommerce_admin_menu_tree', array( __CLASS__, 'add_marketing_children' ), 10, 3 );
 		add_filter( 'woocommerce_admin_menu_tree', array( __CLASS__, 'add_analytics_children' ), 10, 3 );
 		add_action( 'admin_init', array( __CLASS__, 'relabel_back_link' ) );
@@ -148,6 +153,48 @@ class WAR_Nav_Tree_Customizer {
 		if ( isset( $tree['wc-admin'] ) ) {
 			$tree['wc-admin']['url'] = 'admin.php?page=war-store-dashboard';
 		}
+		return $tree;
+	}
+
+	/**
+	 * Match Woo core's Payments menu item without stealing current state.
+	 *
+	 * Woo's native Payments top-level menu opens the WC Settings checkout tab
+	 * with a `from=PAYMENTS_MENU_ITEM` source marker. Future Woo's default tree
+	 * originally made `wc-settings&tab=checkout` a top-level rail root, which
+	 * caused Payments to stay highlighted after click. Keep a click-only root
+	 * shortcut for parity with Woo's menu, but move the canonical checkout tab
+	 * node under Settings so the current page resolves as Settings > Payments.
+	 *
+	 * @param array $tree    Tree keyed by slug.
+	 * @param array $menu    WP's $menu.
+	 * @param array $submenu WP's $submenu.
+	 *
+	 * @return array
+	 */
+	public static function map_payments_to_settings_payments( array $tree, array $menu, array $submenu ): array {
+		$settings_payments_slug = 'wc-settings&tab=checkout';
+		$payments_menu_slug     = 'admin.php?page=wc-settings&tab=checkout&from=PAYMENTS_MENU_ITEM';
+		$payments_menu_icon     = $tree[ $settings_payments_slug ]['icon'] ?? 'dashicons-money-alt';
+
+		if ( isset( $tree['wc-settings&tab=checkout'] ) ) {
+			$tree['wc-settings&tab=checkout']['parent']   = 'wc-settings';
+			$tree['wc-settings&tab=checkout']['position'] = 47;
+			$tree['wc-settings&tab=checkout']['url']      = 'admin.php?page=wc-settings&tab=checkout';
+			unset( $tree['wc-settings&tab=checkout']['icon'] );
+		}
+
+		$tree[ $payments_menu_slug ] = array(
+			'parent'     => 'woocommerce',
+			'title'      => __( 'Payments', 'woocommerce' ),
+			'icon'       => $payments_menu_icon,
+			'position'   => 35,
+			'url'        => $payments_menu_slug,
+			'capability' => 'manage_woocommerce',
+			'source'     => 'future-woo',
+			'nav_only'   => true,
+		);
+
 		return $tree;
 	}
 

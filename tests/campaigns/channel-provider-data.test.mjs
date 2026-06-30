@@ -53,12 +53,37 @@ test( 'marketing channels expose provider-row metadata', () => {
 	}
 
 	assert.equal( byId.get( 'woo_ads' ).label, 'Woo Ads' );
+	assert.equal(
+		byId.get( 'woo_ads' ).description,
+		'Plan, launch, refine, and compare campaigns across Google, Meta, Pinterest, TikTok, and more, all from one place.'
+	);
+	assert.equal( byId.get( 'woo_ads' ).color, '#873EFF' );
 	assert.equal( byId.get( 'woo_ads' ).featured, true );
 	assert.ok( byId.get( 'woo_ads' ).badges.includes( 'Official' ) );
+	assert.deepEqual(
+		byId.get( 'woo_ads' ).supported_channel_ids,
+		[
+			'google',
+			'meta',
+			'pinterest',
+			'tiktok',
+			'amazon',
+			'ebay',
+			'tumblr',
+			'pocket_casts',
+		],
+		'Woo Ads should show that it coordinates all individual marketing and sales channels'
+	);
+	assert.ok( ! byId.has( 'tumblr' ), 'Tumblr should only appear in the Woo Ads logo strip' );
+	assert.ok(
+		! byId.has( 'pocket_casts' ),
+		'Pocket Casts should only appear in the Woo Ads logo strip'
+	);
 	assert.notEqual( byId.get( 'google' ).featured, true );
 	assert.ok( ! byId.get( 'google' ).badges.includes( 'Official' ) );
 	assert.ok( byId.get( 'google' ).capabilities.includes( 'Product sync' ) );
-	assert.equal( byId.get( 'pinterest' ).status, 'recommended' );
+	assert.equal( byId.get( 'pinterest' ).status, 'available' );
+	assert.ok( ! byId.get( 'pinterest' ).badges.includes( 'Recommended' ) );
 	assert.equal( byId.get( 'amazon' ).category, 'Marketplace' );
 	assert.equal( byId.get( 'ebay' ).category, 'Marketplace' );
 } );

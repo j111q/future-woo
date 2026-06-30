@@ -1,7 +1,6 @@
 import { createRoot } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { ChannelProviderRow } from './ChannelProviderRow';
-import type { Channel } from './types';
 
 const MARKETING_OVERVIEW_PATH = '/marketing';
 const OVERVIEW_CARD_SELECTOR = '.woocommerce-marketing-channels-card';
@@ -19,72 +18,88 @@ const isMarketingOverviewPath = (): boolean => {
 	);
 };
 
-const getOrderedChannels = ( channels: Channel[] ): Channel[] => {
-	const featured = channels.find( ( channel ) => channel.featured );
-	const rest = channels.filter( ( channel ) => ! channel.featured );
-
-	return featured ? [ featured, ...rest ] : rest;
-};
-
 const MarketingOverviewChannels = (): JSX.Element => {
-	const channels = getOrderedChannels( window.MCC_BOOT.channels || [] );
+	const channels = window.MCC_BOOT.channels || [];
+	const featuredChannel = channels.find( ( channel ) => channel.featured );
+	const manualChannels = channels.filter( ( channel ) => ! channel.featured );
 
 	return (
 		<section
 			className="mcc-provider-overview"
-			aria-labelledby="mcc-marketing-overview-channels-title"
+			aria-label={ __(
+				'Marketing channel setup',
+				'multichannel-campaigns'
+			) }
 		>
-			<div className="mcc-provider-surface__toolbar">
-				<div>
-					<h2 id="mcc-marketing-overview-channels-title">
-						{ __( 'Channels', 'multichannel-campaigns' ) }
-					</h2>
-					<p>
-						{ __(
-							'Connect the places where customers discover, follow, and buy from your store.',
-							'multichannel-campaigns'
-						) }
-					</p>
-				</div>
-				{ window.MCC_BOOT.businessLocation ? (
-					<button type="button" className="mcc-provider-location">
-						<span>
-							{ __(
-								'Business location:',
-								'multichannel-campaigns'
-							) }
-						</span>{ ' ' }
-						<strong>{ window.MCC_BOOT.businessLocation }</strong>
-					</button>
-				) : null }
-			</div>
-
-			{ channels.length > 0 ? (
-				<div className="mcc-provider-list">
-					{ channels.map( ( channel ) => (
+			{ featuredChannel ? (
+				<div
+					className="mcc-provider-surface mcc-provider-overview__optimizer"
+					aria-labelledby="mcc-marketing-overview-optimizer-title"
+				>
+					<div className="mcc-provider-surface__toolbar">
+						<div>
+							<h2 id="mcc-marketing-overview-optimizer-title">
+								{ __(
+									'Optimize marketing across channels',
+									'multichannel-campaigns'
+								) }
+							</h2>
+						</div>
+					</div>
+					<div className="mcc-provider-list">
 						<ChannelProviderRow
-							key={ channel.id }
-							channel={ channel }
+							channel={ featuredChannel }
 							mode="manage"
 						/>
-					) ) }
+					</div>
 				</div>
-			) : (
-				<div className="mcc-provider-overview__empty">
-					<h3>
-						{ __(
-							'Marketing channels are not set up yet',
-							'multichannel-campaigns'
-						) }
-					</h3>
-					<p>
-						{ __(
-							'Channel recommendations and campaign data will appear here once the store is ready for marketing setup.',
-							'multichannel-campaigns'
-						) }
-					</p>
+			) : null }
+
+			<div
+				className="mcc-provider-surface mcc-provider-overview__channels"
+				aria-labelledby="mcc-marketing-overview-channels-title"
+			>
+				<div className="mcc-provider-surface__toolbar">
+					<div>
+						<h2 id="mcc-marketing-overview-channels-title">
+							{ __( 'Channels', 'multichannel-campaigns' ) }
+						</h2>
+						<p>
+							{ __(
+								'Manage channels manually when you want direct control over each connection, catalog sync, and campaign setup.',
+								'multichannel-campaigns'
+							) }
+						</p>
+					</div>
 				</div>
-			) }
+
+				{ manualChannels.length > 0 ? (
+					<div className="mcc-provider-list">
+						{ manualChannels.map( ( channel ) => (
+							<ChannelProviderRow
+								key={ channel.id }
+								channel={ channel }
+								mode="manage"
+							/>
+						) ) }
+					</div>
+				) : (
+					<div className="mcc-provider-overview__empty">
+						<h3>
+							{ __(
+								'Marketing channels are not set up yet',
+								'multichannel-campaigns'
+							) }
+						</h3>
+						<p>
+							{ __(
+								'Channel recommendations and campaign data will appear here once the store is ready for marketing setup.',
+								'multichannel-campaigns'
+							) }
+						</p>
+					</div>
+				) }
+			</div>
 		</section>
 	);
 };
@@ -111,7 +126,9 @@ const enhanceMarketingOverview = () => {
 
 	document.body.classList.add( 'fwa-marketing-overview-enhanced' );
 
-	const card = document.querySelector< HTMLElement >( OVERVIEW_CARD_SELECTOR );
+	const card = document.querySelector< HTMLElement >(
+		OVERVIEW_CARD_SELECTOR
+	);
 	if ( ! card ) {
 		return;
 	}

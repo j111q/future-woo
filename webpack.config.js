@@ -16,6 +16,10 @@
  *  3. Analytics > Marketing (src/analytics/index.tsx) →
  *     assets/js/analytics/index.js
  *     A wc-admin report page using the same dependency strategy as Campaigns.
+ *
+ *  4. Shipping Native (src/shipping-native/index.tsx) →
+ *     assets/js/shipping-native/index.js
+ *     A Future Woo port of Ann’s Shipping Native inline setup prototype.
  */
 const path = require( 'path' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
@@ -88,4 +92,24 @@ const analyticsConfig = {
 	plugins: getWooAdminPlugins(),
 };
 
-module.exports = [ settingsConfig, campaignsConfig, analyticsConfig ];
+// Surface 4 — Shipping Native. Replaces the previous generated-only
+// shipping-setup bundle with source that can be maintained in Future Woo.
+const shippingNativeConfig = {
+	...defaultConfig,
+	entry: {
+		index: path.resolve( __dirname, 'src/shipping-native/index.tsx' ),
+	},
+	output: {
+		...defaultConfig.output,
+		path: path.resolve( __dirname, 'assets/js/shipping-native' ),
+		filename: '[name].js',
+	},
+	plugins: getWooAdminPlugins(),
+};
+
+module.exports = [
+	settingsConfig,
+	campaignsConfig,
+	analyticsConfig,
+	shippingNativeConfig,
+];

@@ -179,11 +179,19 @@ class Shipping_Setup_Admin {
 			return;
 		}
 
+		$asset_file = WAR_PATH . 'assets/js/shipping-native/index.asset.php';
+		$asset      = file_exists( $asset_file )
+			? require $asset_file
+			: array(
+				'dependencies' => array( 'wp-components', 'wp-element', 'wp-i18n' ),
+				'version'      => WAR_VERSION,
+			);
+
 		wp_enqueue_script(
 			'wss-shipping-setup',
-			WAR_URL . 'assets/js/shipping-setup.js',
-			array( 'wp-element', 'wp-components', 'wp-api-fetch', 'wp-i18n', 'wp-data', 'wp-notices' ),
-			WAR_VERSION,
+			WAR_URL . 'assets/js/shipping-native/index.js',
+			$asset['dependencies'],
+			$asset['version'],
 			true
 		);
 
@@ -213,8 +221,15 @@ class Shipping_Setup_Admin {
 
 		wp_enqueue_style(
 			'wss-shipping-setup',
-			WAR_URL . 'assets/css/shipping-setup.css',
+			WAR_URL . 'assets/js/shipping-native/style-index.css',
 			array( 'wp-components' ),
+			WAR_VERSION
+		);
+
+		wp_enqueue_style(
+			'wss-shipping-setup-source',
+			WAR_URL . 'assets/js/shipping-native/index.css',
+			array( 'wss-shipping-setup' ),
 			WAR_VERSION
 		);
 	}

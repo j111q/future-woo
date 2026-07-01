@@ -43,6 +43,29 @@ test( 'Marketing Overview owns the channel provider list', () => {
 	);
 } );
 
+test( 'Marketing Overview removes the native customer-acquisition promo banner', () => {
+	assert.match(
+		overviewChannels,
+		/LEGACY_MARKETING_PROMO_TEXT/,
+		'the Overview enhancer should identify the native promo banner by headline'
+	);
+	assert.match(
+		overviewChannels,
+		/Reach new customers and increase sales without leaving WooCommerce/,
+		'the retired native promo banner headline should be documented in the enhancer'
+	);
+	assert.match(
+		overviewChannels,
+		/removeLegacyMarketingPromoBanner\(\)/,
+		'the Overview enhancer should remove the native promo banner while enhancing the page'
+	);
+	assert.doesNotMatch(
+		overviewChannels,
+		/<h[1-6][^>]*>\s*\{\s*__\(\s*'Reach new customers and increase sales without leaving WooCommerce'/,
+		'Future Woo should not render the retired native promo banner itself'
+	);
+} );
+
 test( 'Marketing Overview separates Woo Ads from manually managed channels', () => {
 	assert.match(
 		overviewChannels,

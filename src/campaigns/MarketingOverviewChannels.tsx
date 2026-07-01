@@ -5,7 +5,10 @@ import { ChannelProviderRow } from './ChannelProviderRow';
 import { fmtMoney, fmtNum } from './helpers';
 
 const MARKETING_OVERVIEW_PATH = '/marketing';
+const MARKETING_OVERVIEW_SELECTOR = '.woocommerce-marketing-overview-multichannel';
 const OVERVIEW_CARD_SELECTOR = '.woocommerce-marketing-channels-card';
+const LEGACY_MARKETING_PROMO_TEXT =
+	'Reach new customers and increase sales without leaving WooCommerce';
 
 let overviewRoot: ReturnType< typeof createRoot > | null = null;
 let overviewRootElement: HTMLElement | null = null;
@@ -213,6 +216,25 @@ const unmountDisconnectedRoot = () => {
 	}
 };
 
+const removeLegacyMarketingPromoBanner = () => {
+	const overview = document.querySelector< HTMLElement >(
+		MARKETING_OVERVIEW_SELECTOR
+	);
+
+	if ( ! overview ) {
+		return;
+	}
+
+	Array.from( overview.children ).forEach( ( child ) => {
+		if (
+			child instanceof HTMLElement &&
+			child.textContent?.includes( LEGACY_MARKETING_PROMO_TEXT )
+		) {
+			child.remove();
+		}
+	} );
+};
+
 const enhanceMarketingOverview = () => {
 	unmountDisconnectedRoot();
 
@@ -222,6 +244,7 @@ const enhanceMarketingOverview = () => {
 	}
 
 	document.body.classList.add( 'fwa-marketing-overview-enhanced' );
+	removeLegacyMarketingPromoBanner();
 
 	const card = document.querySelector< HTMLElement >(
 		OVERVIEW_CARD_SELECTOR
